@@ -1,0 +1,35 @@
+$COLOR_PRIMARY: #4A90E2;
+$COLOR_SUCCESS: #27ae60;
+$COLOR_WARNING: #f39c12;
+$COLOR_DANGER: #e74c3c;
+$COLOR_DARK: #292D35;
+$COLOR_CAPTION: #59667D;
+
+@mixin primary_gradient{
+  background-image: linear-gradient(to right, #55AEFB, #4198FA);
+}
+
+@mixin  primary_darker_gradient{
+  background-image: linear-gradient(to right, darken(#55AEFB, 5), darken(#4198FA, 5));
+}
+
+@mixin  primary_darkest_gradient{
+  background-image: linear-gradient(to right, darken(#55AEFB, 10), darken(#4198FA, 10));
+}
+
+@mixin primary_shadow{
+  box-shadow: 4px 7px 10px 0px rgba($COLOR_PRIMARY, .3)
+}
+
+@mixin linear_spinning{
+  animation: spinning .5s linear infinite;
+}
+
+@keyframes spinning{
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

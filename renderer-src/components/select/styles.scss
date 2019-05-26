@@ -1,0 +1,68 @@
+@import "~scssinc";
+
+.component-select{
+  position: relative;
+  margin: 0;
+  background-color: rgba(#fff, .1);
+  border-radius: 2px;
+  box-shadow: 0 0 0 .5px rgba(#000, .4);
+  &.size-small{
+    height: 20px;
+    font-size: 12px;
+    select{
+      height: 20px;
+    }
+    label{
+      line-height: 20px;
+    }
+  }
+  &.size-medium{
+    height: 36px;
+    font-size: 16px;
+    select{
+      height: 36px;
+    }
+    label{
+      line-height: 36px;
+    }
+  }
+  &.size-large{
+    height: 40px;
+    font-size: 18px;
+    select{
+      height: 40px;
+    }
+    label{
+      line-height: 40px;
+    }
+  }
+  select{
+    position: relative;
+    min-width: 80px;
+    padding: 0 34px 0 10px;
+    background-color: transparent;
+    border: none;
+    border-radius: 1px 0 0 1px;
+    outline: none;
+    color: rgba(#fff, .5);
+    font-size: 1em;
+    -webkit-appearance: none;
+  }
+  .icon{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    width: 24px;
+    height: 100%;
+    background-image: linear-gradient($COLOR_PRIMARY, darken($COLOR_PRIMARY, 20));
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 .5px 0 0 rgba(#fff, .5);
+    color: rgba(#fff, .5);
+    font-size: 12px;
+    pointer-events: none;
+  }
+}

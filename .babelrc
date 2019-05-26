@@ -1,0 +1,21 @@
+{
+  "presets": [
+    [
+      "@babel/env", {
+        "targets": {
+          "browsers": [
+            "last 1 versions"
+          ]
+        },
+        "modules": false
+      }
+    ],
+    "@babel/react"
+  ],
+  "plugins": [
+    "react-hot-loader/babel",
+    "@babel/transform-runtime",
+    "@babel/proposal-class-properties",
+    "@babel/plugin-syntax-dynamic-import"
+  ]
+}

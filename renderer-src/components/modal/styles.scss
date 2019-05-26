@@ -1,0 +1,121 @@
+@import "~scssinc";
+
+.component-modal{
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  button{
+    outline: none;
+  }
+
+  &.visible{
+    .modal-mask{
+      opacity: 1;
+    }
+    .modal-content{
+      transform: translate(-50%, 0);
+    }
+  }
+
+  &.confirm-modal,
+  &.alert-modal{
+    .modal-content{
+      > .header{
+        border-bottom: none;
+        .caption{
+          font-size: 13px;
+        }
+      }
+      > .footer{
+        margin-top: 30px;
+        border-top: none;
+      }
+    }
+    .modal-confirm-content,
+    .modal-alert-content{
+      padding: 0 20px;
+      color: #666;
+      font-size: 13px;
+    }
+  }
+
+  .modal-mask{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(#000, .3);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+
+  .modal-content{
+    position: absolute;
+    z-index: 2;
+    top: 38px;
+    left: 50%;
+    max-width: 95%;
+    margin-bottom: 30px;
+    background-color: #292D35;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 10px 20px rgba(#000, .1), inset 0 0 0 .5px rgba(#fff, .05);
+    transform: translate(-50%, -100%);
+    transition: transform .3s;
+    > .header{
+      position: relative;
+      height: 46px;
+      margin-bottom: .5px;
+      border-bottom: 1px solid rgba(#000, .4);
+      border-width: 0.5px;
+      > .caption{
+        margin: 0 0 0 20px;
+        color: rgba(#fff, .6);
+        font-weight: normal;
+        line-height: 46px;
+        .text-with-icon{
+          height: 46px;
+          line-height: initial;
+        }
+      }
+      .button-close{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 46px;
+        height: 46px;
+        background-color: transparent;
+        border: none;
+        color: #ccc;
+        font-size: 18px;
+        cursor: pointer;
+        &:hover{
+          color: $COLOR_DANGER;
+        }
+      }
+    }
+    > .body{
+      overflow: auto;
+    }
+    > .footer{
+      min-height: 15px;
+      padding: 0 15px;
+      overflow: hidden;
+      .buttons{
+        float: right;
+      }
+      .button{
+        min-width: 60px;
+        margin: 12px 0 12px 15px;
+        padding: 0 15px;
+        border-radius: 2px;
+        font-size: 12px;
+      }
+    }
+  }
+
+}

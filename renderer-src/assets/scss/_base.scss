@@ -1,0 +1,148 @@
+@import "_inc";
+@import "_icons";
+
+html, body{
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'PingFang SC', arial, "Microsoft Yahei", 微软雅黑;
+  cursor: default;
+}
+
+body.platform-windows{
+  &::before{
+    position: absolute;
+    z-index: 999999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    content: '';
+  }
+}
+
+a{
+  text-decoration: none;
+  cursor: default;
+  -webkit-user-drag: none;
+}
+
+.app-container{
+  height: 100%;
+}
+
+.app-page{
+  width: 100vw;
+  height: 100vh;
+}
+
+.b-box{
+  box-sizing: border-box;
+}
+.c-box{
+  box-sizing: content-box;
+}
+
+.pull-left{
+  float: left;
+}
+.pull-right{
+  float: right;
+}
+
+.primary-gradient{
+  @include primary_gradient;
+}
+
+.text{
+  &-primary{
+    color: $COLOR_PRIMARY !important;
+  }
+  &-success{
+    color: $COLOR_SUCCESS !important;
+  }
+  &-warning{
+    color: $COLOR_WARNING !important;
+  }
+  &-danger{
+    color: $COLOR_DANGER !important;
+  }
+}
+
+.link-primary{
+  color: $COLOR_PRIMARY;
+  text-decoration: none;
+  &:hover{
+    color: darken($COLOR_PRIMARY, 10);
+  }
+  &:active{
+    color: darken($COLOR_PRIMARY, 20);
+  }
+}
+
+.text-with-icon{
+  display: inline-flex;
+  align-items: center;
+  > i{
+    padding-right: .5em;
+  }
+}
+
+.button{
+  background-size: 100% 101%;
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  &-small{
+    height: 24px;
+    font-size: 14px;
+    line-height: 22px;
+  }
+  &-medium{
+    height: 36px;
+    font-size: 16px;
+  }
+  &-large{
+    height: 40px;
+    font-size: 18px;
+  }
+  &-default{
+    background-image: linear-gradient(#393D45, #30343D);
+    box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 .5px 0 0 rgba(#fff, .2);
+    color: rgba(#fff, .5);
+    &:active{
+      box-shadow: 0 0 0 .5px rgba(#000, .5), 0 1px 0 0 rgba(#fff, .07);
+    }
+    &:disabled{
+      background-color: lighten(desaturate(#393D45, 60%), 20);
+      pointer-events: none;
+    }
+  }
+  &-primary{
+    background-image: linear-gradient($COLOR_PRIMARY, darken($COLOR_PRIMARY, 20));
+    box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 .5px 0 0 rgba(#fff, .3);
+    color: rgba(#fff, .8);
+    &:active{
+      box-shadow: 0 0 0 .5px rgba(#000, .5), 0 1px 0 0 rgba(#fff, .1);
+    }
+    &:disabled{
+      background-color: lighten(desaturate($COLOR_PRIMARY, 60%), 20);
+      pointer-events: none;
+    }
+  }
+  &-ghost{
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #6F747C;
+    &:hover{
+      background-color: #f1f1f1;
+    }
+    &:active{
+      background-color: #e1e1e1;
+    }
+    &:disabled{
+      opacity: .5;
+      pointer-events: none;
+    }
+  }
+}
