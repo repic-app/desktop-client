@@ -3,7 +3,7 @@ import TitleBar from './components/titlebar'
 import Start from './components/start'
 import TaskList from './components/tasklist'
 import { playSound } from 'helpers/sound'
-import { createTasks, executeTasks, restoreTask } from 'helpers/task'
+import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
 import { sleep } from 'utils/base'
 import APPContext from 'store/index'
 import './styles.scss'
@@ -23,17 +23,14 @@ export default () => {
     _setPageState({ ...pageState, ...changePageState })
   }
 
-  const handleTaskUpdate = (taskItem) => {
+  const handleTaskUpdate = (task) => {
 
-    console.log(taskItem)
-
-    const { taskItems: latestTaskItems } = getAppState()
-    const nextTaskItems = latestTaskItems.map(item => {
-      return item.id === taskItem.id ? taskItem : item
+    const nextTaskList = getAppState('taskList').map(item => {
+      return item.id === task.id ? { ...item, ...task } : item
     })
 
     setAppState({
-      taskItems: executeTasks(nextTaskItems, handleTaskUpdate)
+      taskList: executeTasks(nextTaskList, handleTaskUpdate)
     })
 
   }
@@ -63,23 +60,19 @@ export default () => {
 
     const files = event.dataTransfer.files
 
-    const { taskItems: latestTaskItems } = getAppState()
-    const newTaskItems = createTasks(files, latestTaskItems)
+    const currentTaskList = getAppState('taskList')
   
-    if (!appState.taskItems.length) {
+    if (!currentTaskList.length) {
       await sleep(1000)
     }
 
-    if (!newTaskItems.length) {
+    const nextTaskList = appendTasks(currentTaskList, files, handleTaskUpdate)
+
+    if (nextTaskList.length === currentTaskList.length) {
       playSound('ERROR')
     }
 
-    const nextTaskItems = [
-      ...appState.taskItems,
-      ...newTaskItems
-    ]
-
-    if (!nextTaskItems.length) {
+    if (!nextTaskList.length) {
       await sleep(300)
       handleDragCancel()
       return false
@@ -88,7 +81,7 @@ export default () => {
     dragEventTriggerCount > 0 && dragEventTriggerCount --
 
     setAppState({
-      taskItems: executeTasks(nextTaskItems, handleTaskUpdate)
+      taskList: executeTasks(nextTaskList, handleTaskUpdate)
     })
 
   }
@@ -110,7 +103,19 @@ export default () => {
   }
 
   const handleRestore = (task) => {
-    console.log(Buffer.from(task.file))
+
+    const restoredTask = restoreTask(task)
+
+    if (!restoredTask) {
+      return false
+    }
+
+    setAppState({
+      taskList: getAppState('taskList').map(item => {
+        return item.id === task.id ? { ...item, ...restoredTask } : item
+      })
+    })
+
   }
 
   return (
@@ -125,7 +130,7 @@ export default () => {
         onDrop={handleDragDrop}
         onDragLeave={handleDragCancel}
         data-dragging-over={pageState.isDraggingOver}
-        data-empty={appState.taskItems.length === 0}
+        data-empty={appState.taskList.length === 0}
       >
         <Start appState={appState} setAppState={setAppState} />
         <TaskList appState={appState} onRestore={handleRestore} />

@@ -81,12 +81,13 @@ class Modal extends React.PureComponent {
       return null
     }
 
-    const { width, height } = this.props
+    const { width, height, footerAddon } = this.props
 
     return ReactDOM.createPortal((
       <div className={`component-modal ${this.props.className} ${this.state.visible ? 'visible' : ''}`}>
         <div className="modal-mask" onClick={this.handleMaskClick}></div>
         <div className="modal-content" onTransitionEnd={this.handleTransitionEnd} style={{ width, height }}>
+          <div className="blur-layer"></div>
           {this.props.title ? (
             <header className="header">
               <h5 className="caption">{this.props.title}</h5>
@@ -96,9 +97,10 @@ class Modal extends React.PureComponent {
           <div className="body">{this.props.children}</div>
           {this.props.showFooter ? (
             <footer className="footer">
+              <div className="left-content">{footerAddon}</div>
               <div className="buttons">
-                {this.props.showCancel ? <button onClick={this.hanleCancelButtonClick} className="button button-small button-default button-cancel">{this.props.cancelText}</button> : null}
                 {this.props.showConfirm ? <button onClick={this.hanleConfirmButtonClick} className="button button-small button-primary button-confirm">{this.props.confirmText}</button> : null}
+                {this.props.showCancel ? <button onClick={this.hanleCancelButtonClick} className="button button-small button-default button-cancel">{this.props.cancelText}</button> : null}
               </div>
             </footer>
           ) : null}
@@ -123,6 +125,7 @@ Modal.defaultProps = {
   closeText: <i className="icon-x"></i>,
   cancelText: '取消',
   confirmText: '确认',
+  footerAddon: null,
   closeOnBlur: false
 }
 

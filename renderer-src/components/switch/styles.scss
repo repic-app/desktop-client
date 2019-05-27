@@ -15,7 +15,7 @@
   }
   .switch-label{
     padding-right: 5px;
-    color: rgba(#fff, .5);
+    color: rgba(#fff, .8);
     font-size: 10px;
     line-height: 16px;
   }
@@ -25,7 +25,7 @@
     height: 16px;
     background-color: rgba(#fff, .1);
     border-radius: 8px;
-    box-shadow: 0 0 0 .5px rgba(#000, .4);
+    box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 1px 1px rgba(#000, .1), 0 1px 0 0 rgba(#fff, .1);
     transition: background-color .3s;
     &::before{
       position: absolute;
@@ -33,7 +33,7 @@
       display: block;
       width: 16px;
       height: 16px;
-      background-image: linear-gradient(#494D55, #40444D);
+      @include dark_gradient;
       border-radius: 8px;
       box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 .5px 0 0 rgba(#fff, .2), 0 1px 2px rgba(#000, .4);
       content: '';

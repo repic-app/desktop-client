@@ -1,48 +1,71 @@
 import { taskStatus } from 'constants/task'
 import { requireRemote } from 'helpers/remote'
-import { generateId, formatSize } from 'utils/base'
+import { generateId } from 'utils/base'
+import { createThumbnail } from 'utils/image'
 
-const { compressImage, restoreImage } = requireRemote('./compressor')
+const { compressTask, restoreTask: _restoreTask } = requireRemote('./compressor')
 const { getAPPData } = requireRemote('./storage')
 
 export const acceptedImageTypes = [
-  'image/png', 'image/jpg', 'image/jpeg', 'image/svg', 'image/gif'
+  'image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml', 'image/svg', 'image/gif'
 ]
 
-export const createTasks = (files, currentTaskItems) => {
+export const appendTasks = (currentTaskItems, newTaskFiles, onThumbCreate) => {
 
-  return [].filter.call(files, file => {
+  const newTaskItems = [].filter.call(newTaskFiles, file => {
     return currentTaskItems.find(item => item.file.path === file.path) === undefined && acceptedImageTypes.includes(file.type.toLowerCase())
-  }).map(file => ({
-    id: generateId(),
-    status: taskStatus.PENDING,
-    originalSize: file.size,
-    optimizedSize: null,
-    file: file
-  }))
+  }).map(file => {
 
+    const taskId = generateId()
+    const taskData = {
+      id: taskId,
+      status: taskStatus.CREATING,
+      originalSize: file.size,
+      optimizedSize: null,
+      file: file
+    }
+
+    createThumbnail(URL.createObjectURL(file), 120, 120).then(({ url }) => {
+      onThumbCreate({
+        id: taskId,
+        thumbUrl: url,
+        status: taskStatus.PENDING
+      })
+    }).catch(() => {
+      onThumbCreate({
+        id: taskId,
+        status: taskStatus.PENDING
+      })
+    })
+
+    return taskData
+
+  })
+
+  return [ ...currentTaskItems, ...newTaskItems ]
+  
 }
 
-export const restoreTask = restoreImage
+export const restoreTask = _restoreTask
 
-export const executeCompress = async (taskItem, callback) => {
+export const executeTask = async (task, callback) => {
 
   const preferences = getAPPData('preferences')
-  const optimizeResult = await compressImage(taskItem, preferences)
+  const optimizeResult = await compressTask(task, preferences)
 
   callback(optimizeResult)
 
 }
 
-export const executeTasks = (taskItems, callback) => {
+export const executeTasks = (taskList, callback) => {
 
   const { parallelTaskCount } = getAPPData('preferences')
-  const processingTasks = taskItems.filter(item => item.status === taskStatus.PROCESSING)
+  const processingTasks = taskList.filter(item => item.status === taskStatus.PROCESSING)
 
-  const nextTaskItems = taskItems.map(item => {
+  const nextTaskList = taskList.map(item => {
 
     if (item.status === taskStatus.PENDING && processingTasks.length < parallelTaskCount * 1) {
-      executeCompress(item, callback)
+      executeTask(item, callback)
       processingTasks.push(item)
       return { ...item, status: taskStatus.PROCESSING }
     }
@@ -51,6 +74,6 @@ export const executeTasks = (taskItems, callback) => {
 
   })
 
-  return nextTaskItems
+  return nextTaskList
 
 }

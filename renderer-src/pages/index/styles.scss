@@ -3,8 +3,9 @@
 .page-index{
   display: flex;
   flex-direction: column;
-  background-color: rgba(#292D35, .3);
+  background-color: rgba(#292D35, .5);
   .index-content{
+    display: flex;
     position: relative;
     flex: 1;
     overflow: hidden;
@@ -12,6 +13,7 @@
       .component-start{
         opacity: 1;
         transform: translateX(0);
+        pointer-events: all;
       }
     }
     &[data-empty="false"]{

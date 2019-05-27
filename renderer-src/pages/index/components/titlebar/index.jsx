@@ -7,7 +7,7 @@ export default React.memo((props) => {
 
   const toggleSticky = () => {
     remote.getCurrentWindow().setAlwaysOnTop(!props.appState.isSticky)
-    props.setAppState({ isSticky: !props.appState.isSticky, taskItems: [] })
+    props.setAppState({ isSticky: !props.appState.isSticky, taskList: [] })
   }
 
   return (

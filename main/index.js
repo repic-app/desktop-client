@@ -27,7 +27,8 @@ function initialize () {
       webPreferences: {
         devTools: true,
         webSecurity: false,
-        nodeIntegration: true
+        nodeIntegration: true,
+        experimentalFeatures: true
       }
     }
 

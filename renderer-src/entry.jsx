@@ -10,7 +10,7 @@ const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
 
 const defaultAppState = {
   isSticky: false,
-  taskItems: [],
+  taskList: [],
   showAbout: false,
   showPreferences: false
 }
@@ -33,8 +33,8 @@ export default class extends React.PureComponent {
 
   }
 
-  getAppState = () => {
-    return this.state.appState
+  getAppState = (stateName) => {
+    return stateName ? this.state.appState[stateName] : this.state.appState
   }
 
   setPreferences = (changedPreferences) => {

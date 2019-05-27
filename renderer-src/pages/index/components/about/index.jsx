@@ -1,11 +1,6 @@
 import React from 'react'
-import electron from 'electron'
+import { openLink } from 'utils/base'
 import './styles.scss'
-
-const openContactURL = (event) => {
-  electron.shell.openExternal(event.currentTarget.href)
-  event.preventDefault()
-}
 
 export default React.memo(() => {
 
@@ -19,13 +14,13 @@ export default React.memo(() => {
       <div className="app-description">
         <h5 className="caption">超能刚哥出品，欢迎联系</h5>
         <div className="contacts">
-          <a href="mailto:margox@foxmail.com" onClick={openContactURL} className="link">
+          <a href="mailto:margox@foxmail.com" onClick={openLink} className="link">
             <span>邮箱：margox@foxmail.com</span>
           </a>
-          <a href="https://weibo.com/margox" onClick={openContactURL} className="link">
+          <a href="https://weibo.com/margox" onClick={openLink} className="link">
             <span>微博：@超能刚哥</span>
           </a>
-          <a href="https://margox.cn" onClick={openContactURL} className="link">
+          <a href="https://margox.cn" onClick={openLink} className="link">
             <span>网站：https://margox.cn</span>
           </a>
         </div>

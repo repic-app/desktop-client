@@ -1,20 +1,26 @@
 const fs = require('fs')
+const path = require('path')
+const electron = require('electron')
 const imagemin = require('imagemin')
 const imageminSvgo = require('imagemin-svgo')
 const imageminJpegtran = require('imagemin-jpegtran')
 const imageminPngQuant = require('imagemin-pngquant')
 const imageminGifsicle = require('imagemin-gifsicle')
 
+const SYSTEM_TEMP_PATH = (electron.app || electron.remote.app).getPath('temp')
+const APP_TEMP_DIR_NAME = '/cn.margox.piccompressor/'
+const APP_TEMP_PATH = path.join(SYSTEM_TEMP_PATH, APP_TEMP_DIR_NAME)
+
+!fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
+
 const getImageminPlugin = {
   'jpeg': () => {
     return imageminJpegtran({
-      // progressive: true,
       arithmetic: true
     })
   },
   'jpg': () => {
     return imageminJpegtran({
-      // progressive: true,
       arithmetic: true
     })
   },
@@ -30,61 +36,85 @@ const getImageminPlugin = {
   },
   'svg': () => {
     return imageminSvgo()()
+  },
+  'svg+xml': () => {
+    return imageminSvgo()()
   }
 }
 
-const restoreImage = async (taskItem) => {
+const backupTask = (task) => {
 
   try {
 
-    const filePath = taskItem.file.path
-    fs.writeFileSync(taskItem.file, filePath)
+    !fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
 
+    const backupFilePath = path.join(APP_TEMP_PATH, `${task.id}_${task.file.name}`)
+    fs.renameSync(task.file.path, backupFilePath)
+
+    return backupFilePath
+
+  } catch (error) {
+    return false
+  }
+
+}
+
+const restoreTask = (task) => {
+
+  try {
+    fs.renameSync(task.backupPath, task.file.path)
     return {
-      ...taskItem,
-      status: 4,
+      id: task.id,
+      status: 5,
       optimizedFile: null,
       optimizedSize: null,
       optimizedRate: null
     }
-
   } catch (error) {
-    return taskItem
+    return false
   }
 
 }
 
-const compressImage = async (taskItem, options) => {
+const compressTask = async (task, options) => {
+
+  let backupPath = null
 
   try {
 
-    const imageType = taskItem.file.type.split('/')[1].toLowerCase()
-    const filePath = taskItem.file.path
+    const filePath = task.file.path
+    const imageType = task.file.type.split('/')[1].toLowerCase()
 
-    const [ optimizedFile ] = await imagemin([filePath], {
+    backupPath = backupTask(task) || filePath
+
+    const [ optimizedFile ] = await imagemin([backupPath], {
       plugins: [getImageminPlugin[imageType](options)]
     })
 
     fs.writeFileSync(filePath, optimizedFile.data)
-    const fileState = fs.statSync(filePath)
+    const optimizedSize = fs.statSync(filePath).size
 
     return {
-      ...taskItem,
-      status: 2,
-      optimizedFile: optimizedFile,
-      optimizedSize: fileState.size,
-      optimizedRate: ((taskItem.originalSize - fileState.size) / taskItem.originalSize * 100).toFixed(2)
+      id: task.id,
+      status: 3,
+      backupPath: backupPath,
+      optimizedSize: optimizedSize,
+      optimizedRate: (task.originalSize - optimizedSize) / task.originalSize * 100
     }
 
   } catch (error) {
+
+    backupPath && fs.renameSync(backupPath, task.file.path)
+
     return {
-      ...taskItem,
-      status: 3,
+      id: task.id,
+      status: 4,
       error: error,
       optimizedFile: null
     }
+
   }
 
 }
 
-module.exports = { compressImage, restoreImage }
+module.exports = { APP_TEMP_PATH, compressTask, backupTask, restoreTask }

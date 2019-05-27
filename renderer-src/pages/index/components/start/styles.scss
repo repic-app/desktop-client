@@ -2,6 +2,7 @@
 
 .component-start{
   position: absolute;
+  z-index: 3;
   top: 0;
   right: 0;
   bottom: 0;
@@ -13,6 +14,7 @@
   opacity: 0;
   transition: transform .4s, opacity .4s;
   transform: translateX(-50px);
+  pointer-events: none;
   .machine-frame{
     position: relative;
     width: 90px;
@@ -92,11 +94,11 @@
       display: block;
     }
     span{
-      color: rgba(#fff, .6);
+      color: rgba(#fff, .8);
       font-size: 14px;
     }
     small{
-      color: rgba(#fff, .3);
+      color: rgba(#fff, .4);
       font-size: 12px;
       font-weight: 400;
     }
@@ -119,10 +121,10 @@
     }
     a{
       margin: 0 10px;
-      color: rgba(#fff, .4);
+      color: rgba(#fff, .6);
       font-size: 12px;
       &:hover{
-        color: rgba(#fff, .5);
+        color: rgba(#fff, .8);
       }
       i{
         padding-right: 0.3em;
@@ -143,5 +145,14 @@
   }
   .photo-wrap .photo{
     transform: rotateX(70deg) translateY(-40px);
+  }
+}
+
+.cache-dir-entry{
+  color: rgba(#fff, .5);
+  font-size: 11px;
+  height: 24px;
+  &:hover{
+    color: $COLOR_PRIMARY;
   }
 }

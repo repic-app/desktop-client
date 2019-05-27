@@ -2,6 +2,7 @@ import React from 'react'
 import Modal from 'components/modal'
 import Preferences from '../preferences'
 import About from '../about'
+import { openLink, openCacheFolder } from 'utils/base'
 import './styles.scss'
 
 const preferencesModalTitle = (
@@ -14,8 +15,21 @@ const preferencesModalTitle = (
 const aboutModalTitle = (
   <div className="text-with-icon">
     <i className="icon-info"></i>
-    <span>关于</span>
+    <span>关于皮克</span>
   </div>
+)
+
+const openCacheDir = () => {
+  openCacheFolder()
+  return false
+  // ...
+}
+
+const cacheDirEntry = (
+  <a onClick={openCacheDir} className="cache-dir-entry text-with-icon">
+    <i className="icon-folder"></i>
+    <span>查看缓存目录</span>
+  </a>
 )
 
 export default React.memo((props) => {
@@ -42,6 +56,11 @@ export default React.memo((props) => {
     props.setAppState({
       showAbout: false
     })
+  }
+
+  const openDonateUrl = () => {
+    openLink('https://margox.cn')
+    return false
   }
 
   return (
@@ -73,6 +92,7 @@ export default React.memo((props) => {
         active={props.appState.showPreferences}
         onClose={hidePreferencesModal}
         showConfirm={false}
+        footerAddon={cacheDirEntry}
         cancelText="关闭"
       >
         <Preferences />
@@ -82,7 +102,8 @@ export default React.memo((props) => {
         width={360}
         active={props.appState.showAbout}
         onClose={hideAboutModal}
-        showConfirm={false}
+        onConfirm={openDonateUrl}
+        confirmText="捐赠"
         cancelText="关闭"
       >
         <About />
