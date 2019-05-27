@@ -1,0 +1,10 @@
+@import "~scssinc";
+
+.component-task-list{
+  margin: 10px 0 0 0;
+  padding: 0;
+  list-style: none;
+  opacity: 0;
+  transition: transform .4s, opacity .4s;
+  transform: translateX(50px);
+}

@@ -25,7 +25,9 @@ function initialize () {
       icon: path.join(__dirname, 'assets/icon.png'),
       titleBarStyle: 'hiddenInset',
       webPreferences: {
-        webSecurity: false
+        devTools: true,
+        webSecurity: false,
+        nodeIntegration: true
       }
     }
 
@@ -35,6 +37,8 @@ function initialize () {
     mainWindow.on('closed', () => {
       mainWindow = null
     })
+
+    mainWindow.webContents.openDevTools()
 
   }
 

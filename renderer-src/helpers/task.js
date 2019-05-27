@@ -1,8 +1,9 @@
-import electron from 'electron'
-import { generateId, sleep } from 'utils/base'
 import { taskStatus } from 'constants/task'
+import { requireRemote } from 'helpers/remote'
+import { generateId, formatSize } from 'utils/base'
 
-const { getAPPData } = electron.remote.require('./storage')
+const { compressImage, restoreImage } = requireRemote('./compressor')
+const { getAPPData } = requireRemote('./storage')
 
 export const acceptedImageTypes = [
   'image/png', 'image/jpg', 'image/jpeg', 'image/svg', 'image/gif'
@@ -15,14 +16,22 @@ export const createTasks = (files, currentTaskItems) => {
   }).map(file => ({
     id: generateId(),
     status: taskStatus.PENDING,
+    originalSize: file.size,
+    optimizedSize: null,
     file: file
   }))
 
 }
 
+export const restoreTask = restoreImage
+
 export const executeCompress = async (taskItem, callback) => {
-  await sleep(1000 + Math.random() * 3000)
-  callback({ ...taskItem, status: taskStatus.COMPLETE })
+
+  const preferences = getAPPData('preferences')
+  const optimizeResult = await compressImage(taskItem, preferences)
+
+  callback(optimizeResult)
+
 }
 
 export const executeTasks = (taskItems, callback) => {

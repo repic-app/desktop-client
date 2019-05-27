@@ -9,3 +9,7 @@ export const getLocale = () => {
 export const sleep = (ms) => new Promise((resolve) => {
   setTimeout(resolve, ms)
 })
+
+export const formatSize = (size) => {
+  return (size / 1000).toFixed(2) + 'KB'
+}

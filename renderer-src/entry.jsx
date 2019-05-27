@@ -1,11 +1,11 @@
 import 'assets/scss/_base.scss'
-import electron from 'electron'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { HashRouter, Route } from 'react-router-dom'
+import { requireRemote } from 'helpers/remote'
 import APPContext from 'store/index'
 import IndexPage from 'pages/index'
 
-const { setAPPData, getAPPData } = electron.remote.require('./storage')
+const { setAPPData, getAPPData } = requireRemote('./storage')
 const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
 
 const defaultAppState = {

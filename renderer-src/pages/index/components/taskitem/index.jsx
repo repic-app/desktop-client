@@ -2,7 +2,7 @@ import React from 'react'
 import { tasktStatusIcons, taskStatusTexts } from 'constants/task'
 import './styles.scss'
 
-export default React.memo(({ taskData }) => {
+export default React.memo(({ taskData, onRestore }) => {
 
   return (
     <div className="component-task-item" data-status={taskData.status}>
@@ -15,7 +15,7 @@ export default React.memo(({ taskData }) => {
         <span className="description-text">{taskStatusTexts[taskData.status]}</span>
       </div>
       <div className="operates">
-        <a href="javascript:void(0);" className="button button-restore"><i className="icon-corner-up-left"></i></a>
+        <a href="javascript:void(0);" className="button button-restore" onClick={onRestore}><i className="icon-corner-up-left"></i></a>
         <a href="javascript:void(0);" className="button button-compare"><i className="icon-eye"></i></a>
         <a href="javascript:void(0);" className="button button-recompress"><i className="icon-repeat"></i></a>
       </div>

@@ -3,202 +3,22 @@
 .page-index{
   display: flex;
   flex-direction: column;
-  background-color: rgba(#292D35, .8);
-  .title-bar{
-    position: relative;
-    z-index: 999999;
-    height: 38px;
-    background-color: #292D35;
-    box-shadow: 0 0.5px 0 0 rgba(#000, 1);
-    text-align: center;
-    user-select: none;
-    -webkit-app-region: drag;
-    .app-title{
-      color: rgba(#fff, .8);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 1.5px;
-      line-height: 40px;
-    }
-    .toggle-sticky{
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      height: 20px;
-      padding: 0 10px;
-      font-size: 12px;
-      -webkit-app-region: none;
-      i{
-        padding-right: 1px;
-      }
-    }
-  }
+  background-color: rgba(#292D35, .3);
   .index-content{
     position: relative;
     flex: 1;
     overflow: hidden;
     &[data-empty="true"]{
-      .empty-task{
+      .component-start{
         opacity: 1;
         transform: translateX(0);
       }
     }
     &[data-empty="false"]{
-      .task-list{
+      .component-task-list{
         opacity: 1;
         transform: scale(1);
       }
-    }
-
-    .empty-task{
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: transform .4s, opacity .4s;
-      transform: translateX(-50px);
-      .machine-frame{
-        position: relative;
-        width: 90px;
-        height: 90px;
-        margin-top: -130px;
-        background-image: url(../../assets/images/machine-frame.png);
-        background-position: 50% 50%;
-        background-repeat: no-repeat;
-        background-size: 90px 90px;
-        border-radius: 15px;
-        box-shadow: 0 5px 10px rgba(#000, .3);
-        &[data-active="true"]{
-          .meter-mask{
-            opacity: 0;
-            transition-delay: .2s;
-          }
-          .indicator{
-            transform: translateX(-40px);
-            transition-delay: 0.5s;
-          }
-          .photo-wrap .photo{
-            transform: rotateX(70deg) translateY(-40px);
-          }
-        }
-        .meter-mask{
-          position: absolute;
-          z-index: 2;
-          top: 14px;
-          left: 13px;
-          width: 64px;
-          height: 16px;
-          border-radius: 2px;
-          background-color: rgba(#000, .4);
-          transition: opacity .1s;
-          transition-delay: 1.2s;
-        }
-        .indicator{
-          position: absolute;
-          z-index: 1;
-          top: 22px;
-          left: 64px;
-          width: 1px;
-          height: 8px;
-          background-color: #7E3C3C;
-          transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-          transition-delay: 0s;
-        }
-        .photo-wrap{
-          position: absolute;
-          top: 70px;
-          left: 15px;
-          width: 60px;
-          height: 20px;
-          overflow: hidden;
-          perspective: 300px;
-          .photo{
-            position: relative;
-            width: 54px;
-            height: 44px;
-            margin-left: 3px;
-            overflow: hidden;
-            background-color: #eee;
-            background-image: url(../../assets/images/machine-photo.png);
-            background-position: 3px 3px;
-            background-repeat: no-repeat;
-            background-size: 48px 34px;
-            border-radius: 5px;
-            transform: rotateX(70deg) translateY(-5px);
-            transform-origin: 50% 0;
-            transition: transform .5s;
-            transition-delay: .2s;
-            &::before{
-              position: absolute;
-              z-index: 1;
-              top: 0;
-              left: 0;
-              width: 54px;
-              height: 44px;
-              background-image: linear-gradient(rgba(#000, .7), rgba(#000, .2));
-              content: '';
-            }
-          }
-        }
-      }
-      .drag-tip{
-        margin-top: 20px;
-        text-align: center;
-        user-select: none;
-        span, small{
-          display: block;
-        }
-        span{
-          color: rgba(#fff, .6);
-          font-size: 14px;
-        }
-        small{
-          color: rgba(#fff, .3);
-          font-size: 12px;
-          font-weight: 400;
-        }
-      }
-      .foot-links{
-        position: absolute;
-        right: 0;
-        bottom: 20px;
-        left: 0;
-        text-align: center;
-        &::before{
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 1px;
-          height: 8px;
-          transform: translate(-50%, -50%);
-          background-color: rgba(#fff, .07);
-          content: '';
-        }
-        a{
-          margin: 0 10px;
-          color: rgba(#fff, .4);
-          font-size: 12px;
-          &:hover{
-            color: rgba(#fff, .5);
-          }
-          i{
-            padding-right: 0.3em;
-            font-size: 14px;
-          }
-        }
-      }
-    }
-
-    .task-list{
-      opacity: 0;
-      transition: transform .4s, opacity .4s;
-      transform: translateX(50px);
     }
   }
 }
