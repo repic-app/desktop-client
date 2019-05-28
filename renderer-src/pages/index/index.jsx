@@ -81,7 +81,12 @@ export default () => {
     dragEventTriggerCount > 0 && dragEventTriggerCount --
 
     setAppState({
-      taskList: executeTasks(nextTaskList, handleTaskUpdate)
+      taskList: nextTaskList
+    }, async () => {
+      if (!currentTaskList.length) {
+        await sleep(500)
+      }
+      executeTasks(nextTaskList, handleTaskUpdate)
     })
 
   }

@@ -57,7 +57,7 @@
   .modal-content{
     position: absolute;
     z-index: 2;
-    top: 37px;
+    top: 49px;
     left: 50%;
     max-width: 95%;
     border-radius: 0 0 5px 5px;
@@ -77,7 +77,7 @@
     &::before{
       z-index: 1;
       background-color: rgba(lighten($COLOR_DARK, 8), .8);
-      backdrop-filter: blur(15px);
+      backdrop-filter: blur(10px);
     }
     &::after{
       z-index: 2;

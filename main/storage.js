@@ -14,9 +14,11 @@ const APP_DATA_FILE_PATH = path.join(SYSTEM_USER_DATA_PATH, APP_DATA_FILE_NAME)
 const defaultAPPData = {
   preferences: {
     outputQuality: 0.6,
+    convertSvgToPng: false,
     tryFixOrientation: false,
     wipeMetadata: false,
     parallelTaskCount: 5,
+    stickyOnLaunch: false,
     soundEffects: true
   }
 }

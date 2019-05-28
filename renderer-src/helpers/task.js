@@ -1,19 +1,16 @@
 import { taskStatus } from 'constants/task'
+import { acceptImageTypes } from 'constants/image'
 import { requireRemote } from 'helpers/remote'
 import { generateId } from 'utils/base'
 import { createThumbnail } from 'utils/image'
+import { compressTask, restoreTask as _restoreTask } from 'helpers/compressor'
 
-const { compressTask, restoreTask: _restoreTask } = requireRemote('./compressor')
 const { getAPPData } = requireRemote('./storage')
-
-export const acceptedImageTypes = [
-  'image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml', 'image/svg', 'image/gif'
-]
 
 export const appendTasks = (currentTaskItems, newTaskFiles, onThumbCreate) => {
 
   const newTaskItems = [].filter.call(newTaskFiles, file => {
-    return currentTaskItems.find(item => item.file.path === file.path) === undefined && acceptedImageTypes.includes(file.type.toLowerCase())
+    return currentTaskItems.find(item => item.file.path === file.path) === undefined && acceptImageTypes.includes(file.type.toLowerCase())
   }).map(file => {
 
     const taskId = generateId()

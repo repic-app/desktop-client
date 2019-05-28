@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --config ./build/webpack.development.js -d --history-api-fallback --no-inline --progress --colors --hot",
-    "start": "cross-env NODE_ENV=development electron ./main/ --debug",
-    "start-prod": "cross-env NODE_ENV=production electron ./dist/main/ --debug",
+    "start": "cross-env NODE_ENV=development ./node_modules/electron/cli.js ./main/ --debug",
+    "start-prod": "cross-env NODE_ENV=production ./node_modules/electron/cli.js ./dist/main/ --debug",
     "build": "cross-env rm -rf ./dist && mkdir dist && cp ./package-dist.json ./dist/package.json && cp -rf ./main ./dist/main && cross-env NODE_ENV=production webpack --config ./build/webpack.production.js --progress --colors",
     "package": "npm run build && electron-packager ./dist --out ./dist-apps --appname 'Firing!' --asar --electronVersion 4.1.2 --overwrite --platform darwin,linux",
     "package-win": "npm run build && electron-packager ./dist --out ./dist-apps --appname 'Firing!' --asar --electronVersion 4.1.2 --overwrite --platform win32",
@@ -17,9 +17,12 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "@hot-loader/react-dom": "16.8.5",
+    "compressorjs": "^1.0.5",
     "dayjs": "^1.8.12",
     "file-encryptor": "^0.1.1",
+    "giflossy": "^3.0.41",
     "imagemin": "^6.1.0",
+    "imagemin-giflossy": "^5.1.10",
     "imagemin-gifsicle": "^6.0.1",
     "imagemin-jpegtran": "^6.0.0",
     "imagemin-pngquant": "^7.0.0",
@@ -30,7 +33,8 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
-    "rematch": "^0.1.3"
+    "rematch": "^0.1.3",
+    "svgo": "^1.2.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -47,6 +51,7 @@
     "cross-env": "^5.2.0",
     "css-hot-loader": "^1.4.2",
     "css-loader": "^0.28.11",
+    "electron": "^4.1.2",
     "eslint": "^5.4.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-loader": "^2.1.0",

@@ -5,6 +5,8 @@ const path = require('path')
 const rendererPageBaseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8188' : 'file://' + path.join(__dirname, '../renderer/index.html')
 let mainWindow = null
 
+app.commandLine.appendSwitch('--autoplay-policy','no-user-gesture-required')
+
 function initialize () {
 
   makeSingleInstance()

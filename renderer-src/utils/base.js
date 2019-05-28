@@ -1,6 +1,5 @@
 import electron from 'electron'
-
-const { APP_TEMP_PATH } = electron.remote.require('./compressor')
+import { APP_TEMP_PATH } from 'helpers/compressor'
 
 export const generateId = (prefix = '') => {
   return prefix + Math.random().toString(13).split('.')[1] + new Date().getTime()
@@ -15,7 +14,7 @@ export const sleep = (ms) => new Promise((resolve) => {
 })
 
 export const formatSize = (size) => {
-  return (size / 1000).toFixed(2) + 'KB'
+  return size > 1000 * 1000 ? (size / 1000 / 1000).toFixed(2) + 'MB' : (size / 1000).toFixed(2) + 'KB'
 }
 
 export const openCacheFolder = () => {

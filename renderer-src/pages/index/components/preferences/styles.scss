@@ -1,11 +1,19 @@
 @import "~scssinc";
 
 .component-preferences{
+  padding-top: 5px;
   .options{
     margin: 0 15px 30px 15px;
+    .divider{
+      display: block;
+      height: 1px;
+      margin: 15px 0;
+      overflow: hidden;
+      box-shadow: 0 .5px 0 0 rgba(#000, .3);
+    }
     .option-group{
       height: 20px;
-      margin: 20px 0 0 0;
+      margin: 15px 0 0 0;
       .label{
         float: left;
         color: rgba(#fff, .6);

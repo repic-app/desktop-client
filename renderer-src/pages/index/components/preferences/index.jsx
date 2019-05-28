@@ -28,6 +28,12 @@ export default React.memo(() => {
           </div>
         </div>
         <div className="option-group">
+          <label className="label">将SVG转换为PNG</label>
+          <div className="option">
+            <Switch checked={preferences.convertSvgToPng} name="convertSvgToPng" onChange={handleChange} />
+          </div>
+        </div>
+        <div className="option-group">
           <label className="label">尝试修正图片方向</label>
           <div className="option">
             <Switch checked={preferences.tryFixOrientation} name="tryFixOrientation" onChange={handleChange} />
@@ -39,6 +45,7 @@ export default React.memo(() => {
             <Switch checked={preferences.wipeMetadata} name="wipeMetadata" onChange={handleChange} />
           </div>
         </div>
+        <span className="divider" />
         <div className="option-group">
           <label className="label">并行压缩数量</label>
           <div className="option">
@@ -49,6 +56,12 @@ export default React.memo(() => {
               <option value="8" key={3}>8</option>
               <option value="10" key={4}>10</option>
             </Select>
+          </div>
+        </div>
+        <div className="option-group">
+          <label className="label">启动后置顶</label>
+          <div className="option">
+            <Switch checked={preferences.stickyOnLaunch} name="stickyOnLaunch" onChange={handleChange} />
           </div>
         </div>
         <div className="option-group">

@@ -74,7 +74,7 @@ export default React.memo((props) => {
       </div>
       <div className="drag-tip">
         <span>拖拽图片至此窗口以开始压缩</span>
-        <small>支持JPG/PNG/GIF格式</small>
+        <small>支持JPG/PNG/WEBP/SVG/GIF格式</small>
       </div>
       <div className="foot-links">
         <a href="javascript:void(0);" onClick={showPreferencesModal} className="settings-entry text-with-icon">
