@@ -7,8 +7,8 @@ const path = require('path')
 const { encryptFileAsync, decryptFileAsync } = require('./file-crypt')
 
 const SYSTEM_USER_DATA_PATH = (electron.app || electron.remote.app).getPath('userData')
-const APP_DATA_FILE_NAME = 'feather_profile.dat'
-const APP_DATA_FILE_ENCRYPT_KEY = '6a1c105160278b771b8a65932977'
+const APP_DATA_FILE_NAME = 'cm.margox.piccompressor.profile.dat'
+const APP_DATA_FILE_ENCRYPT_KEY = '6a1ca05160278b771b8a65932977'
 const APP_DATA_FILE_PATH = path.join(SYSTEM_USER_DATA_PATH, APP_DATA_FILE_NAME)
 
 const defaultAPPData = {

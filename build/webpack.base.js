@@ -43,14 +43,23 @@ module.exports = {
           }
         ]
       }, {
-        test: /\.(woff2?|eot|ttf|otf|mp3|wav)(\?.*)?$/,
+        test: /\.(mp3|wav)(\?.*)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'sounds/[name].[ext]'
+            }
+          }
+        ]
+      }, {
+        test: /\.woff$/,
         use: [
           {
             loader: 'url-loader',
             options: {
-              limit: 0,
-              name: '[name].[ext]',
-              publicPath: './'
+              limit: 100,
+              name: 'fonts/[name].[ext]'
             }
           }
         ]
