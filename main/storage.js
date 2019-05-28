@@ -17,7 +17,8 @@ const defaultAPPData = {
     convertSvgToPng: false,
     tryFixOrientation: false,
     wipeMetadata: false,
-    parallelTaskCount: 5,
+    parallelTaskCount: 3,
+    showThumb: true,
     stickyOnLaunch: false,
     soundEffects: true
   }

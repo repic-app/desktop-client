@@ -19,14 +19,8 @@ const aboutModalTitle = (
   </div>
 )
 
-const openCacheDir = () => {
-  openCacheFolder()
-  return false
-  // ...
-}
-
 const cacheDirEntry = (
-  <a onClick={openCacheDir} className="cache-dir-entry text-with-icon">
+  <a onClick={openCacheFolder} className="cache-dir-entry text-with-icon">
     <i className="icon-folder"></i>
     <span>查看缓存目录</span>
   </a>
@@ -66,7 +60,6 @@ export default React.memo((props) => {
   return (
     <div className="component-start">
       <div className="machine-frame">
-        <div className="meter-mask" />
         <span className="indicator" />
         <div className="photo-wrap">
           <div className="photo" />
@@ -103,7 +96,7 @@ export default React.memo((props) => {
         active={props.appState.showAbout}
         onClose={hideAboutModal}
         onConfirm={openDonateUrl}
-        confirmText="捐赠"
+        confirmText="立即激活"
         cancelText="关闭"
       >
         <About />

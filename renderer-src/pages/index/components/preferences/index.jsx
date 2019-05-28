@@ -47,6 +47,12 @@ export default React.memo(() => {
         </div>
         <span className="divider" />
         <div className="option-group">
+          <label className="label">显示缩略图</label>
+          <div className="option">
+            <Switch checked={preferences.showThumb} name="showThumb" onChange={handleChange} />
+          </div>
+        </div>
+        <div className="option-group">
           <label className="label">并行压缩数量</label>
           <div className="option">
             <Select value={`${preferences.parallelTaskCount}`} name="parallelTaskCount" onChange={handleChange} >

@@ -26,18 +26,6 @@
     background-size: 90px 90px;
     border-radius: 15px;
     box-shadow: 0 5px 10px rgba(#000, .3);
-    .meter-mask{
-      position: absolute;
-      z-index: 2;
-      top: 14px;
-      left: 13px;
-      width: 64px;
-      height: 16px;
-      border-radius: 2px;
-      background-color: rgba(#000, .4);
-      transition: opacity .1s;
-      transition-delay: 1.2s;
-    }
     .indicator{
       position: absolute;
       z-index: 1;
@@ -135,10 +123,6 @@
 }
 
 [data-dragging-over="true"] .component-start{
-  .meter-mask{
-    opacity: 0;
-    transition-delay: .2s;
-  }
   .indicator{
     transform: translateX(-40px);
     transition-delay: 0.5s;
