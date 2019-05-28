@@ -42,7 +42,7 @@ export default React.memo(() => {
         <div className="option-group">
           <label className="label">抹除图片元信息</label>
           <div className="option">
-            <Switch checked={preferences.wipeMetadata} name="wipeMetadata" onChange={handleChange} />
+            <Switch checked={preferences.stripMetedata} name="stripMetedata" onChange={handleChange} />
           </div>
         </div>
         <span className="divider" />

@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /renderer
+/main/node_modules
 
 # testing
 /coverage

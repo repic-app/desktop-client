@@ -1,8 +1,9 @@
-export const acceptImageTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml', 'image/svg', 'image/webp', 'image/gif']
+export const acceptImageTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml', 'image/webp', 'image/gif']
 
-export const imagesTypesUsingCompressorJS = ['jpeg', 'jpg', 'png', 'webp']
-export const imageTypesUsingSvgo = ['svg', 'svg+xml']
-export const imageTypesUsingGiflossy = ['gif']
+export const imageTypesForImagemin = []
+export const imageTypesForCompressorJS = ['jpeg', 'jpg', 'webp', 'png']
+export const imageTypesForSvgo = ['svg+xml']
+export const imageTypesForGiflossy = ['gif']
 
 export const svgoOptions = {
   plugins: [

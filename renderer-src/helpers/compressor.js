@@ -1,7 +1,10 @@
 import Compressor from 'compressorjs'
 import remote, { requireRemote } from 'helpers/remote'
-import { imagesTypesUsingCompressorJS, imageTypesUsingSvgo, imageTypesUsingGiflossy, svgoOptions } from 'constants/image'
+import { imageTypesForImagemin, imageTypesForCompressorJS, imageTypesForSvgo, imageTypesForGiflossy, svgoOptions } from 'constants/image'
 
+const imagemin = requireRemote('imagemin')
+const imageminOptipng = requireRemote('imagemin-optipng')
+// const imageminPngQuant = requireRemote('imagemin-pngquant')
 const Svgo = requireRemote('svgo')
 const giflossy = requireRemote('giflossy')
 
@@ -12,40 +15,57 @@ const path = requireRemote('path')
 const SYSTEM_TEMP_PATH = remote.app.getPath('temp')
 const APP_TEMP_DIR_NAME = '/cn.margox.piccompressor/'
 
-export const compressNormalImageAsync = (file, options) => new Promise((resolve, reject) => {
+export const APP_TEMP_PATH = path.join(SYSTEM_TEMP_PATH, APP_TEMP_DIR_NAME)
+
+!fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
+
+export const compressByImagemin = (inputPath, options) => new Promise((resolve, reject) => {
+
+  imagemin([inputPath], {
+    plugins: [
+      imageminOptipng()
+    ]
+  }).then(files => {
+    resolve(files[0])
+  }).catch(reject)
+  
+})
+
+export const compressByCompressorJS = (file, options) => new Promise((resolve, reject) => {
   new Compressor(file, {
-    ...options,
+    quality: options.outputQuality * 1,
+    checkOrientation: options.tryFixOrientation,
     convertSize: Infinity,
     success: (data) => resolve({ data }),
     error: reject
   })
 })
 
-export const compressGifAsync = (task) => new Promise((resolve, reject) => {
+export const compressByGiflossy = (filePath) => new Promise((resolve, reject) => {
 
-  const outputPath = `${task.file.path}.temp.${task.id}`
+  const outputPath = `${filePath}.temp`
 
-  execFile(giflossy, ['-O3', '--lossy=80', '-o', outputPath, task.file.path], error => {
+  execFile(giflossy, ['-O3', '--lossy=80', '-o', outputPath, filePath], error => {
     if (error) {
       reject(error)
     } else {
-      fs.renameSync(outputPath, task.file.path)
+      fs.renameSync(outputPath, filePath)
       resolve({
         outputFileCreated: true,
-        outputFileSize: fs.statSync(task.file.path).size
+        outputFileSize: fs.statSync(filePath).size
       })
     }
   })
 
 })
 
-export const compressSvgAsync = async (filepath) => {
+export const compressBySvgo = async (filePath) => {
 
   const svgo = new Svgo(svgoOptions)
-  const fileData = fs.readFileSync(filepath)
+  const fileData = fs.readFileSync(filePath)
 
   return await svgo.optimize(fileData, {
-    path: filepath
+    path: filePath
   })
 
 }
@@ -71,10 +91,6 @@ export const writeFileAsync = (filePath, fileData) => new Promise((resolve, reje
   resolve(fs.statSync(filePath).size)
 
 })
-
-export const APP_TEMP_PATH = path.join(SYSTEM_TEMP_PATH, APP_TEMP_DIR_NAME)
-
-!fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
 
 export const backupTask = (task) => {
 
@@ -123,15 +139,14 @@ export const compressTask = async (task, options) => {
 
     backupPath = backupTask(task) || filePath
 
-    if (imagesTypesUsingCompressorJS.includes(imageType)) {
-      optimizedFile = await compressNormalImageAsync(task.file, {
-        quality: options.outputQuality * 1,
-        checkOrientation: options.tryFixOrientation
-      })
-    } else if (imageTypesUsingSvgo.includes(imageType)) {
-      optimizedFile = await compressSvgAsync(task.file.path)
-    } else if (imageTypesUsingGiflossy.includes(imageType)) {
-      optimizedFile = await compressGifAsync(task)
+    if (imageTypesForImagemin.includes(imageType)) {
+      optimizedFile = await compressByImagemin(backupPath, options)
+    } else if (imageTypesForCompressorJS.includes(imageType)) {
+      optimizedFile = await compressByCompressorJS(task.file, options)
+    } else if (imageTypesForSvgo.includes(imageType)) {
+      optimizedFile = await compressBySvgo(backupPath, options)
+    } else if (imageTypesForGiflossy.includes(imageType)) {
+      optimizedFile = await compressByGiflossy(backupPath, options)
     } else {
       throw 'format unsupport.'
     }

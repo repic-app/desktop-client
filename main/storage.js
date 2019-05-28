@@ -16,7 +16,7 @@ const defaultAPPData = {
     outputQuality: 0.6,
     convertSvgToPng: false,
     tryFixOrientation: false,
-    wipeMetadata: false,
+    stripMetedata: false,
     parallelTaskCount: 3,
     showThumb: true,
     stickyOnLaunch: false,
