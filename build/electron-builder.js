@@ -1,12 +1,14 @@
 module.exports = {
   appId: 'app.repic.compressor',
+  asar: true,
   productName: 'Repic Compressor',
   directories: {
     output: './dist-apps'
   },
   mac: {
     category: 'public.app-category.photography',
-    icon: 'assets/icon.icns'
+    icon: 'assets/icon.icns',
+    target: 'dmg'
   },
   files: [
     '**/*',
