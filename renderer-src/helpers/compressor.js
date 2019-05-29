@@ -2,10 +2,9 @@ import Compressor from 'compressorjs'
 import remote, { requireRemote } from 'helpers/remote'
 import { imageTypesForImagemin, imageTypesForCompressorJS, imageTypesForSvgo, imageTypesForGiflossy, svgoOptions } from 'constants/image'
 
-const imagemin = requireRemote('imagemin')
-const imageminPngQuant = requireRemote('imagemin-pngquant')
 const Svgo = requireRemote('svgo')
 const giflossy = requireRemote('giflossy')
+const { compressByImagemin } = requireRemote('./helpers/imagemin')
 
 const { execFile } = requireRemote('child_process')
 const fs = requireRemote('fs')
@@ -17,18 +16,6 @@ const APP_TEMP_DIR_NAME = '/cn.margox.piccompressor/'
 export const APP_TEMP_PATH = path.join(SYSTEM_TEMP_PATH, APP_TEMP_DIR_NAME)
 
 !fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
-
-export const compressByImagemin = (inputPath, options) => new Promise((resolve, reject) => {
-
-  imagemin([inputPath], {
-    plugins: [
-      imageminPngQuant()
-    ]
-  }).then(files => {
-    resolve(files[0])
-  }).catch(reject)
-  
-})
 
 export const compressByCompressorJS = (file, options) => new Promise((resolve, reject) => {
   new Compressor(file, {

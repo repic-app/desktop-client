@@ -1,7 +1,7 @@
 export const acceptImageTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml', 'image/webp', 'image/gif']
 
-export const imageTypesForImagemin = []
-export const imageTypesForCompressorJS = ['jpeg', 'jpg', 'webp', 'png']
+export const imageTypesForImagemin = ['png']
+export const imageTypesForCompressorJS = ['jpeg', 'jpg', 'webp']
 export const imageTypesForSvgo = ['svg+xml']
 export const imageTypesForGiflossy = ['gif']
 
