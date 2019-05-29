@@ -12,7 +12,7 @@ module.exports = merge(baseConfigs, {
     index: './index.jsx'
   },
   output: {
-    path: path.join(__dirname, '../dist/renderer'),
+    path: path.join(__dirname, '../renderer'),
     filename: '[name].js',
     chunkFilename: '[name].[chunkhash:4].js',
     publicPath: './',

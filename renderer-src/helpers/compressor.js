@@ -3,8 +3,7 @@ import remote, { requireRemote } from 'helpers/remote'
 import { imageTypesForImagemin, imageTypesForCompressorJS, imageTypesForSvgo, imageTypesForGiflossy, svgoOptions } from 'constants/image'
 
 const imagemin = requireRemote('imagemin')
-const imageminOptipng = requireRemote('imagemin-optipng')
-// const imageminPngQuant = requireRemote('imagemin-pngquant')
+const imageminPngQuant = requireRemote('imagemin-pngquant')
 const Svgo = requireRemote('svgo')
 const giflossy = requireRemote('giflossy')
 
@@ -23,7 +22,7 @@ export const compressByImagemin = (inputPath, options) => new Promise((resolve, 
 
   imagemin([inputPath], {
     plugins: [
-      imageminOptipng()
+      imageminPngQuant()
     ]
   }).then(files => {
     resolve(files[0])

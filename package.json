@@ -1,28 +1,35 @@
 {
-  "name": "fire-alert-electron",
+  "name": "repic-compressor",
   "version": "1.0.0",
-  "main": "./main/index.js",
+  "main": "./index.js",
   "author": "Margox",
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --config ./build/webpack.development.js -d --history-api-fallback --no-inline --progress --colors --hot",
-    "start": "cross-env NODE_ENV=development ./node_modules/electron/cli.js ./main/ --debug",
-    "start-prod": "cross-env NODE_ENV=production ./node_modules/electron/cli.js ./dist/main/ --debug",
-    "build": "cross-env rm -rf ./dist && mkdir dist && cp ./package-dist.json ./dist/package.json && cp -rf ./main ./dist/main && cross-env NODE_ENV=production webpack --config ./build/webpack.production.js --progress --colors",
-    "package": "npm run build && electron-packager ./dist --out ./dist-apps --appname 'Firing!' --asar --electronVersion 4.1.2 --overwrite --platform darwin,linux",
-    "package-win": "npm run build && electron-packager ./dist --out ./dist-apps --appname 'Firing!' --asar --electronVersion 4.1.2 --overwrite --platform win32",
+    "start": "cross-env NODE_ENV=development ./node_modules/electron/cli.js . --debug",
+    "start-prod": "cross-env NODE_ENV=production ./node_modules/electron/cli.js .",
+    "build": "cross-env rm -rf ./renderer && cross-env NODE_ENV=production webpack --config ./build/webpack.production.js --progress --colors",
+    "pack": "npm run build && electron-builder --dir --config build/electron-builder.js",
+    "dist": "npm run build && electron-builder --config build/electron-builder.js",
+    "package": "npm run build && electron-packager . --out ./dist-apps --ignore renderer-src --appname 'Repic Compressor' --electronVersion 4.1.2 --overwrite --platform darwin",
+    "package-win": "npm run build && electron-packager . --out ./dist-apps --appname 'Repic Compressor' --asar --electronVersion 4.1.2 --overwrite --platform win32",
     "lint": "node_modules/eslint/bin/eslint.js ."
   },
   "dependencies": {
+    "giflossy": "^3.0.41",
+    "imagemin": "^6.1.0",
+    "imagemin-pngquant": "^7.0.0",
+    "svgo": "^1.2.2"
+  },
+  "devDependencies": {
+    "electron": "4.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "@hot-loader/react-dom": "16.8.5",
     "compressorjs": "^1.0.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0"
-  },
-  "devDependencies": {
+    "react-router-dom": "^5.0.0",
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
@@ -37,7 +44,6 @@
     "cross-env": "^5.2.0",
     "css-hot-loader": "^1.4.2",
     "css-loader": "^0.28.11",
-    "electron": "^4.1.2",
     "eslint": "^5.4.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-loader": "^2.1.0",

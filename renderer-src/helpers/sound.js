@@ -1,6 +1,6 @@
 import electron from 'electron'
 
-const { getAPPData } = electron.remote.require('./storage')
+const { getAPPData } = electron.remote.require('./helpers/storage')
 let soundPlayer = null
 
 export const presetSounds = {

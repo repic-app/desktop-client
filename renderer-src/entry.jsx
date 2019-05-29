@@ -5,7 +5,7 @@ import { requireRemote } from 'helpers/remote'
 import APPContext from 'store/index'
 import IndexPage from 'pages/index'
 
-const { setAPPData, getAPPData } = requireRemote('./storage')
+const { setAPPData, getAPPData } = requireRemote('./helpers/storage')
 const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
 
 const defaultAppState = {

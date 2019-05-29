@@ -5,7 +5,7 @@ import { generateId } from 'utils/base'
 import { createThumbnail } from 'utils/image'
 import { compressTask, restoreTask as _restoreTask } from 'helpers/compressor'
 
-const { getAPPData } = requireRemote('./storage')
+const { getAPPData } = requireRemote('./helpers/storage')
 
 export const appendTasks = (currentTaskItems, newTaskFiles, onThumbCreate) => {
 

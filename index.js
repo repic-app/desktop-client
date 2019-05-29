@@ -1,8 +1,9 @@
 const { app, Menu, BrowserWindow, ipcMain } = require('electron')
-const storage = require('./storage')
+const storage = require('./helpers/storage')
 const path = require('path')
+const isProduction = process.env.NODE_ENV !== 'development'
 
-const rendererPageBaseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8188' : 'file://' + path.join(__dirname, '../renderer/index.html')
+const rendererPageBaseURL = isProduction ? 'http://localhost:8188' : 'file://' + path.join(__dirname, './renderer/index.html')
 let mainWindow = null
 
 app.commandLine.appendSwitch('--autoplay-policy','no-user-gesture-required')
@@ -27,7 +28,7 @@ function initialize () {
       icon: path.join(__dirname, 'assets/icon.png'),
       titleBarStyle: 'hiddenInset',
       webPreferences: {
-        devTools: true,
+        devTools: !isProduction,
         webSecurity: false,
         nodeIntegration: true,
         experimentalFeatures: true

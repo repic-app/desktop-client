@@ -4,7 +4,7 @@
 const fs = require('fs')
 const electron = require('electron')
 const path = require('path')
-const { encryptFileAsync, decryptFileAsync } = require('./file-crypt')
+const { encryptFileAsync, decryptFileAsync } = require('./filecrypt')
 
 const SYSTEM_USER_DATA_PATH = (electron.app || electron.remote.app).getPath('userData')
 const APP_DATA_FILE_NAME = 'cm.margox.piccompressor.profile.dat'
