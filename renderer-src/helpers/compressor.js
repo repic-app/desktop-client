@@ -1,5 +1,6 @@
 import Compressor from 'compressorjs'
 import remote, { requireRemote } from 'helpers/remote'
+import { createThumbnail } from 'utils/image'
 import { imageTypesForImagemin, imageTypesForCompressorJS, imageTypesForSvgo, imageTypesForGiflossy, svgoOptions } from 'constants/image'
 
 const Svgo = requireRemote('svgo')
@@ -17,10 +18,10 @@ export const APP_TEMP_PATH = path.join(SYSTEM_TEMP_PATH, APP_TEMP_DIR_NAME)
 
 !fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
 
-export const compressByCompressorJS = (file, options) => new Promise((resolve, reject) => {
+export const compressByCompressorJS = (file, preferences) => new Promise((resolve, reject) => {
   new Compressor(file, {
-    quality: options.outputQuality * 1,
-    checkOrientation: options.tryFixOrientation,
+    quality: preferences.outputQuality * 1,
+    checkOrientation: preferences.tryFixOrientation,
     convertSize: Infinity,
     success: (data) => resolve({ data }),
     error: reject
@@ -95,10 +96,10 @@ export const backupTask = (task) => {
 
 }
 
-export const restoreTask = (task) => {
+export const restoreTask = (task, copy = false) => {
 
   try {
-    fs.renameSync(task.backupPath, task.file.path)
+    copy ? fs.copyFileSync(task.backupPath, task.file.path) : fs.renameSync(task.backupPath, task.file.path)
     return {
       id: task.id,
       status: 5,
@@ -112,7 +113,7 @@ export const restoreTask = (task) => {
 
 }
 
-export const compressTask = async (task, options) => {
+export const compressTask = async (task, preferences, onThumbCreate) => {
 
   let backupPath = null
   let optimizedFile = null
@@ -120,19 +121,28 @@ export const compressTask = async (task, options) => {
 
   try {
 
+    if (preferences.showThumb) {
+      try {
+        const { url: thumbUrl } = await createThumbnail(URL.createObjectURL(task.file), 80, 64)
+        onThumbCreate(task.id, thumbUrl)
+      } catch (error) {
+        // do nothing.
+      }
+    }
+
     const filePath = task.file.path
     const imageType = task.file.type.split('/')[1].toLowerCase()
 
     backupPath = backupTask(task) || filePath
 
     if (imageTypesForImagemin.includes(imageType)) {
-      optimizedFile = await compressByImagemin(backupPath, options)
+      optimizedFile = await compressByImagemin(backupPath, preferences)
     } else if (imageTypesForCompressorJS.includes(imageType)) {
-      optimizedFile = await compressByCompressorJS(task.file, options)
+      optimizedFile = await compressByCompressorJS(task.file, preferences)
     } else if (imageTypesForSvgo.includes(imageType)) {
-      optimizedFile = await compressBySvgo(backupPath, options)
+      optimizedFile = await compressBySvgo(backupPath, preferences)
     } else if (imageTypesForGiflossy.includes(imageType)) {
-      optimizedFile = await compressByGiflossy(backupPath, options)
+      optimizedFile = await compressByGiflossy(backupPath, preferences)
     } else {
       throw 'format unsupport.'
     }
@@ -141,6 +151,11 @@ export const compressTask = async (task, options) => {
       optimizedSize = optimizedFile.outputFileSize
     } else {
       optimizedSize = await writeFileAsync(filePath, optimizedFile.data)
+    }
+
+    if (optimizedSize >= task.originalSize) {
+      optimizedSize = task.originalSize
+      restoreTask(task, true)
     }
 
     return {
@@ -153,7 +168,7 @@ export const compressTask = async (task, options) => {
 
   } catch (error) {
 
-    console.log(error)
+    console.error(error)
     backupPath && fs.renameSync(backupPath, task.file.path)
 
     return {

@@ -12,7 +12,7 @@ export default React.memo((props) => {
 
   return (
     <div className="component-title-bar">
-      <span className="app-title">皮克压缩机</span>
+      <span className="app-title">热啤</span>
       <span className="app-status-text">准备就绪</span>
       <Switch className="switch-sticky" label="置顶" onChange={toggleSticky} checked={props.appState.isSticky} />
     </div>

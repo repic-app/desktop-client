@@ -15,67 +15,76 @@
   transition: transform .4s, opacity .4s;
   transform: translateX(-50px);
   pointer-events: none;
-  .machine-frame{
-    position: relative;
-    width: 90px;
-    height: 90px;
-    margin-top: -130px;
-    background-image: url(../../../../assets/images/machine-frame.png);
-    background-position: 50% 50%;
+  .photos-folder{
+    width: 120px;
+    height: 110px;
+    margin-top: -100px;
+    background-image: url(../../../../assets/images/start-icon.png);
+    background-position: 50% 0;
     background-repeat: no-repeat;
-    background-size: 90px 90px;
-    border-radius: 15px;
-    box-shadow: 0 5px 10px rgba(#000, .3);
-    .indicator{
-      position: absolute;
-      z-index: 1;
-      top: 22px;
-      left: 64px;
-      width: 1px;
-      height: 8px;
-      background-color: #7E3C3C;
-      transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      transition-delay: 0s;
-    }
-    .photo-wrap{
-      position: absolute;
-      top: 70px;
-      left: 15px;
-      width: 60px;
-      height: 20px;
-      overflow: hidden;
-      perspective: 300px;
-      .photo{
-        position: relative;
-        width: 54px;
-        height: 44px;
-        margin-left: 3px;
-        overflow: hidden;
-        background-color: #eee;
-        background-image: url(../../../../assets/images/machine-photo.png);
-        background-position: 3px 3px;
-        background-repeat: no-repeat;
-        background-size: 48px 34px;
-        border-radius: 5px;
-        transform: rotateX(70deg) translateY(-5px);
-        transform-origin: 50% 0;
-        transition: transform .5s;
-        transition-delay: .2s;
-        &::before{
-          position: absolute;
-          z-index: 1;
-          top: 0;
-          left: 0;
-          width: 54px;
-          height: 44px;
-          background-image: linear-gradient(rgba(#000, .7), rgba(#000, .2));
-          content: '';
-        }
-      }
-    }
+    background-size: 120px auto;
   }
+  // .machine-frame{
+  //   position: relative;
+  //   width: 90px;
+  //   height: 90px;
+  //   margin-top: -130px;
+  //   background-image: url(../../../../assets/images/machine-frame.png);
+  //   background-position: 50% 50%;
+  //   background-repeat: no-repeat;
+  //   background-size: 90px 90px;
+  //   border-radius: 15px;
+  //   box-shadow: 0 5px 10px rgba(#000, .3);
+  //   .indicator{
+  //     position: absolute;
+  //     z-index: 1;
+  //     top: 22px;
+  //     left: 64px;
+  //     width: 1px;
+  //     height: 8px;
+  //     background-color: #7E3C3C;
+  //     transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  //     transition-delay: 0s;
+  //   }
+  //   .photo-wrap{
+  //     position: absolute;
+  //     top: 70px;
+  //     left: 15px;
+  //     width: 60px;
+  //     height: 20px;
+  //     overflow: hidden;
+  //     perspective: 300px;
+  //     .photo{
+  //       position: relative;
+  //       width: 54px;
+  //       height: 44px;
+  //       margin-left: 3px;
+  //       overflow: hidden;
+  //       background-color: #eee;
+  //       background-image: url(../../../../assets/images/machine-photo.png);
+  //       background-position: 3px 3px;
+  //       background-repeat: no-repeat;
+  //       background-size: 48px 34px;
+  //       border-radius: 5px;
+  //       transform: rotateX(70deg) translateY(-5px);
+  //       transform-origin: 50% 0;
+  //       transition: transform .5s;
+  //       transition-delay: .2s;
+  //       &::before{
+  //         position: absolute;
+  //         z-index: 1;
+  //         top: 0;
+  //         left: 0;
+  //         width: 54px;
+  //         height: 44px;
+  //         background-image: linear-gradient(rgba(#000, .7), rgba(#000, .2));
+  //         content: '';
+  //       }
+  //     }
+  //   }
+  // }
   .drag-tip{
-    margin-top: 20px;
+    margin-top: 10px;
     text-align: center;
     user-select: none;
     span, small{

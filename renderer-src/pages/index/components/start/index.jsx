@@ -15,7 +15,7 @@ const preferencesModalTitle = (
 const aboutModalTitle = (
   <div className="text-with-icon">
     <i className="icon-info"></i>
-    <span>关于皮克</span>
+    <span>关于热啤</span>
   </div>
 )
 
@@ -59,12 +59,13 @@ export default React.memo((props) => {
 
   return (
     <div className="component-start">
-      <div className="machine-frame">
+      <div className="photos-folder"></div>
+      {/* <div className="machine-frame">
         <span className="indicator" />
         <div className="photo-wrap">
           <div className="photo" />
         </div>
-      </div>
+      </div> */}
       <div className="drag-tip">
         <span>拖拽图片至此窗口以开始压缩</span>
         <small>支持JPG/PNG/WEBP/SVG/GIF格式</small>
@@ -76,7 +77,7 @@ export default React.memo((props) => {
         </a>
         <a href="javascript:void(0);" onClick={showAboutModal} className="about-entry text-with-icon">
           <i className="icon-info"></i>
-          <span>关于皮克</span>
+          <span>关于热啤</span>
         </a>
       </div>
       <Modal

@@ -79,11 +79,15 @@
     box-sizing: border-box;
     width: 40px;
     height: 32px;
+    margin-right: 12px;
     overflow: hidden;
     background-color: rgba(#fff, .1);
     border: 2px solid #fff;
     object-fit: cover;
     -webkit-user-drag: none;
+    & + .meta .name{
+      max-width: 15rem;
+    }
   }
   .thumb-holder{
     display: block;
@@ -94,11 +98,12 @@
   }
   .meta{
     flex: 1;
-    margin: -1px 0 0 15px;
+    margin-top: -1px;
     overflow: hidden;
     user-select: none;
     .name{
       display: block;
+      max-width: 24.5em;
       overflow: hidden;
       color: rgba(#fff, .8);
       font-size: 12px;
@@ -128,13 +133,13 @@
     overflow: hidden;
     background-color: rgba(#000, .2);
     border-radius: 2px;
-    box-shadow: 0 0 0 .5px rgba(#000, .4), inset 0 .5px 0 0 rgba(#fff, .1);
+    box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 .5px 0 0 rgba(#fff, .1);
     .button{
       display: block;
       width: 24px;
       height: 24px;
       border-radius: 0;
-      box-shadow: .5px 0 0 0 rgba(#000, .2);
+      box-shadow: .5px 0 0 0 rgba(#000, .8);
       color: rgba(#fff, .6);
       font-size: 11px;
       line-height: 26px;

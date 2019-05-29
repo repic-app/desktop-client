@@ -1,9 +1,9 @@
 const imagemin = require('imagemin')
 const imageminPngQuant = require('imagemin-pngquant')
 
-const compressByImagemin = async (filePath, options) => {
+const compressByImagemin = (filePath, options) => {
 
-  const result = await imagemin([filePath], {
+  return imagemin([filePath], {
     plugins: [
       imageminPngQuant({
         speed: 10,
@@ -11,9 +11,9 @@ const compressByImagemin = async (filePath, options) => {
         quality: [options.outputQuality * 1, options.outputQuality * 1]
       })
     ]
+  }).then((result) => {
+    return result[0]
   })
-
-  return result[0]
 
 }
 

@@ -8,13 +8,17 @@
   .app-icon{
     width: 90px;
     height: 90px;
-    margin-top: 30px;
-    background-image: url(../../../../assets/images/machine@2x.png);
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: 90px auto;
-    border-radius: 15px;
-    box-shadow: 0 5px 10px rgba(#000, .3);
+    margin-top: 20px;
+    font-size: 80px;
+    text-align: center;
+    text-shadow: 0 10px 20px rgba(#000, .3);
+    // margin-top: 30px;
+    // background-image: url(../../../../assets/images/machine@2x.png);
+    // background-position: 50% 50%;
+    // background-repeat: no-repeat;
+    // background-size: 90px auto;
+    // border-radius: 15px;
+    // box-shadow: 0 5px 10px rgba(#000, .3);
   }
 
   .app-name{

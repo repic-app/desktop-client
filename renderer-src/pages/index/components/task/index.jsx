@@ -3,16 +3,30 @@ import { formatSize } from 'utils/base'
 import { taskStatus, tasktStatusIcons, taskStatusTexts } from 'constants/task'
 import './styles.scss'
 
+const getOptimizeRateTextColor = (optimizedRate) => {
+
+  if (optimizedRate >= 30) {
+    return 'text-success'
+  } else if (optimizedRate >= 10) {
+    return 'text-warning'
+  } else {
+    return 'text-danger'
+  }
+
+}
+
 const DescriptionText = React.memo((task) => {
+
+  const optimizeRateTextColor = getOptimizeRateTextColor(task.optimizedRate)
 
   if (task.status === taskStatus.COMPLETE) {
     return (
       <span className="description-text text-with-icon">
+        {/* <i className={`icon-arrow-down optimize-rate ${optimizeRateTextColor}`}></i> */}
+        <span className={optimizeRateTextColor}><b>{task.optimizedRate.toFixed(2)}%</b></span>&ensp;
         <span>{formatSize(task.originalSize)}</span>
         <i className="icon-arrow-right"></i>
         <span>{formatSize(task.optimizedSize)}</span>
-        <i className="icon-arrow-down text-success optimize-rate"></i>
-        <span className="text-success"><b>{task.optimizedRate.toFixed(2)}%</b></span>
       </span>
     )
   }
@@ -24,17 +38,19 @@ const DescriptionText = React.memo((task) => {
 export default React.memo((props) => {
 
   return (
-    <div className="component-task-item" data-status={props.task.status}>
+    <div className="component-task-item"  data-status={props.task.status}>
       <span className="status-icon">
         <i className={tasktStatusIcons[props.task.status]} />
       </span>
-      {props.task.thumbUrl ? (
-        <img className="thumb" src={props.task.thumbUrl} />
-      ) : (
-        <i className="thumb thumb-holder icon-image" />
-      )}
+      {props.preferences.showThumb ? (
+        props.task.thumbUrl ? (
+          <img className="thumb" src={props.task.thumbUrl} />
+        ) : (
+          <i className="thumb thumb-holder icon-image" />
+        )
+      ) : null}
       <div className="meta">
-        <span className="name">{props.task.file.name}</span>
+        <span className="name" title={props.task.file.name}>{props.task.file.name}</span>
         <DescriptionText
           status={props.task.status}
           originalSize={props.task.originalSize}

@@ -17,10 +17,20 @@ let dragEventTriggerCount = 0
 export default () => {
 
   const [ pageState, _setPageState ] = useState(defaultPageState)
-  const { appState, setAppState, getAppState } = useContext(APPContext)
+  const { appState, preferences, setAppState, getAppState } = useContext(APPContext)
 
   const setPageState = (changePageState) => {
     _setPageState({ ...pageState, ...changePageState })
+  }
+
+  const handleThumbCreate = (taskId, thumbUrl) => {
+
+    setAppState({
+      taskList: getAppState('taskList').map(item => {
+        return item.id === taskId ? { ...item, thumbUrl } : item
+      })
+    })
+
   }
 
   const handleTaskUpdate = (task) => {
@@ -30,7 +40,7 @@ export default () => {
     })
 
     setAppState({
-      taskList: executeTasks(nextTaskList, handleTaskUpdate)
+      taskList: executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)
     })
 
   }
@@ -59,21 +69,14 @@ export default () => {
     event.stopPropagation()
 
     const files = event.dataTransfer.files
-
     const currentTaskList = getAppState('taskList')
-  
-    if (!currentTaskList.length) {
-      await sleep(1000)
-    }
-
-    const nextTaskList = appendTasks(currentTaskList, files, handleTaskUpdate)
+    const nextTaskList = appendTasks(currentTaskList, files)
 
     if (nextTaskList.length === currentTaskList.length) {
       playSound('ERROR')
     }
 
     if (!nextTaskList.length) {
-      await sleep(300)
       handleDragCancel()
       return false
     }
@@ -86,7 +89,7 @@ export default () => {
       if (!currentTaskList.length) {
         await sleep(500)
       }
-      executeTasks(nextTaskList, handleTaskUpdate)
+      executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)
     })
 
   }
@@ -138,7 +141,7 @@ export default () => {
         data-empty={appState.taskList.length === 0}
       >
         <Start appState={appState} setAppState={setAppState} />
-        <TaskList appState={appState} onRestore={handleRestore} />
+        <TaskList appState={appState} preferences={preferences} onRestore={handleRestore} />
       </div>
     </div>
   )

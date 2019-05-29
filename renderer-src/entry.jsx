@@ -1,5 +1,6 @@
 import 'assets/scss/_base.scss'
 import React from 'react'
+import remote from 'helpers/remote'
 import { HashRouter, Route } from 'react-router-dom'
 import { requireRemote } from 'helpers/remote'
 import APPContext from 'store/index'
@@ -47,7 +48,16 @@ export default class extends React.PureComponent {
   }
 
   componentDidMount () {
-    isWindows && document.body.classList.add('system-windows')
+
+    if (isWindows) {
+      document.body.classList.add('system-windows')
+    }
+
+    if (this.state.preferences.stickyOnLaunch) {
+      remote.getCurrentWindow().setAlwaysOnTop(true)
+      this.setAppState({ isSticky: true })
+    }
+
   }
 
   render () {
