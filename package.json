@@ -9,8 +9,8 @@
     "start": "cross-env NODE_ENV=development ./node_modules/electron/cli.js . --debug",
     "start-prod": "cross-env NODE_ENV=production ./node_modules/electron/cli.js .",
     "build": "cross-env rm -rf ./renderer && cross-env NODE_ENV=production webpack --config ./build/webpack.production.js --progress --colors",
-    "pack": "npm run build && electron-builder --dir --config build/electron-builder.js",
     "dist": "npm run build && rm -rf ./dist-apps && electron-builder --config build/electron-builder.js",
+    "pack": "electron-builder --config build/electron-builder.js",
     "lint": "node_modules/eslint/bin/eslint.js ."
   },
   "dependencies": {

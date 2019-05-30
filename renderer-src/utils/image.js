@@ -1,4 +1,4 @@
-export const createThumbnail = (url, width = 1280, height = 800) => {
+export const createThumbnail = (url, width = 1280, height = 800, quality = 1, toBlob = false) => {
 
   return new Promise((resolve, reject) => {
 
@@ -15,7 +15,7 @@ export const createThumbnail = (url, width = 1280, height = 800) => {
       try {
 
         const compressCanvas = document.createElement('canvas')
-        const scale = (this.width > width || this.height > height) ? (this.width > this.height ? width / this.width : height / this.height) : 1
+        const scale = width && height ? ((this.width > width || this.height > height) ? (this.width > this.height ? width / this.width : height / this.height) : 1) : 1
 
         compressCanvas.width = this.width * scale
         compressCanvas.height = this.height * scale
@@ -23,11 +23,21 @@ export const createThumbnail = (url, width = 1280, height = 800) => {
         const canvasContext = compressCanvas.getContext('2d')
         canvasContext.drawImage(this, 0, 0, compressCanvas.width, compressCanvas.height)
 
-        resolve({
-          url: compressCanvas.toDataURL('image/png', 1),
-          width: compressCanvas.width,
-          height: compressCanvas.height
-        })
+        if (toBlob) {
+          compressCanvas.toBlob((data) => {
+            resolve({
+              data,
+              width: compressCanvas.width,
+              height: compressCanvas.height
+            })
+          }, 'image/png', quality)
+        } else {
+          resolve({
+            url: compressCanvas.toDataURL('image/png', quality),
+            width: compressCanvas.width,
+            height: compressCanvas.height
+          })
+        }
 
       } catch (error) {
         reject(error)

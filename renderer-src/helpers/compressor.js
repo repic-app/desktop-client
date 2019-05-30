@@ -124,6 +124,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
     if (preferences.showThumb) {
       try {
         const { url: thumbUrl } = await createThumbnail(URL.createObjectURL(task.file), 80, 64)
+        URL.revokeObjectURL(task.file)
         onThumbCreate(task.id, thumbUrl)
       } catch (error) {
         // do nothing.
@@ -168,7 +169,6 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
 
   } catch (error) {
 
-    console.error(error)
     backupPath && fs.renameSync(backupPath, task.file.path)
 
     return {

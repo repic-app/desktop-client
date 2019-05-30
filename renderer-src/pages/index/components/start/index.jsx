@@ -15,7 +15,7 @@ const preferencesModalTitle = (
 const aboutModalTitle = (
   <div className="text-with-icon">
     <i className="icon-info"></i>
-    <span>关于热啤</span>
+    <span>关于Repic</span>
   </div>
 )
 
@@ -77,7 +77,7 @@ export default React.memo((props) => {
         </a>
         <a href="javascript:void(0);" onClick={showAboutModal} className="about-entry text-with-icon">
           <i className="icon-info"></i>
-          <span>关于热啤</span>
+          <span>关于Repic</span>
         </a>
       </div>
       <Modal

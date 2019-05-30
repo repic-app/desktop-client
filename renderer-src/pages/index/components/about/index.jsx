@@ -6,9 +6,9 @@ export default React.memo(() => {
 
   return (
     <div className="component-about">
-      <div className="app-icon">🍺</div>
+      <div className="app-icon" />
       <div className="app-name">
-        <span>热啤 Repic</span>
+        <span>Repic Compressor</span>
         <small>版本号: v0.0.1</small>
       </div>
       <div className="app-description">

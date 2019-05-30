@@ -6,7 +6,7 @@ const isProduction = process.env.NODE_ENV !== 'development'
 const rendererPageBaseURL = !isProduction ? 'http://localhost:8188' : 'file://' + path.join(__dirname, './renderer/index.html')
 let mainWindow = null
 
-app.commandLine.appendSwitch('--autoplay-policy','no-user-gesture-required')
+app.commandLine.appendSwitch('--autoplay-policy', 'no-user-gesture-required')
 // app.disableHardwareAcceleration()
 
 function initialize () {
