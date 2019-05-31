@@ -95,7 +95,7 @@
       font-size: 14px;
     }
     small{
-      color: rgba(#fff, .4);
+      color: rgba(#fff, .3);
       font-size: 12px;
       font-weight: 400;
     }
@@ -110,6 +110,7 @@
       margin: 0 10px;
       color: rgba(#fff, .6);
       font-size: 12px;
+      text-transform: uppercase;
       &:hover{
         color: rgba(#fff, .8);
       }
@@ -122,13 +123,7 @@
 }
 
 [data-dragging-over="true"] .component-start{
-  .indicator{
-    transform: translateX(-40px);
-    transition-delay: 0.5s;
-  }
-  .photo-wrap .photo{
-    transform: rotateX(70deg) translateY(-40px);
-  }
+  // ...
 }
 
 .cache-dir-entry{

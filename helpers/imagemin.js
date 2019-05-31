@@ -1,20 +1,23 @@
-const imagemin = require('imagemin')
-const imageminPngQuant = require('imagemin-pngquant')
+const fs = require('fs')
+const pngquant = require('pngquant-bin')
+const { execFile } = require('child_process')
 
-const compressByImagemin = (filePath, options) => {
+const compressByImagemin = (filePath, preferences) => new Promise((resolve, reject) => {
 
-  return imagemin([filePath], {
-    plugins: [
-      imageminPngQuant({
-        speed: 10,
-        strip: options.stripMetedata,
-        quality: [options.outputQuality * 1, options.outputQuality * 1]
+  const outputPath = `${filePath}.temp`
+
+  execFile(pngquant, ['--force', `--quality=${preferences.outputQuality * 100}-${preferences.outputQuality * 100}`, '-o', outputPath, filePath], error => {
+    if (error) {
+      reject(error)
+    } else {
+      fs.renameSync(outputPath, filePath)
+      resolve({
+        outputFileCreated: true,
+        outputFileSize: fs.statSync(filePath).size
       })
-    ]
-  }).then((result) => {
-    return result[0]
+    }
   })
 
-}
+})
 
 module.exports = { compressByImagemin }

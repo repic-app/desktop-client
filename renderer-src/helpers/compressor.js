@@ -3,16 +3,15 @@ import remote, { requireRemote } from 'helpers/remote'
 import { createThumbnail } from 'utils/image'
 import { imageTypesForImagemin, imageTypesForCompressorJS, imageTypesForSvgo, imageTypesForGiflossy, svgoOptions } from 'constants/image'
 
+const fs = requireRemote('fs')
+const path = requireRemote('path')
 const Svgo = requireRemote('svgo')
 const giflossy = requireRemote('giflossy')
 const { compressByImagemin } = requireRemote('./helpers/imagemin')
-
 const { execFile } = requireRemote('child_process')
-const fs = requireRemote('fs')
-const path = requireRemote('path')
 
 const SYSTEM_TEMP_PATH = remote.app.getPath('temp')
-const APP_TEMP_DIR_NAME = '/cn.margox.piccompressor/'
+const APP_TEMP_DIR_NAME = '/app.repic.compressor/'
 
 export const APP_TEMP_PATH = path.join(SYSTEM_TEMP_PATH, APP_TEMP_DIR_NAME)
 
@@ -28,11 +27,11 @@ export const compressByCompressorJS = (file, preferences) => new Promise((resolv
   })
 })
 
-export const compressByGiflossy = (filePath) => new Promise((resolve, reject) => {
+export const compressByGiflossy = (filePath, preferences) => new Promise((resolve, reject) => {
 
   const outputPath = `${filePath}.temp`
 
-  execFile(giflossy, ['-O3', '--lossy=80', '-o', outputPath, filePath], error => {
+  execFile(giflossy, ['-O3', `--lossy=${preferences.outputQuality * 100}`, '-o', outputPath, filePath], error => {
     if (error) {
       reject(error)
     } else {
@@ -123,7 +122,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
 
     if (preferences.showThumb) {
       try {
-        const { url: thumbUrl } = await createThumbnail(URL.createObjectURL(task.file), 80, 64)
+        const { url: thumbUrl } = await createThumbnail(URL.createObjectURL(task.file), 120, 120)
         URL.revokeObjectURL(task.file)
         onThumbCreate(task.id, thumbUrl)
       } catch (error) {
@@ -169,6 +168,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
 
   } catch (error) {
 
+    console.log(error)
     backupPath && fs.renameSync(backupPath, task.file.path)
 
     return {

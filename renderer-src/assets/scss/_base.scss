@@ -26,6 +26,7 @@ html, body{
   padding: 0;
   font-family: 'PingFang SC', arial, "Microsoft Yahei", 微软雅黑;
   cursor: default;
+  user-select: none;
 }
 
 body.platform-windows{

@@ -1,7 +1,7 @@
-import _electron from 'electron'
+import electron from 'electron'
 
-export default _electron.remote
+export default electron.remote
 
-export const electron = _electron
+export { electron }
 export const app = electron.remote.app
 export const requireRemote = (modulePath) => electron.remote.require(modulePath)

@@ -1,23 +1,11 @@
 import React from 'react'
-import { formatSize } from 'utils/base'
+import { formatSize, formateOptimizedRate } from 'utils/base'
 import { taskStatus, tasktStatusIcons, taskStatusTexts } from 'constants/task'
 import './styles.scss'
 
-const getOptimizeRateTextColor = (optimizedRate) => {
-
-  if (optimizedRate >= 30) {
-    return 'text-success'
-  } else if (optimizedRate >= 10) {
-    return 'text-warning'
-  } else {
-    return 'text-danger'
-  }
-
-}
-
 const DescriptionText = React.memo((task) => {
 
-  const optimizeRateTextColor = getOptimizeRateTextColor(task.optimizedRate)
+  const optimizeRateTextColor = formateOptimizedRate(task.optimizedRate)
 
   if (task.status === taskStatus.COMPLETE) {
     return (
@@ -61,7 +49,7 @@ export default React.memo((props) => {
       <div className="operates">
         <a href="javascript:void(0);" className="button button-restore" onClick={props.onRestore}><i className="icon-corner-up-left"></i></a>
         <a href="javascript:void(0);" className="button button-compare"><i className="icon-eye"></i></a>
-        <a href="javascript:void(0);" className="button button-recompress"><i className="icon-repeat"></i></a>
+        <a href="javascript:void(0);" className="button button-recompress" onClick={props.onRecompress}><i className="icon-repeat"></i></a>
       </div>
     </div>
   )

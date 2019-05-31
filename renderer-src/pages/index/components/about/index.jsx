@@ -8,7 +8,7 @@ export default React.memo(() => {
     <div className="component-about">
       <div className="app-icon" />
       <div className="app-name">
-        <span>Repic Compressor</span>
+        <span>Repic</span>
         <small>版本号: v0.0.1</small>
       </div>
       <div className="app-description">

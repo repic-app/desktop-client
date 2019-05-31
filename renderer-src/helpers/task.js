@@ -2,7 +2,7 @@ import { taskStatus } from 'constants/task'
 import { acceptImageTypes } from 'constants/image'
 import { requireRemote } from 'helpers/remote'
 import { generateId } from 'utils/base'
-import { compressTask, restoreTask as _restoreTask } from 'helpers/compressor'
+import { compressTask, restoreTask } from 'helpers/compressor'
 
 const { getAPPData } = requireRemote('./helpers/storage')
 
@@ -21,7 +21,7 @@ export const appendTasks = (currentTaskItems, newTaskFiles) => {
   return [ ...currentTaskItems, ...newTaskItems ]
 }
 
-export const restoreTask = _restoreTask
+export { restoreTask }
 
 export const executeTask = async (task, preferences, optimizedCallback, thumbCreatedCallback) => {
 

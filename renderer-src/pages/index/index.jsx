@@ -4,6 +4,7 @@ import Start from './components/start'
 import TaskList from './components/tasklist'
 import { playSound } from 'helpers/sound'
 import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
+import { taskStatus } from 'constants/task'
 import { sleep } from 'utils/base'
 import APPContext from 'store/index'
 import './styles.scss'
@@ -17,20 +18,18 @@ let dragEventTriggerCount = 0
 export default () => {
 
   const [ pageState, _setPageState ] = useState(defaultPageState)
-  const { appState, preferences, setAppState, getAppState } = useContext(APPContext)
+  const { appState, preferences, setAppState, getAppState, updateProgress } = useContext(APPContext)
 
   const setPageState = (changePageState) => {
     _setPageState({ ...pageState, ...changePageState })
   }
 
   const handleThumbCreate = (taskId, thumbUrl) => {
-
     setAppState({
       taskList: getAppState('taskList').map(item => {
         return item.id === taskId ? { ...item, thumbUrl } : item
       })
     })
-
   }
 
   const handleTaskUpdate = (task) => {
@@ -41,7 +40,7 @@ export default () => {
 
     setAppState({
       taskList: executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)
-    })
+    }, updateProgress)
 
   }
 
@@ -89,7 +88,9 @@ export default () => {
       if (!currentTaskList.length) {
         await sleep(500)
       }
-      executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)
+      setAppState({
+        taskList: executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)
+      }, updateProgress)
     })
 
   }
@@ -126,6 +127,14 @@ export default () => {
 
   }
 
+  const handleRecompress = (task) => {
+    setAppState({
+      taskList: executeTasks(getAppState('taskList').map(item => {
+        return item.id === task.id ? { ...item, status: taskStatus.PENDING } : item
+      }), handleTaskUpdate, handleThumbCreate)
+    }, updateProgress)
+  }
+
   return (
     <div className="app-page page-index">
       <TitleBar appState={appState} setAppState={setAppState} />
@@ -141,7 +150,7 @@ export default () => {
         data-empty={appState.taskList.length === 0}
       >
         <Start appState={appState} setAppState={setAppState} />
-        <TaskList appState={appState} preferences={preferences} onRestore={handleRestore} />
+        <TaskList appState={appState} preferences={preferences} onRestore={handleRestore} onRecompress={handleRecompress}/>
       </div>
     </div>
   )

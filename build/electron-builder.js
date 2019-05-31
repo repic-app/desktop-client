@@ -1,6 +1,6 @@
 module.exports = {
   appId: 'app.repic.compressor',
-  asar: false,
+  asar: true,
   productName: 'Repic Compressor',
   directories: {
     output: './dist-apps'

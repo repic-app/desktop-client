@@ -15,7 +15,7 @@ const preferencesModalTitle = (
 const aboutModalTitle = (
   <div className="text-with-icon">
     <i className="icon-info"></i>
-    <span>关于Repic</span>
+    <span>关于REPIC</span>
   </div>
 )
 
@@ -68,7 +68,7 @@ export default React.memo((props) => {
       </div> */}
       <div className="drag-tip">
         <span>拖拽图片至此窗口以开始压缩</span>
-        <small>支持JPG/PNG/WEBP/SVG/GIF格式</small>
+        <small>JPG/PNG/WEBP/SVG/GIF</small>
       </div>
       <div className="foot-links">
         <a href="javascript:void(0);" onClick={showPreferencesModal} className="settings-entry text-with-icon">

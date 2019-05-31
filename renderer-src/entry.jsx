@@ -3,6 +3,7 @@ import React from 'react'
 import remote from 'helpers/remote'
 import { HashRouter, Route } from 'react-router-dom'
 import { requireRemote } from 'helpers/remote'
+import { taskStatus } from 'constants/task'
 import APPContext from 'store/index'
 import IndexPage from 'pages/index'
 
@@ -12,6 +13,8 @@ const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
 const defaultAppState = {
   isSticky: false,
   taskList: [],
+  taskProgress: -1,
+  taskAllFinished: false,
   showAbout: false,
   showPreferences: false
 }
@@ -47,6 +50,26 @@ export default class extends React.PureComponent {
 
   }
 
+  updateProgress = () => {
+
+    const currentTask = this.getAppState('taskList')
+    const completedTaskCount = currentTask.filter(item => {
+      return [
+        taskStatus.COMPLETE,
+        taskStatus.FAIL,
+        taskStatus.RESTORED,
+      ].includes(item.status)
+    }).length
+
+    let taskProgress = completedTaskCount / currentTask.length
+    const taskAllFinished = taskProgress === 1
+    taskProgress >= 1 && (taskProgress = -1)
+
+    this.setAppState({ taskProgress, taskAllFinished })
+    remote.getCurrentWindow().setProgressBar(taskProgress)
+
+  }
+
   componentDidMount () {
 
     if (isWindows) {
@@ -63,11 +86,11 @@ export default class extends React.PureComponent {
   render () {
 
     const { appState, preferences } = this.state
-    const { setAppState, getAppState, setPreferences } = this
+    const { setAppState, getAppState, setPreferences, updateProgress } = this
 
     return (
       <HashRouter>
-        <APPContext.Provider value={{ appState, setAppState, getAppState, preferences, setPreferences }}>
+        <APPContext.Provider value={{ appState, setAppState, getAppState, preferences, setPreferences, updateProgress }}>
           <div className="page-container">
             <Route path="/" exact component={IndexPage} />
           </div>
