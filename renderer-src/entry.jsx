@@ -1,6 +1,6 @@
 import 'assets/scss/_base.scss'
 import React from 'react'
-import remote from 'helpers/remote'
+import remote, { electron } from 'helpers/remote'
 import { HashRouter, Route } from 'react-router-dom'
 import { requireRemote } from 'helpers/remote'
 import { taskStatus } from 'constants/task'
@@ -16,7 +16,8 @@ const defaultAppState = {
   taskProgress: -1,
   taskAllFinished: false,
   showAbout: false,
-  showPreferences: false
+  showPreferences: false,
+  theme: 'dark'
 }
 
 export default class extends React.PureComponent {
@@ -70,11 +71,30 @@ export default class extends React.PureComponent {
 
   }
 
+  updateAppTheme = () => {
+
+    if (remote.systemPreferences.isDarkMode()) {
+      this.setAppState({ theme: 'dark' })
+      document.body.classList.remove('light-style')
+    } else {
+      this.setAppState({ theme: 'light' })
+      document.body.classList.add('light-style')
+    }
+
+  }
+
   componentDidMount () {
 
     if (isWindows) {
       document.body.classList.add('system-windows')
+    } else {
+      this.updateAppTheme()
     }
+
+    remote.systemPreferences.subscribeNotification(
+      'AppleInterfaceThemeChangedNotification',
+      this.updateAppTheme
+    )
 
     if (this.state.preferences.stickyOnLaunch) {
       remote.getCurrentWindow().setAlwaysOnTop(true)
@@ -91,7 +111,7 @@ export default class extends React.PureComponent {
     return (
       <HashRouter>
         <APPContext.Provider value={{ appState, setAppState, getAppState, preferences, setPreferences, updateProgress }}>
-          <div className="page-container light-style">
+          <div className="page-container">
             <Route path="/" exact component={IndexPage} />
           </div>
         </APPContext.Provider>

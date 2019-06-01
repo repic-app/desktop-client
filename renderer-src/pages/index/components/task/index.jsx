@@ -47,9 +47,9 @@ export default React.memo((props) => {
         />
       </div>
       <div className="operates">
-        <a href="javascript:void(0);" className="button button-restore" onClick={props.onRestore}><i className="icon-corner-up-left"></i></a>
-        <a href="javascript:void(0);" className="button button-compare"><i className="icon-eye"></i></a>
-        <a href="javascript:void(0);" className="button button-recompress" onClick={props.onRecompress}><i className="icon-repeat"></i></a>
+        <a href="javascript:void(0);" className="button button-default button-restore" onClick={props.onRestore}><i className="icon-corner-up-left"></i></a>
+        <a href="javascript:void(0);" className="button button-default button-compare"><i className="icon-eye"></i></a>
+        <a href="javascript:void(0);" className="button button-default button-recompress" onClick={props.onRecompress}><i className="icon-repeat"></i></a>
       </div>
     </div>
   )

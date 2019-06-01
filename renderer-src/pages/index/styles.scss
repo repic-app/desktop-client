@@ -42,10 +42,20 @@
   text-transform: uppercase;
   a {
     padding-left: 5px;
-    color: rgba(#fff, .5);
+    color: inherit;
     cursor: pointer;
     &:hover{
       color: $COLOR_PRIMARY;
     }
+  }
+}
+
+.light-style{
+  .page-index{
+    background-color: rgba(#fff, .7);
+  }
+  .app-copyright,
+  .cache-dir-entry{
+    color: #666;
   }
 }

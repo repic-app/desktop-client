@@ -214,7 +214,7 @@ export default () => {
       </div>
       <Modal
         title={preferencesModalTitle}
-        width={360}
+        width={380}
         active={appState.showPreferences}
         onClose={hidePreferencesModal}
         showConfirm={false}
@@ -225,7 +225,7 @@ export default () => {
       </Modal>
       <Modal
         title={aboutModalTitle}
-        width={360}
+        width={380}
         active={appState.showAbout}
         onClose={hideAboutModal}
         showConfirm={false}

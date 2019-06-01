@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 56px;
+  height: 50px;
   &:nth-child(even){
     box-shadow: inset 0 -.5px 0 0 rgba(#000, .3), inset 0 .5px 0 0 rgba(#000, .3);
   }
@@ -128,31 +128,44 @@
     display: flex;
     flex-direction: row;
     margin-right: 10px;
-    overflow: hidden;
     .button{
       display: block;
       width: 24px;
       height: 24px;
       margin: 0 2px;
-      background-image: linear-gradient(rgba(#000, 0), rgba(#000, .15));
-      border-radius: 12px;
-      box-shadow: inset 0 0 0 .5px rgba(#fff, .15), 0 1px 1px rgba(#000, .2);
-      color: rgba(#fff, .8);
       font-size: 12px;
       line-height: 26px;
       text-align: center;
-      cursor: pointer;
-      &:hover{
-        opacity: .8;
-      }
-      &.button-restore{
-        background-color: #efad1b;
-      }
-      &.button-compare{
-        background-color: #1da9f3;
-      }
-      &.button-recompress{
-        background-color: #27a95d;
+    }
+  }
+}
+
+.light-style .component-task-item{
+  &:nth-child(even){
+    box-shadow: none;
+  }
+  .status-icon{
+    .icon-clock{
+      color: #ccc;
+    }
+  }
+  .thumb{
+    box-shadow: 0 1px 3px rgba(#000, .1);
+  }
+  .meta{
+    .name{
+      color: #333;
+    }
+    .description-text{
+      color: #666;
+    }
+  }
+  .operates{
+    .button{
+      background-color: #f5f5f5;
+      color: #666;
+      &:active{
+        background-color: #e9e9e9;
       }
     }
   }

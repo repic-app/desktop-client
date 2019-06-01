@@ -17,14 +17,15 @@
 
   .app-name{
     margin: 20px 0 0 0;
+    color: #fff;
     font-size: 20px;
     text-align: center;
     span{
-      color: rgba(#fff, .8);
+      opacity: .8;
       font-weight: 500;
     }
     small{
-      color: rgba(#fff, .6);
+      opacity: .7;
       font-weight: 400;
     }
   }
@@ -37,4 +38,13 @@
     font-weight: normal;
   }
 
+}
+
+.light-style .component-about{
+  .app-name{
+    color: #333;
+  }
+  .app-description{
+    color: #555;
+  }
 }
