@@ -57,7 +57,7 @@
   .modal-content{
     position: absolute;
     z-index: 2;
-    top: 49px;
+    top: $TITLE_BAR_HEIGHT - 2;
     left: 50%;
     max-width: 95%;
     border-radius: 0 0 5px 5px;
@@ -76,19 +76,19 @@
     }
     &::before{
       z-index: 1;
-      background-color: rgba(darken($COLOR_DARK, 1), .8);
-      backdrop-filter: blur(10px);
+      background-color: rgba(darken($COLOR_DARK, 4), .8);
+      backdrop-filter: blur(20px);
     }
     &::after{
       z-index: 2;
-      box-shadow: inset 0 0 0 .5px rgba(#000, .3);
+      box-shadow: inset 0 0 0 .5px rgba(#000, .5), inset 0 0 0 1px rgba(#fff, .04);
     }
     > .header{
       position: relative;
       z-index: 3;
       height: 46px;
       margin-bottom: .5px;
-      border-bottom: 1px solid rgba(#000, .4);
+      border-bottom: 1px solid rgba(#000, .3);
       border-width: 0.5px;
       > .caption{
         margin: 0 0 0 20px;
@@ -138,6 +138,12 @@
         padding: 0 15px;
         border-radius: 2px;
         font-size: 12px;
+        &-default{
+          background-color: lighten($COLOR_DARK, 7);
+          &:active{
+            background-color: lighten($COLOR_DARK, 9);
+          }
+        }
       }
     }
   }

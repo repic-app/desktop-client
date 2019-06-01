@@ -19,6 +19,12 @@
         color: rgba(#fff, .6);
         font-size: 12px;
         line-height: 20px;
+        span{
+          padding-right: 3px;
+        }
+        i{
+          color: rgba(#fff, .3);
+        }
       }
       .option{
         float: right;

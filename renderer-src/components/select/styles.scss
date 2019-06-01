@@ -4,8 +4,8 @@
   position: relative;
   margin: 0;
   background-color: rgba(#fff, .1);
-  border-radius: 2px;
-  box-shadow: 0 0 0 .5px rgba(#000, .4), 0 1px 0 0 rgba(#fff, .1);
+  border-radius: 3px;
+  box-shadow: 0 0 0 .5px rgba(#000, .25);
   &.size-small{
     height: 20px;
     font-size: 12px;
@@ -58,10 +58,10 @@
     right: 0;
     width: 24px;
     height: 100%;
-    background-image: linear-gradient($COLOR_PRIMARY, darken($COLOR_PRIMARY, 20));
-    border-radius: 0 2px 2px 0;
-    box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 .5px 0 0 rgba(#fff, .5);
-    color: rgba(#fff, .5);
+    background-color: $COLOR_PRIMARY;
+    border-radius: 0 3px 3px 0;
+    box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 .5px 0 0 rgba(#fff, .4);
+    color: rgba(#fff, 1);
     font-size: 12px;
     pointer-events: none;
   }

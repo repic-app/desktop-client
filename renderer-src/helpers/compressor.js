@@ -17,6 +17,17 @@ export const APP_TEMP_PATH = path.join(SYSTEM_TEMP_PATH, APP_TEMP_DIR_NAME)
 
 !fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
 
+export const cleanTempFiles = () => new Promise((resolve) => {
+  fs.rmdir(APP_TEMP_PATH, (error) => {
+    if (error) {
+      resolve()
+    } else {
+      fs.mkdirSync(APP_TEMP_PATH)
+      resolve()
+    }
+  })
+})
+
 export const compressByCompressorJS = (file, preferences) => new Promise((resolve, reject) => {
   new Compressor(file, {
     quality: preferences.outputQuality * 1,
@@ -99,15 +110,17 @@ export const restoreTask = (task, copy = false) => {
 
   try {
     copy ? fs.copyFileSync(task.backupPath, task.file.path) : fs.renameSync(task.backupPath, task.file.path)
-    return {
-      id: task.id,
-      status: 5,
-      optimizedFile: null,
-      optimizedSize: null,
-      optimizedRate: null
-    }
   } catch (error) {
-    return false
+    console.warn(error)
+    // ...
+  }
+
+  return {
+    id: task.id,
+    status: 5,
+    optimizedFile: null,
+    optimizedSize: null,
+    optimizedRate: null
   }
 
 }

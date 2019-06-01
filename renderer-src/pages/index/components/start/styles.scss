@@ -100,37 +100,8 @@
       font-weight: 400;
     }
   }
-  .foot-links{
-    position: absolute;
-    right: 0;
-    bottom: 20px;
-    left: 0;
-    text-align: center;
-    a{
-      margin: 0 10px;
-      color: rgba(#fff, .6);
-      font-size: 12px;
-      text-transform: uppercase;
-      &:hover{
-        color: rgba(#fff, .8);
-      }
-      i{
-        padding-right: 0.3em;
-        font-size: 14px;
-      }
-    }
-  }
 }
 
 [data-dragging-over="true"] .component-start{
   // ...
-}
-
-.cache-dir-entry{
-  color: rgba(#fff, .5);
-  font-size: 11px;
-  height: 24px;
-  &:hover{
-    color: $COLOR_PRIMARY;
-  }
 }

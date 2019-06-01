@@ -1,9 +1,11 @@
-$COLOR_PRIMARY: #4A90E2;
+$COLOR_PRIMARY: darken(#4A90E2, 5);
 $COLOR_SUCCESS: #27ae60;
 $COLOR_WARNING: #f39c12;
 $COLOR_DANGER: #e74c3c;
 $COLOR_DARK: #3f424a;
 $COLOR_CAPTION: #59667D;
+
+$TITLE_BAR_HEIGHT: 60px;
 
 @mixin primary_gradient{
   background-image: linear-gradient(darken($COLOR_PRIMARY, 10), darken($COLOR_PRIMARY, 25));
@@ -15,6 +17,10 @@ $COLOR_CAPTION: #59667D;
 
 @mixin darker_gradient{
   background-image: linear-gradient(lighten($COLOR_DARK, 5), lighten($COLOR_DARK, 0));
+}
+
+@mixin danger_gradient{
+  background-image: linear-gradient(lighten($COLOR_DANGER, 5), lighten($COLOR_DANGER, 0));
 }
 
 @mixin primary_shadow{

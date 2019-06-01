@@ -4,6 +4,10 @@ import Start from './components/start'
 import TaskList from './components/tasklist'
 import { playSound } from 'helpers/sound'
 import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
+import Modal from 'components/modal'
+import Preferences from './components/preferences'
+import About from './components/about'
+import { openLink, openCacheFolder } from 'utils/base'
 import { taskStatus } from 'constants/task'
 import { sleep } from 'utils/base'
 import APPContext from 'store/index'
@@ -12,6 +16,35 @@ import './styles.scss'
 const defaultPageState = {
   isDraggingOver: false
 }
+
+const preferencesModalTitle = (
+  <div className="text-with-icon">
+    <i className="icon-settings"></i>
+    <span>参数设置</span>
+  </div>
+)
+
+const aboutModalTitle = (
+  <div className="text-with-icon">
+    <i className="icon-info"></i>
+    <span>关于REPIC</span>
+  </div>
+)
+
+const cacheDirEntry = (
+  <a onClick={openCacheFolder} className="cache-dir-entry text-with-icon">
+    <i className="icon-folder"></i>
+    <span>查看缓存目录</span>
+  </a>
+)
+
+const copyRightText = (
+  <div className="app-copyright">
+    <span>&copy;2019</span>
+    <a onClick={openLink} href="https://repic.app">Repic.app</a>
+    <span> 版权所有</span>
+  </div>
+)
 
 let dragEventTriggerCount = 0
 
@@ -112,19 +145,11 @@ export default () => {
   }
 
   const handleRestore = (task) => {
-
-    const restoredTask = restoreTask(task)
-
-    if (!restoredTask) {
-      return false
-    }
-
     setAppState({
       taskList: getAppState('taskList').map(item => {
-        return item.id === task.id ? { ...item, ...restoredTask } : item
+        return item.id === task.id ? { ...item, ...restoreTask(task) } : item
       })
     })
-
   }
 
   const handleRecompress = (task) => {
@@ -135,9 +160,36 @@ export default () => {
     }, updateProgress)
   }
 
+  const handleRestoreAll = (taskList) => {
+    setAppState({ taskList })
+  }
+
+  const handleRecompressAll = (taskList) => {
+    setAppState({
+      taskList: executeTasks(taskList, handleTaskUpdate, handleThumbCreate)
+    }, updateProgress)
+  }
+
+  const hidePreferencesModal = () => {
+    setAppState({
+      showPreferences: false
+    })
+  }
+
+  const hideAboutModal = () => {
+    setAppState({
+      showAbout: false
+    })
+  }
+
   return (
     <div className="app-page page-index">
-      <TitleBar appState={appState} setAppState={setAppState} />
+      <TitleBar
+        appState={appState}
+        setAppState={setAppState}
+        onRestoreAll={handleRestoreAll}
+        onRecompressAll={handleRecompressAll}
+      />
       <div
         className="index-content"
         onDragEnter={handleDragEnter}
@@ -149,9 +201,39 @@ export default () => {
         data-dragging-over={pageState.isDraggingOver}
         data-empty={appState.taskList.length === 0}
       >
-        <Start appState={appState} setAppState={setAppState} />
-        <TaskList appState={appState} preferences={preferences} onRestore={handleRestore} onRecompress={handleRecompress}/>
+        <Start
+          appState={appState}
+          setAppState={setAppState}
+        />
+        <TaskList
+          appState={appState}
+          preferences={preferences}
+          onRestore={handleRestore}
+          onRecompress={handleRecompress}
+        />
       </div>
+      <Modal
+        title={preferencesModalTitle}
+        width={360}
+        active={appState.showPreferences}
+        onClose={hidePreferencesModal}
+        showConfirm={false}
+        footerAddon={cacheDirEntry}
+        cancelText="关闭"
+      >
+        <Preferences />
+      </Modal>
+      <Modal
+        title={aboutModalTitle}
+        width={360}
+        active={appState.showAbout}
+        onClose={hideAboutModal}
+        showConfirm={false}
+        footerAddon={copyRightText}
+        cancelText="关闭"
+      >
+        <About />
+      </Modal>
     </div>
   )
 

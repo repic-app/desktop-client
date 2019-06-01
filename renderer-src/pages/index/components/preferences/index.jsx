@@ -16,7 +16,10 @@ export default React.memo(() => {
     <div className="component-preferences">
       <div className="options">
         <div className="option-group">
-          <label className="label">压缩质量</label>
+          <label className="label text-with-icon">
+            <span>压缩质量</span>
+            <i className="icon-help-circle" title="SVG图片暂不支持指定压缩质量"></i>
+          </label>
           <div className="option">
             <Select value={`${preferences.outputQuality}`} name="outputQuality" onChange={handleChange}>
               <option value="0.3" key={0}>极低</option>
@@ -40,7 +43,10 @@ export default React.memo(() => {
           </div>
         </div>
         <div className="option-group">
-          <label className="label">抹除图片元信息</label>
+          <label className="label text-with-icon">
+            <span>抹除图片元信息</span>
+            <i className="icon-help-circle" title="仅部分图片格式支持此选项"></i>
+          </label>
           <div className="option">
             <Switch checked={preferences.stripMetedata} name="stripMetedata" onChange={handleChange} />
           </div>

@@ -27,7 +27,7 @@ function initialize () {
       fullscreenable: false,
       frame: false,
       icon: path.join(__dirname, 'assets/icon.png'),
-      titleBarStyle: 'hiddenInset',
+      titleBarStyle: 'hidden',
       webPreferences: {
         devTools: !isProduction,
         webSecurity: false,

@@ -99,8 +99,8 @@ class Modal extends React.PureComponent {
             <footer className="footer">
               <div className="left-content">{footerAddon}</div>
               <div className="buttons">
-                {this.props.showConfirm ? <button onClick={this.hanleConfirmButtonClick} className="button button-small button-primary button-confirm">{this.props.confirmText}</button> : null}
-                {this.props.showCancel ? <button onClick={this.hanleCancelButtonClick} className="button button-small button-default button-cancel">{this.props.cancelText}</button> : null}
+                {this.props.showConfirm ? <button onClick={this.hanleConfirmButtonClick} className="button button-sm button-primary button-confirm">{this.props.confirmText}</button> : null}
+                {this.props.showCancel ? <button onClick={this.hanleCancelButtonClick} className="button button-sm button-default button-cancel">{this.props.cancelText}</button> : null}
               </div>
             </footer>
           ) : null}

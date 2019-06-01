@@ -2,7 +2,7 @@ import { taskStatus } from 'constants/task'
 import { acceptImageTypes } from 'constants/image'
 import { requireRemote } from 'helpers/remote'
 import { generateId } from 'utils/base'
-import { compressTask, restoreTask } from 'helpers/compressor'
+import { compressTask, restoreTask, cleanTempFiles} from 'helpers/compressor'
 
 const { getAPPData } = requireRemote('./helpers/storage')
 
@@ -19,12 +19,29 @@ export const appendTasks = (currentTaskItems, newTaskFiles) => {
   }))
 
   return [ ...currentTaskItems, ...newTaskItems ]
+
 }
 
-export { restoreTask }
+export { restoreTask, cleanTempFiles }
+
+export const restoreTasks = (taskList) => new Promise ((resolve) => {
+  const nextTaskList = taskList.map(task => {
+    return task.status === taskStatus.COMPLETE ? {
+      ...task,
+      ...restoreTask(task)
+    } : task
+  })
+  resolve(nextTaskList)
+})
+
+export const reexecuteTasks = (taskList) => taskList.map((task) => {
+  return task.status === taskStatus.RESTORED ? {
+    ...task,
+    status: taskStatus.PENDING
+  } : task
+})
 
 export const executeTask = async (task, preferences, optimizedCallback, thumbCreatedCallback) => {
-
   const optimizeResult = await compressTask(task, preferences, thumbCreatedCallback)
   optimizedCallback(optimizeResult)
 }
@@ -47,4 +64,5 @@ export const executeTasks = (taskList, optimizedCallback, thumbCreatedCallback) 
   })
 
   return nextTaskList
+
 }

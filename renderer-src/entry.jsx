@@ -91,7 +91,7 @@ export default class extends React.PureComponent {
     return (
       <HashRouter>
         <APPContext.Provider value={{ appState, setAppState, getAppState, preferences, setPreferences, updateProgress }}>
-          <div className="page-container">
+          <div className="page-container light-style">
             <Route path="/" exact component={IndexPage} />
           </div>
         </APPContext.Provider>

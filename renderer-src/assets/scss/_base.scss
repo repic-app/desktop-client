@@ -8,7 +8,7 @@
 }
 
 ::-webkit-scrollbar-track{
-  margin: 50px 0 0 0;
+  margin: $TITLE_BAR_HEIGHT - 2 0 0 0;
 }
 
 ::-webkit-scrollbar-thumb{
@@ -24,7 +24,7 @@ html, body{
   height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: 'PingFang SC', arial, "Microsoft Yahei", 微软雅黑;
+  font-family: caption, 'PingFang SC', arial, "Microsoft Yahei", 微软雅黑;
   cursor: default;
   user-select: none;
 }
@@ -111,42 +111,59 @@ a{
 .button{
   background-size: 100% 101%;
   border: none;
-  border-radius: 2px;
+  border-radius: 3px;
   outline: none;
-  &-small{
+  &-xs{
+    height: 20px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  &-sm{
     height: 24px;
     font-size: 14px;
     line-height: 22px;
   }
-  &-medium{
+  &-md{
     height: 36px;
     font-size: 16px;
   }
-  &-large{
+  &-lg{
     height: 40px;
     font-size: 18px;
   }
   &-default{
-    @include dark_gradient;
-    box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 .5px 0 0 rgba(#fff, .2);
-    color: rgba(#fff, .8);
+    background-color: lighten($COLOR_DARK, 5);
+    box-shadow: 0 .5px 0 0 rgba(#000, .1), inset 0 .5px 0 0 rgba(#fff, .2);
+    color: rgba(#fff, .6);
     &:active{
-      box-shadow: 0 0 0 .5px rgba(#000, .5), 0 1px 0 0 rgba(#fff, .07);
+      background-color: lighten($COLOR_DARK, 7);
     }
     &:disabled{
-      background-color: lighten(desaturate(#393D45, 60%), 20);
+      opacity: .4;
       pointer-events: none;
     }
   }
   &-primary{
-    @include primary_gradient;
-    box-shadow: 0 0 0 .5px rgba(#000, .5), inset 0 .5px 0 0 rgba(#fff, .3);
-    color: rgba(#fff, .8);
+    background-color: lighten($COLOR_PRIMARY, 0);
+    box-shadow: 0 .5px 0 0 rgba(#000, .1), inset 0 .5px 0 0 rgba(#fff, .3);
+    color: rgba(#fff, 1);
     &:active{
-      box-shadow: 0 0 0 .5px rgba(#000, .5), 0 1px 0 0 rgba(#fff, .1);
+      background-color: lighten($COLOR_PRIMARY, 3);
     }
     &:disabled{
       background-color: lighten(desaturate($COLOR_PRIMARY, 60%), 20);
+      pointer-events: none;
+    }
+  }
+  &-danger{
+    @include danger_gradient;
+    box-shadow: inset 0 .5px 0 0 rgba(#fff, .3);
+    color: rgba(#fff, .8);
+    &:active{
+      box-shadow: 0 1px 0 0 rgba(#fff, .1);
+    }
+    &:disabled{
+      background-color: lighten(desaturate($COLOR_DANGER, 60%), 20);
       pointer-events: none;
     }
   }

@@ -24,3 +24,28 @@
     }
   }
 }
+
+.cache-dir-entry{
+  color: rgba(#fff, .5);
+  font-size: 11px;
+  height: 24px;
+  &:hover{
+    color: $COLOR_PRIMARY;
+  }
+}
+
+.app-copyright{
+  color: rgba(#fff, .5);
+  font-size: 12px;
+  height: 24px;
+  line-height: 26px;
+  text-transform: uppercase;
+  a {
+    padding-left: 5px;
+    color: rgba(#fff, .5);
+    cursor: pointer;
+    &:hover{
+      color: $COLOR_PRIMARY;
+    }
+  }
+}

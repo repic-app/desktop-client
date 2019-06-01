@@ -4,23 +4,54 @@
   position: absolute;
   z-index: 999999;
   width: 100%;
-  height: 50px;
+  height: $TITLE_BAR_HEIGHT;
   margin: 0 auto;
   background-color: rgba(lighten($COLOR_DARK, 0), .7);
   background-image: linear-gradient(rgba(#000, 0), rgba(#000, .2));
   box-shadow: inset 0 -.5px 0 0 rgba(#000, .6);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
   text-align: center;
   user-select: none;
   -webkit-app-region: drag;
   .app-title{
     display: block;
-    margin-top: 12px;
+    height: 24px;
     color: rgba(#fff, .8);
     font-size: 13px;
     font-weight: 500;
-    line-height: 13px;
+    line-height: 24px;
     text-transform: uppercase;
+  }
+  .title-bar-operates{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 30px;
+    padding: 6px 11px 0 9px;
+  }
+  .system-buttons,
+  .task-buttons{
+    height: 22px;
+    width: 100px;
+    .button{
+      padding: 0 6px;
+      line-height: 22px;
+      -webkit-app-region: none;
+    }
+  }
+  .system-buttons{
+    left: 12px;
+    .button{
+      float: left;
+      margin-right: 3px;
+    }
+  }
+  .task-buttons{
+    right: 12px;
+    .button{
+      float: right;
+      margin-left: 3px;
+    }
   }
   .app-status{
     height: 20px;
@@ -47,7 +78,7 @@
       height: 4px;
       background-color: rgba(#000, .1);
       border-radius: 2px;
-      box-shadow: 0 0 0 .5px rgba(#000, .3);
+      box-shadow: inset 0 0 0 .5px rgba(#000, .3);
       transition: .2s;
     }
     &::-webkit-progress-value{
@@ -70,7 +101,7 @@
   }
   .switch-sticky{
     position: absolute;
-    top: 10px;
+    top: 3px;
     right: 10px;
     -webkit-app-region: none;
     .switch-label{
