@@ -150,7 +150,11 @@
     }
   }
   .thumb{
+    background-color: #eee;
     box-shadow: 0 1px 3px rgba(#000, .1);
+  }
+  .thumb-holder{
+    color: #ccc;
   }
   .meta{
     .name{

@@ -1,6 +1,7 @@
 import React from 'react'
 import { formatSize, formateOptimizedRate } from 'utils/base'
 import { taskStatus, tasktStatusIcons, taskStatusTexts } from 'constants/task'
+import { openCompareView } from 'helpers/compare'
 import './styles.scss'
 
 const DescriptionText = React.memo((task) => {
@@ -25,6 +26,10 @@ const DescriptionText = React.memo((task) => {
 
 export default React.memo((props) => {
 
+  const requestCompareView = () => {
+    openCompareView(`${location.href}compare`, props.task)
+  }
+
   return (
     <div className="component-task-item"  data-status={props.task.status}>
       <span className="status-icon">
@@ -48,7 +53,7 @@ export default React.memo((props) => {
       </div>
       <div className="operates">
         <a href="javascript:void(0);" className="button button-default button-restore" onClick={props.onRestore}><i className="icon-corner-up-left"></i></a>
-        <a href="javascript:void(0);" className="button button-default button-compare"><i className="icon-eye"></i></a>
+        <a href="javascript:void(0);" className="button button-default button-compare" onClick={requestCompareView}><i className="icon-eye"></i></a>
         <a href="javascript:void(0);" className="button button-default button-recompress" onClick={props.onRecompress}><i className="icon-repeat"></i></a>
       </div>
     </div>

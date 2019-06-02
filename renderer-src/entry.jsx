@@ -3,9 +3,12 @@ import React from 'react'
 import remote, { electron } from 'helpers/remote'
 import { HashRouter, Route } from 'react-router-dom'
 import { requireRemote } from 'helpers/remote'
+import { getCompareViewWindow } from 'helpers/compare'
+import events from 'helpers/events'
 import { taskStatus } from 'constants/task'
 import APPContext from 'store/index'
 import IndexPage from 'pages/index'
+import ComparePage from 'pages/compare'
 
 const { setAPPData, getAPPData } = requireRemote('./helpers/storage')
 const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
@@ -16,8 +19,7 @@ const defaultAppState = {
   taskProgress: -1,
   taskAllFinished: false,
   showAbout: false,
-  showPreferences: false,
-  theme: 'dark'
+  showPreferences: false
 }
 
 export default class extends React.PureComponent {
@@ -46,8 +48,12 @@ export default class extends React.PureComponent {
 
     const nextPreferences = { ...this.state.preferences, ...changedPreferences }
 
-    this.setState({ preferences: nextPreferences })
-    setAPPData('preferences', nextPreferences)
+    this.setState({ preferences: nextPreferences }, () => {
+      setAPPData('preferences', nextPreferences)
+      if (changedPreferences.theme) {
+        events.emit('user-change-app-theme', changedPreferences.theme)
+      }
+    })
 
   }
 
@@ -73,13 +79,22 @@ export default class extends React.PureComponent {
 
   updateAppTheme = () => {
 
-    if (remote.systemPreferences.isDarkMode()) {
-      this.setAppState({ theme: 'dark' })
+    const { theme } = getAPPData('preferences')
+
+    if (theme === 'auto') {
+      if (remote.systemPreferences.isDarkMode()) {
+        document.body.classList.remove('light-style')
+      } else {
+        document.body.classList.add('light-style')
+      }
+    } else if (theme === 'dark') {
       document.body.classList.remove('light-style')
-    } else {
-      this.setAppState({ theme: 'light' })
+    } else if (theme === 'light') {
       document.body.classList.add('light-style')
     }
+
+    const compareViewWindow = getCompareViewWindow()
+    compareViewWindow && compareViewWindow.webContents.send('user-change-app-theme', theme)
 
   }
 
@@ -95,6 +110,9 @@ export default class extends React.PureComponent {
       'AppleInterfaceThemeChangedNotification',
       this.updateAppTheme
     )
+
+    electron.ipcRenderer.on('user-change-app-theme', this.updateAppTheme)
+    events.on('user-change-app-theme', this.updateAppTheme)
 
     if (this.state.preferences.stickyOnLaunch) {
       remote.getCurrentWindow().setAlwaysOnTop(true)
@@ -113,6 +131,7 @@ export default class extends React.PureComponent {
         <APPContext.Provider value={{ appState, setAppState, getAppState, preferences, setPreferences, updateProgress }}>
           <div className="page-container">
             <Route path="/" exact component={IndexPage} />
+            <Route path="/compare" exact component={ComparePage} />
           </div>
         </APPContext.Provider>
       </HashRouter>
