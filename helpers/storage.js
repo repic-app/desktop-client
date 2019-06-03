@@ -17,6 +17,7 @@ const defaultAPPData = {
     convertSvgToPng: false,
     tryFixOrientation: false,
     stripMetedata: false,
+    overrideOrigin: true,
     theme: 'dark',
     parallelTaskCount: 3,
     showThumb: true,

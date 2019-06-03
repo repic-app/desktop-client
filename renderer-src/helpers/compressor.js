@@ -149,13 +149,13 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
     backupPath = backupTask(task) || filePath
 
     if (imageTypesForImagemin.includes(imageType)) {
-      optimizedFile = await compressByImagemin(backupPath, preferences)
+      optimizedFile = await compressByImagemin(filePath, preferences)
     } else if (imageTypesForCompressorJS.includes(imageType)) {
       optimizedFile = await compressByCompressorJS(task.file, preferences)
     } else if (imageTypesForSvgo.includes(imageType)) {
       optimizedFile = await compressBySvgo(backupPath, preferences)
     } else if (imageTypesForGiflossy.includes(imageType)) {
-      optimizedFile = await compressByGiflossy(backupPath, preferences)
+      optimizedFile = await compressByGiflossy(filePath, preferences)
     } else {
       throw 'format unsupport.'
     }
