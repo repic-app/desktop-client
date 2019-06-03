@@ -104,8 +104,24 @@
     top: 3px;
     right: 10px;
     -webkit-app-region: none;
+    &[data-checked="true"]{
+      .switch-core{
+        &::before{
+          left: 14px;
+        }
+      }
+    }
     .switch-label{
       font-size: 11px;
+    }
+    .switch-core{
+      width: 26px;
+      height: 12px;
+      border-radius: 6px;
+      &::before{
+        width: 14px;
+        height: 14px;
+      }
     }
   }
 }

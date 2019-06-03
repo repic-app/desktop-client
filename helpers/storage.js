@@ -18,7 +18,7 @@ const defaultAPPData = {
     tryFixOrientation: false,
     stripMetedata: false,
     overrideOrigin: true,
-    theme: 'dark',
+    theme: 'auto',
     parallelTaskCount: 3,
     showThumb: true,
     stickyOnLaunch: false,

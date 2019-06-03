@@ -15,7 +15,7 @@ export default React.memo((props) => {
   const optimizeRateTextColor = formateOptimizedRate(props.taskData.optimizedRate)
 
   return (
-    <div className="component-title-bar">
+    <div className="component-compare-title-bar">
       <span className="app-title">{props.taskData.file.name}</span>
       <div className="title-bar-operates">
         <div className="window-state">

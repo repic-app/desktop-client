@@ -1,6 +1,6 @@
 @import "~scssinc";
 
-.component-title-bar{
+.component-compare-title-bar{
   position: absolute;
   z-index: 999999;
   width: 100%;
@@ -71,7 +71,7 @@
   }
 }
 
-.light-style .component-title-bar{
+.light-style .component-compare-title-bar{
   background-color: rgba(#f9f9f9, .9);
   background-image: linear-gradient(rgba(#000, 0), rgba(#000, .2));
   box-shadow: 0 .5px 0 0 rgba(#000, .35);
