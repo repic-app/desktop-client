@@ -1,5 +1,5 @@
 import Compressor from 'compressorjs'
-import remote, { requireRemote } from 'helpers/remote'
+import { requireRemote } from 'helpers/remote'
 import { createThumbnail } from 'utils/image'
 import { imageTypesForImagemin, imageTypesForCompressorJS, imageTypesForSvgo, imageTypesForGiflossy, svgoOptions } from 'constants/image'
 
@@ -10,10 +10,7 @@ const giflossy = requireRemote('giflossy')
 const { compressByImagemin } = requireRemote('./helpers/imagemin')
 const { execFile } = requireRemote('child_process')
 
-const SYSTEM_TEMP_PATH = remote.app.getPath('temp')
-const APP_TEMP_DIR_NAME = '/app.repic.compressor/'
-
-export const APP_TEMP_PATH = path.join(SYSTEM_TEMP_PATH, APP_TEMP_DIR_NAME)
+export const { APP_TEMP_PATH } = requireRemote('./helpers/storage')
 
 !fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
 
@@ -38,19 +35,28 @@ export const compressByCompressorJS = (file, preferences) => new Promise((resolv
   })
 })
 
-export const compressByGiflossy = (filePath, preferences) => new Promise((resolve, reject) => {
+export const compressByGiflossy = (task, preferences) => new Promise((resolve, reject) => {
 
-  const outputPath = `${filePath}.temp`
+  const outputPath = preferences.overrideOrigin ? `${task.file.path}.temp` : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
 
-  execFile(giflossy, ['-O3', `--lossy=${preferences.outputQuality * 100}`, '-o', outputPath, filePath], error => {
+  execFile(giflossy, ['-O3', `--lossy=${preferences.outputQuality * 100}`, '-o', outputPath, task.file.path], error => {
     if (error) {
       reject(error)
     } else {
-      fs.renameSync(outputPath, filePath)
-      resolve({
-        outputFileCreated: true,
-        outputFileSize: fs.statSync(filePath).size
-      })
+      if (preferences.overrideOrigin) {
+        fs.renameSync(outputPath, task.file.path)
+        resolve({
+          outputFileCreated: true,
+          outputFilePath: task.file.path,
+          outputFileSize: fs.statSync(task.file.path).size
+        })
+      } else {
+        resolve({
+          outputFileCreated: true,
+          outputFilePath: outputPath,
+          outputFileSize: fs.statSync(outputPath).size
+        })
+      }
     }
   })
 
@@ -61,9 +67,7 @@ export const compressBySvgo = async (filePath) => {
   const svgo = new Svgo(svgoOptions)
   const fileData = fs.readFileSync(filePath)
 
-  return await svgo.optimize(fileData, {
-    path: filePath
-  })
+  return await svgo.optimize(fileData)
 
 }
 
@@ -120,7 +124,8 @@ export const restoreTask = (task, copy = false) => {
     status: 5,
     optimizedFile: null,
     optimizedSize: null,
-    optimizedRate: null
+    optimizedRate: null,
+    optimizedPath: null
   }
 
 }
@@ -130,8 +135,13 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
   let backupPath = null
   let optimizedFile = null
   let optimizedSize = null
+  let optimizedPath = null
 
   try {
+
+    if (!preferences.overrideOrigin && !fs.existsSync(preferences.autoSavePath)) {
+      fs.mkdirSync(preferences.autoSavePath)
+    }
 
     if (preferences.showThumb) {
       try {
@@ -146,14 +156,16 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
     const filePath = task.file.path
     const imageType = task.file.type.split('/')[1].toLowerCase()
 
-    backupPath = backupTask(task) || filePath
+    if (preferences.overrideOrigin) {
+      backupPath = backupTask(task)
+    }
 
     if (imageTypesForImagemin.includes(imageType)) {
-      optimizedFile = await compressByImagemin(filePath, preferences)
+      optimizedFile = await compressByImagemin(task, preferences)
     } else if (imageTypesForCompressorJS.includes(imageType)) {
       optimizedFile = await compressByCompressorJS(task.file, preferences)
     } else if (imageTypesForSvgo.includes(imageType)) {
-      optimizedFile = await compressBySvgo(backupPath, preferences)
+      optimizedFile = await compressBySvgo(filePath, preferences)
     } else if (imageTypesForGiflossy.includes(imageType)) {
       optimizedFile = await compressByGiflossy(filePath, preferences)
     } else {
@@ -162,8 +174,10 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
 
     if (optimizedFile && optimizedFile.outputFileCreated) {
       optimizedSize = optimizedFile.outputFileSize
+      optimizedPath = optimizedFile.outputFilePath
     } else {
-      optimizedSize = await writeFileAsync(filePath, optimizedFile.data)
+      optimizedPath = preferences.overrideOrigin ? filePath : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
+      optimizedSize = await writeFileAsync(optimizedPath, optimizedFile.data)
     }
 
     if (optimizedSize >= task.originalSize) {
@@ -176,6 +190,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
       status: 3,
       backupPath: backupPath,
       optimizedSize: optimizedSize,
+      optimizedPath: optimizedPath,
       optimizedRate: (task.originalSize - optimizedSize) / task.originalSize * 100
     }
 

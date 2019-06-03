@@ -187,6 +187,7 @@ export default () => {
       <TitleBar
         appState={appState}
         setAppState={setAppState}
+        preferences={preferences}
         onRestoreAll={handleRestoreAll}
         onRecompressAll={handleRecompressAll}
       />

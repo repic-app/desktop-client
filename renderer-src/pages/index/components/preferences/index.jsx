@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import remote from 'helpers/remote'
 import Switch from 'components/switch'
 import Select from 'components/select'
 import APPContext from 'store/index'
@@ -6,11 +7,28 @@ import './styles.scss'
 
 export default React.memo(() => {
 
-  const { preferences, setPreferences } = useContext(APPContext)
+  const { appState, preferences, setPreferences } = useContext(APPContext)
 
   const handleChange = (value, name) => {
     setPreferences({ [name]: value })
   }
+
+  const requestPickSaveFolder = () => {
+    remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+      title: '选择存储文件夹',
+      buttonLabel: '选择此文件夹',
+      defaultPath: preferences.autoSavePath,
+      properties: ['openDirectory', 'createDirectory'],
+    }, (filePaths) => {
+      if (filePaths && filePaths[0]) {
+        setPreferences({
+          autoSavePath: filePaths[0]
+        })
+      }
+    })
+  }
+
+  const taskNotEmpty = appState.taskList.length > 0
 
   return (
     <div className="component-preferences">
@@ -26,16 +44,24 @@ export default React.memo(() => {
               <option value="0.5" key={1}>低</option>
               <option value="0.6" key={2}>中</option>
               <option value="0.8" key={3}>高</option>
-              {/* <option value="1" key={4}>无损</option> */}
             </Select>
           </div>
         </div>
-        {/* <div className="option-group">
-          <label className="label">将SVG转换为PNG</label>
+        <div className="option-group" data-disabled={taskNotEmpty}>
+          <label className="label">压缩后覆盖原图</label>
           <div className="option">
-            <Switch checked={preferences.convertSvgToPng} name="convertSvgToPng" onChange={handleChange} />
+            <Switch checked={preferences.overrideOrigin} name="overrideOrigin" onChange={handleChange} />
           </div>
-        </div> */}
+        </div>
+        <div className="option-group" data-disabled={taskNotEmpty || preferences.overrideOrigin}>
+          <label className="label">
+            <span>压缩后保存到</span>
+            <small title={preferences.autoSavePath}>{preferences.autoSavePath}</small>
+          </label>
+          <div className="option">
+            <button onClick={requestPickSaveFolder} className="button button-xs button-default">更改</button>
+          </div>
+        </div>
         <div className="option-group">
           <label className="label">尝试修正图片方向</label>
           <div className="option">

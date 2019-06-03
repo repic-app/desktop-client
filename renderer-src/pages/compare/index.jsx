@@ -27,7 +27,7 @@ const updateZoomScale = (currentScale, isZoomIn) => {
   return isZoomIn ? (
     currentScale - stepValue < 0.5 ? 0.5 : currentScale - stepValue
   ) : (
-    currentScale + stepValue > 8 ? 8 : currentScale + stepValue
+    currentScale + stepValue > 16 ? 16 : currentScale + stepValue
   )
 
 }
@@ -110,6 +110,9 @@ export default React.memo(() => {
 
   const imageStyle = getImageStyle(viewState)
 
+  const originalImagePath = taskData.optimizedPath ? taskData.file.path : taskData.backupPath
+  const optimizedImagePath = taskData.optimizedPath ? taskData.optimizedPath : taskData.file.path
+
   return (
     <div className="page-compare">
       <TitleBar
@@ -129,8 +132,8 @@ export default React.memo(() => {
           <div className="original-image" style={{width: viewState.indecatorOffset}}>
             <div className="image-out-wrapper">
               <div className="image-wrapper">
-                {taskData && taskData.backupPath ? (
-                  <img className="image" style={imageStyle} src={`file://${taskData.backupPath}`}/>
+                {originalImagePath ? (
+                  <img className="image" style={imageStyle} src={`file://${originalImagePath}`}/>
                 ) : null}
               </div>
             </div>
@@ -139,8 +142,8 @@ export default React.memo(() => {
           </div>
           <div className="compressed-image">
             <div className="image-wrapper">
-              {taskData && taskData.file && taskData.file.path ? (
-                <img className="image" style={imageStyle} src={`file://${taskData.file.path}`}/>
+              {optimizedImagePath ? (
+                <img className="image" style={imageStyle} src={`file://${optimizedImagePath}`}/>
               ) : null}
             </div>
           </div>

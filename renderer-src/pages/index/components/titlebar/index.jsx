@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Switch from 'components/switch'
 import remote from 'helpers/remote'
-import { formatSize, formateOptimizedRate } from 'utils/base'
+import { openFolder, formatSize, formateOptimizedRate } from 'utils/base'
 import { taskStatus } from 'constants/task'
 import { cleanTempFiles, restoreTasks, reexecuteTasks } from 'helpers/task'
 import './styles.scss'
@@ -43,7 +43,7 @@ const formatStatusText = (data) => {
 
 }
 
-export default React.memo(({ appState, setAppState, onRestoreAll, onRecompressAll }) => {
+export default React.memo(({ preferences, appState, setAppState, onRestoreAll, onRecompressAll }) => {
 
   const [ clearing, setClearing ] = useState(false)
   const [ restoring, setRestoring ] = useState(false)
@@ -93,6 +93,10 @@ export default React.memo(({ appState, setAppState, onRestoreAll, onRecompressAl
     setRestoring(false)
   }
 
+  const openSavePath = () => {
+    openFolder(preferences.autoSavePath)
+  }
+
   const clearDisabled = clearing || !appState.taskList.length || !taskAllFinished
   const recompressDisabled = recompressing || !appState.taskList.length || !taskAllFinished || !taskResult.counts[taskStatus.RESTORED]
   const restoreDisabled = restoring || !appState.taskList.length || !taskAllFinished || !(taskResult.counts[taskStatus.COMPLETE] + taskResult.counts[taskStatus.FAIL])
@@ -113,11 +117,18 @@ export default React.memo(({ appState, setAppState, onRestoreAll, onRecompressAl
             <progress className="app-progress-bar" value={taskProgress} />
           </div>
         </div>
-        <div className="task-buttons">
-          <button onClick={requestClear} disabled={clearDisabled} title="清空列表" className="button button-xs button-default button-clear-task"><i className="icon-trash-2"></i></button>
-          <button onClick={requestRecompressAll} disabled={recompressDisabled} title="全部重压" className="button button-xs button-default button-recompress-all"><i className="icon-repeat"></i></button>
-          <button onClick={requestRestoreAll} disabled={restoreDisabled} title="全部还原" className="button button-xs button-default button-restore-all"><i className="icon-corner-up-left"></i></button>
-        </div>
+        {preferences.overrideOrigin ? (
+          <div className="task-buttons">
+            <button onClick={requestClear} disabled={clearDisabled} title="清空列表" className="button button-xs button-default button-clear-task"><i className="icon-trash-2"></i></button>
+            <button onClick={requestRecompressAll} disabled={recompressDisabled} title="全部重压" className="button button-xs button-default button-recompress-all"><i className="icon-repeat"></i></button>
+            <button onClick={requestRestoreAll} disabled={restoreDisabled} title="全部还原" className="button button-xs button-default button-restore-all"><i className="icon-corner-up-left"></i></button>
+          </div>
+        ) : (
+          <div className="task-buttons">
+            <button onClick={requestClear} disabled={clearDisabled} title="清空列表" className="button button-xs button-default button-clear-task"><i className="icon-trash-2"></i></button>
+            <button onClick={openSavePath} title={'打开"保存文件夹"'} className="button button-xs button-default button-open-sava-path"><i className="icon-folder"></i></button>
+          </div>
+        )}
       </div>
       <Switch className="switch-sticky" label="置顶" onChange={toggleSticky} checked={appState.isSticky} />
     </div>

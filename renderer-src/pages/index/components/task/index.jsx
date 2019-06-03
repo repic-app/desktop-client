@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatSize, formateOptimizedRate } from 'utils/base'
+import { locateFile, formatSize, formateOptimizedRate } from 'utils/base'
 import { taskStatus, tasktStatusIcons, taskStatusTexts } from 'constants/task'
 import { openCompareView } from 'helpers/compare'
 import './styles.scss'
@@ -30,6 +30,10 @@ export default React.memo((props) => {
     openCompareView(`${location.href}compare`, props.task)
   }
 
+  const requestLocationImage = () => {
+    locateFile(props.task.optimizedPath)
+  }
+
   return (
     <div className="component-task-item"  data-status={props.task.status}>
       <span className="status-icon">
@@ -51,11 +55,18 @@ export default React.memo((props) => {
           optimizedRate={props.task.optimizedRate}
         />
       </div>
-      <div className="operates">
-        <a href="javascript:void(0);" className="button button-default button-restore" onClick={props.onRestore}><i className="icon-corner-up-left"></i></a>
-        <a href="javascript:void(0);" className="button button-default button-compare" onClick={requestCompareView}><i className="icon-eye"></i></a>
-        <a href="javascript:void(0);" className="button button-default button-recompress" onClick={props.onRecompress}><i className="icon-repeat"></i></a>
-      </div>
+      {props.preferences.overrideOrigin ? (
+        <div className="operates">
+          <a href="javascript:void(0);" className="button button-restore" onClick={props.onRestore}>还原</a>
+          <a href="javascript:void(0);" className="button button-recompress" onClick={props.onRecompress}>重压</a>
+          <a href="javascript:void(0);" className="button button-compare" onClick={requestCompareView}>对比</a>
+        </div>
+      ) : (
+        <div className="operates">
+          <a href="javascript:void(0);" className="button button-restore" onClick={requestLocationImage}>查看</a>
+          <a href="javascript:void(0);" className="button button-compare" onClick={requestCompareView}>对比</a>
+        </div>
+      )}
     </div>
   )
 

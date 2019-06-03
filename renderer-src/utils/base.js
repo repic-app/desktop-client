@@ -29,6 +29,14 @@ export const openCacheFolder = () => {
   electron.shell.openItem(APP_TEMP_PATH)
 }
 
+export const openFolder = (path) => {
+  electron.shell.openItem(path)
+}
+
+export const locateFile = (path) => {
+  electron.shell.showItemInFolder(path)
+}
+
 export const openLink = (event) => {
 
   if (typeof event === 'string') {
