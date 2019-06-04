@@ -39,11 +39,12 @@
     }
     .image{
       display: block;
+      position: relative;
       max-width: 100vw;
       max-height: 100%;
       width: auto;
       height: auto;
-      // border: 6px solid #fff;
+      transform-origin: 0% 0%;
       box-shadow: 0 5px 15px rgba(#000, .1);
       -webkit-user-drag: none;
     }

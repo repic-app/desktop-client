@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { electron } from 'helpers/remote'
 import { formatSize } from 'utils/base'
 import TitleBar from './components/titlbar'
@@ -6,8 +6,6 @@ import './styles.scss'
 
 const defaultViewState = {
   scale: 1,
-  scaleOriginX: 0.5,
-  scaleOriginY: 0.5,
   translateX: 0,
   translateY: 0,
   indecatorOffset: 0
@@ -15,20 +13,27 @@ const defaultViewState = {
 
 const getImageStyle = (viewState) => {
   return {
-    transform: `translateX(${viewState.translateX}px) translateY(${viewState.translateY}px) scale(${viewState.scale})`,
-    transformOrigin: `${viewState.scaleOriginX * 100}% ${viewState.scaleOriginY * 100}%`
+    transform: `translateX(${viewState.translateX}px) translateY(${viewState.translateY}px) scale(${viewState.scale})`
   }
 }
 
-const updateZoomScale = (currentScale, isZoomIn) => {
+const calcZoomScale = (currentScale, isZoomOut) => {
 
-  const stepValue = currentScale > 1 ? 0.2 : 0.05
+  currentScale = currentScale * 100
 
-  return isZoomIn ? (
-    currentScale - stepValue < 0.5 ? 0.5 : currentScale - stepValue
+  const stepValue = isZoomOut ? (
+    currentScale > 100 ? 50 : 10
   ) : (
-    currentScale + stepValue > 16 ? 16 : currentScale + stepValue
+    currentScale >= 100 ? 50 : 10
   )
+
+  const nextScale = isZoomOut ? (
+    currentScale - stepValue < 50 ? 50 : currentScale - stepValue
+  ) : (
+    currentScale + stepValue > 1600 ? 1600 : currentScale + stepValue
+  )
+
+  return nextScale / 100
 
 }
 
@@ -38,6 +43,7 @@ let mouseDragOffset = { x: 0, y: 0 }
 
 export default React.memo(() => {
 
+  const imageRef = useRef(null)
   const [ taskData, setTaskData ] = useState(null)
   const [ viewState, _setViewState ] = useState(defaultViewState)
 
@@ -68,10 +74,26 @@ export default React.memo(() => {
     }
   }
 
-  const handleMouseWheel = (event) => {
-    !mouseDragging && setViewState({
-      scale: updateZoomScale(viewState.scale, event.deltaY > 0)
+  const applyZoom = (nextScale, originX = 0.5, originY = 0.5, isMouseEvent = false, resetTranslate = true) => {
+
+    const { left, top, width, height } = imageRef.current.getBoundingClientRect()
+
+    const widthDiff = width / viewState.scale * nextScale - width
+    const heightDiff = height / viewState.scale * nextScale - height
+
+    const nextTranslateX = resetTranslate ? 0 : viewState.translateX - widthDiff * (isMouseEvent ? (originX - left) / width : originX)
+    const nextTranslateY = resetTranslate ? 0 : viewState.translateY - heightDiff * (isMouseEvent ? (originY - top) / height : originY)
+
+    setViewState({
+      translateX: nextTranslateX,
+      translateY: nextTranslateY,
+      scale: nextScale
     })
+
+  }
+
+  const handleMouseWheel = (event) => {
+    !mouseDragging && applyZoom(calcZoomScale(viewState.scale, event.deltaY > 0), event.pageX, event.pageY, true, false)
   }
 
   const handleMouseUp = () => {
@@ -86,7 +108,9 @@ export default React.memo(() => {
     !taskData || nextTaskData.id !== taskData.id && setViewState({
       scale: 1,
       translateX: 0,
-      translateY: 0
+      translateY: 0,
+      scaleOriginX: 0.5,
+      scaleOriginY: 0.5
     })
     setTaskData({
       ...taskData,
@@ -118,7 +142,8 @@ export default React.memo(() => {
       <TitleBar
         taskData={taskData}
         viewState={viewState}
-        setViewState={setViewState}
+        applyZoom={applyZoom}
+        calcZoomScale={calcZoomScale}
       />
       <div
         onMouseDown={handleMouseDown}
@@ -133,7 +158,12 @@ export default React.memo(() => {
             <div className="image-out-wrapper">
               <div className="image-wrapper">
                 {originalImagePath ? (
-                  <img className="image" style={imageStyle} src={`file://${originalImagePath}`}/>
+                  <img
+                    ref={imageRef}
+                    className="image"
+                    style={imageStyle}
+                    src={`file://${originalImagePath}`}
+                  />
                 ) : null}
               </div>
             </div>
@@ -143,7 +173,11 @@ export default React.memo(() => {
           <div className="compressed-image">
             <div className="image-wrapper">
               {optimizedImagePath ? (
-                <img className="image" style={imageStyle} src={`file://${optimizedImagePath}`}/>
+                <img
+                  className="image"
+                  style={imageStyle}
+                  src={`file://${optimizedImagePath}`}
+                />
               ) : null}
             </div>
           </div>

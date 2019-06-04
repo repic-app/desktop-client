@@ -6,30 +6,19 @@ import './styles.scss'
 export default React.memo((props) => {
 
   const resetView = () => {
-    props.setViewState({
-      scale: 1,
-      translateX: 0,
-      translateY: 0
-    })
+    props.applyZoom(1)
   }
 
   const updateScale = (scale) => {
-    props.setViewState({
-      scale: scale * 1,
-    })
+    props.applyZoom(scale * 1, 0.5, 0.5, false, false)
   }
 
-  const zoomInOrOut = (event) => {
+  const zoomIn = () => {
+    props.applyZoom(props.calcZoomScale(props.viewState.scale, false), 0.5, 0.5, false, false)
+  }
 
-    const stepValue = props.viewState.scale > 1 ? 0.6 : 0.2
-    const nextScale = event.currentTarget.name === 'zoom-out' ? (
-      props.viewState.scale  - stepValue < 0.5 ? 0.5 : props.viewState.scale  - stepValue
-    ) : (
-      props.viewState.scale  + stepValue > 8 ? 8 : props.viewState.scale  + stepValue
-    )
-
-    props.setViewState({ scale: nextScale })
-
+  const zoomOut = () => {
+    props.applyZoom(props.calcZoomScale(props.viewState.scale, true), 0.5, 0.5, false, false)
   }
 
   const optimizeRateTextColor = formateOptimizedRate(props.taskData.optimizedRate)
@@ -42,16 +31,16 @@ export default React.memo((props) => {
           <button onClick={resetView} className="button button-center button-xs button-default">
             <i className="icon-crosshair"></i>
           </button>
-          <button onClick={zoomInOrOut} name="zoom-in" disabled={props.viewState.scale >= 8} className="button button-zoom-in button-xs button-default">
+          <button onClick={zoomIn} name="zoom-in" disabled={props.viewState.scale >= 16} className="button button-zoom-in button-xs button-default">
             <i className="icon-zoom-in"></i>
           </button>
-          <button onClick={zoomInOrOut} name="zoom-out" disabled={props.viewState.scale <= 0.5} className="button button-zoom-out button-xs button-default">
+          <button onClick={zoomOut} name="zoom-out" disabled={props.viewState.scale <= 0.5} className="button button-zoom-out button-xs button-default">
             <i className="icon-zoom-out"></i>
           </button>
           <Select className="zoom-scale-select" value={props.viewState.scale} onChange={updateScale}>
             <option value={props.viewState.scale}>{(props.viewState.scale * 100).toFixed(0)}%</option>
             <option value="0.5">50%</option>
-            <option value="0.75">75%</option>
+            <option value="0.7">70%</option>
             <option value="1">100%</option>
             <option value="1.5">150%</option>
             <option value="2.5">250%</option>

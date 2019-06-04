@@ -18,12 +18,17 @@
   }
   .app-title{
     display: block;
+    max-width: 50%;
     height: 24px;
+    margin: 0 auto;
+    overflow: hidden;
     color: rgba(#fff, .8);
     font-size: 13px;
     font-weight: 500;
     line-height: 24px;
+    text-overflow: ellipsis;
     text-transform: uppercase;
+    white-space: nowrap;
   }
   .title-bar-operates{
     display: flex;
