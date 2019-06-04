@@ -8,14 +8,15 @@ const { getAPPData } = requireRemote('./helpers/storage')
 
 export const appendTasks = (currentTaskItems, newTaskFiles) => {
 
-  const newTaskItems = [].filter.call(newTaskFiles, file => {
-    return currentTaskItems.find(item => item.file.path === file.path) === undefined && acceptImageTypes.includes(file.type.toLowerCase())
-  }).map(file => ({
+  const newTaskItems = [].filter.call(newTaskFiles, ({ file, path }) => {
+    return currentTaskItems.find(item => item.path === path) === undefined && acceptImageTypes.includes(file.type.toLowerCase())
+  }).map(({ file, path }) => ({
     id: generateId(),
     status: taskStatus.PENDING,
     originalSize: file.size,
     optimizedSize: null,
-    file: file
+    file: file,
+    path: path
   }))
 
   return [ ...currentTaskItems, ...newTaskItems ]

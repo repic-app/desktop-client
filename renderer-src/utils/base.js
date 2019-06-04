@@ -1,6 +1,27 @@
 import electron from 'electron'
 import { APP_TEMP_PATH } from 'helpers/compressor'
 
+const fs = electron.remote.require('fs')
+const mimeTypes = electron.remote.require('mime-types')
+
+Object.defineProperty(File, 'path', {
+  configurable: true,
+  writable: true
+})
+
+export const resolveLocalFiles = (filePaths) => {
+
+  return filePaths.map(filePath => {
+    return {
+      file: new File([fs.readFileSync(filePath)], filePath.split('/').slice(-1)[0], {
+        type: mimeTypes.lookup(filePath)
+      }),
+      path: filePath
+    }
+  })
+
+}
+
 export const generateId = (prefix = '') => {
   return prefix + Math.random().toString(13).split('.')[1] + new Date().getTime()
 }

@@ -110,8 +110,8 @@ export default React.memo(() => {
 
   const imageStyle = getImageStyle(viewState)
 
-  const originalImagePath = taskData.optimizedPath ? taskData.file.path : taskData.backupPath
-  const optimizedImagePath = taskData.optimizedPath ? taskData.optimizedPath : taskData.file.path
+  const originalImagePath = taskData.optimizedPath ? taskData.path : taskData.backupPath
+  const optimizedImagePath = taskData.optimizedPath ? taskData.optimizedPath : taskData.path
 
   return (
     <div className="page-compare">

@@ -37,18 +37,19 @@ export const compressByCompressorJS = (file, preferences) => new Promise((resolv
 
 export const compressByGiflossy = (task, preferences) => new Promise((resolve, reject) => {
 
-  const outputPath = preferences.overrideOrigin ? `${task.file.path}.temp` : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
+  const outputPath = preferences.overrideOrigin ? `${task.path}.temp` : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
 
-  execFile(giflossy, ['-O3', `--lossy=${preferences.outputQuality * 100}`, '-o', outputPath, task.file.path], error => {
+  execFile(giflossy, ['-O3', `--lossy=${preferences.outputQuality * 100}`, '-o', outputPath, task.path], error => {
     if (error) {
+      console.log(error)
       reject(error)
     } else {
       if (preferences.overrideOrigin) {
-        fs.renameSync(outputPath, task.file.path)
+        fs.renameSync(outputPath, task.path)
         resolve({
           outputFileCreated: true,
-          outputFilePath: task.file.path,
-          outputFileSize: fs.statSync(task.file.path).size
+          outputFilePath: task.path,
+          outputFileSize: fs.statSync(task.path).size
         })
       } else {
         resolve({
@@ -100,7 +101,7 @@ export const backupTask = (task) => {
     !fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
 
     const backupFilePath = path.join(APP_TEMP_PATH, `${task.id}_${task.file.name}`)
-    fs.copyFileSync(task.file.path, backupFilePath)
+    fs.copyFileSync(task.path, backupFilePath)
 
     return backupFilePath
 
@@ -113,7 +114,7 @@ export const backupTask = (task) => {
 export const restoreTask = (task, copy = false) => {
 
   try {
-    copy ? fs.copyFileSync(task.backupPath, task.file.path) : fs.renameSync(task.backupPath, task.file.path)
+    copy ? fs.copyFileSync(task.backupPath, task.path) : fs.renameSync(task.backupPath, task.path)
   } catch (error) {
     console.warn(error)
     // ...
@@ -153,7 +154,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
       }
     }
 
-    const filePath = task.file.path
+    const filePath = task.path
     const imageType = task.file.type.split('/')[1].toLowerCase()
 
     if (preferences.overrideOrigin) {
@@ -167,7 +168,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
     } else if (imageTypesForSvgo.includes(imageType)) {
       optimizedFile = await compressBySvgo(filePath, preferences)
     } else if (imageTypesForGiflossy.includes(imageType)) {
-      optimizedFile = await compressByGiflossy(filePath, preferences)
+      optimizedFile = await compressByGiflossy(task, preferences)
     } else {
       throw 'format unsupport.'
     }
@@ -197,7 +198,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
   } catch (error) {
 
     console.log(error)
-    backupPath && fs.renameSync(backupPath, task.file.path)
+    backupPath && fs.renameSync(backupPath, task.path)
 
     return {
       id: task.id,

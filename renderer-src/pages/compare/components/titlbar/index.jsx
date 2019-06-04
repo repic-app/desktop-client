@@ -42,10 +42,10 @@ export default React.memo((props) => {
           <button onClick={resetView} className="button button-center button-xs button-default">
             <i className="icon-crosshair"></i>
           </button>
-          <button onClick={zoomInOrOut} name="zoom-in" className="button button-zoom-in button-xs button-default">
+          <button onClick={zoomInOrOut} name="zoom-in" disabled={props.viewState.scale >= 8} className="button button-zoom-in button-xs button-default">
             <i className="icon-zoom-in"></i>
           </button>
-          <button onClick={zoomInOrOut} name="zoom-out" className="button button-zoom-out button-xs button-default">
+          <button onClick={zoomInOrOut} name="zoom-out" disabled={props.viewState.scale <= 0.5} className="button button-zoom-out button-xs button-default">
             <i className="icon-zoom-out"></i>
           </button>
           <Select className="zoom-scale-select" value={props.viewState.scale} onChange={updateScale}>

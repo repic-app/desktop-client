@@ -17,6 +17,7 @@
     "giflossy": "^3.0.41",
     "imagemin": "^6.1.0",
     "imagemin-pngquant": "^7.0.0",
+    "mime-types": "^2.1.24",
     "svgo": "^1.2.2"
   },
   "devDependencies": {

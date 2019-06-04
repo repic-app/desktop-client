@@ -42,6 +42,24 @@
       font-weight: 400;
     }
   }
+  .pick-enrty{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    color: rgba(#fff, .6);
+    font-size: 12px;
+    transform: translateX(-50%);
+    cursor: pointer;
+    &:hover{
+      color: rgba(#fff, .8);
+    }
+    i{
+      position: relative;
+      top: -1px;
+      padding-right: 2px;
+      font-size: 14px;
+    }
+  }
 }
 
 [data-dragging-over="true"] .component-start{
@@ -51,5 +69,11 @@
 .light-style .component-start{
   .drag-tip{
     color: #333;
+  }
+  .pick-enrty{
+    color: #666;
+    &:hover{
+      color: #444;
+    }
   }
 }

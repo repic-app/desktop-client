@@ -3,11 +3,12 @@ import TitleBar from './components/titlebar'
 import Start from './components/start'
 import TaskList from './components/tasklist'
 import { playSound } from 'helpers/sound'
+import remote from 'helpers/remote'
 import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
 import Modal from 'components/modal'
 import Preferences from './components/preferences'
 import About from './components/about'
-import { openLink, openCacheFolder } from 'utils/base'
+import { openLink, openCacheFolder, resolveLocalFiles } from 'utils/base'
 import { taskStatus } from 'constants/task'
 import { sleep } from 'utils/base'
 import APPContext from 'store/index'
@@ -102,7 +103,7 @@ export default () => {
 
     const files = event.dataTransfer.files
     const currentTaskList = getAppState('taskList')
-    const nextTaskList = appendTasks(currentTaskList, files)
+    const nextTaskList = appendTasks(currentTaskList, [].map.call(files, file => ({ file, path: file.path })))
 
     if (nextTaskList.length === currentTaskList.length) {
       playSound('ERROR')
@@ -142,6 +143,47 @@ export default () => {
       event.stopPropagation()
     }
 
+  }
+
+  const handlePickedFile = (files) => {
+
+    const currentTaskList = getAppState('taskList')
+    const nextTaskList = appendTasks(currentTaskList, files)
+
+    if (nextTaskList.length === currentTaskList.length) {
+      playSound('ERROR')
+    }
+
+    if (!nextTaskList.length) {
+      return false
+    }
+
+    setAppState({
+      taskList: nextTaskList
+    }, async () => {
+      if (!currentTaskList.length) {
+        await sleep(500)
+      }
+      setAppState({
+        taskList: executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)
+      }, updateProgress)
+    })
+
+  }
+
+  const handleRequestPickFile = () => {
+    remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+      title: '选择图片文件',
+      filters: [
+        {
+          name: '图片文件',
+          extensions: ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']
+        }
+      ],
+      properties: ['openFile', 'multiSelections', 'noResolveAliases', 'treatPackageAsDirectory'],
+    }, (filePaths) => {
+      filePaths && handlePickedFile(resolveLocalFiles(filePaths))
+    })
   }
 
   const handleRestore = (task) => {
@@ -205,6 +247,7 @@ export default () => {
         <Start
           appState={appState}
           setAppState={setAppState}
+          onRequestPickFile={handleRequestPickFile}
         />
         <TaskList
           appState={appState}
