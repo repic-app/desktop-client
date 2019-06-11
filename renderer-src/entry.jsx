@@ -4,7 +4,6 @@ import remote, { electron } from 'helpers/remote'
 import { HashRouter, Route } from 'react-router-dom'
 import { requireRemote } from 'helpers/remote'
 import { getCompareViewWindow } from 'helpers/compare'
-import events from 'helpers/events'
 import { taskStatus } from 'constants/task'
 import APPContext from 'store/index'
 import IndexPage from 'pages/index'
@@ -18,6 +17,7 @@ const defaultAppState = {
   taskList: [],
   taskProgress: -1,
   taskAllFinished: false,
+  showSettingsDropdown: false,
   showAbout: false,
   showPreferences: false
 }
@@ -51,7 +51,7 @@ export default class extends React.PureComponent {
     this.setState({ preferences: nextPreferences }, () => {
       setAPPData('preferences', nextPreferences)
       if (changedPreferences.theme) {
-        events.emit('user-change-app-theme', changedPreferences.theme)
+        this.updateAppTheme()
       }
     })
 
@@ -93,7 +93,9 @@ export default class extends React.PureComponent {
       document.body.classList.add('light-style')
     }
 
+    console.log('update theme')
     const compareViewWindow = getCompareViewWindow()
+    console.log(compareViewWindow)
     compareViewWindow && compareViewWindow.webContents.send('user-change-app-theme', theme)
 
   }
@@ -111,8 +113,9 @@ export default class extends React.PureComponent {
       this.updateAppTheme
     )
 
-    electron.ipcRenderer.on('user-change-app-theme', this.updateAppTheme)
-    events.on('user-change-app-theme', this.updateAppTheme)
+    electron.ipcRenderer.on('user-change-app-theme', () => {
+      this.updateAppTheme()
+    })
 
     if (this.state.preferences.stickyOnLaunch) {
       remote.getCurrentWindow().setAlwaysOnTop(true)

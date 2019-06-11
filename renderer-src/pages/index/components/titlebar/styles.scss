@@ -1,25 +1,27 @@
 @import "~scssinc";
 
+$TITLE_BAR_HEIGHT: 36px;
+
 .component-title-bar{
   position: absolute;
   z-index: 999999;
   width: 100%;
   height: $TITLE_BAR_HEIGHT;
   margin: 0 auto;
-  background-color: rgba($COLOR_DARK, 1);
-  background-image: linear-gradient(rgba(#000, 0), rgba(#000, .2));
+  overflow: hidden;
+  background-color: darken($COLOR_DARK, 5);
+  border-radius: 5px 5px 0 0;
   box-shadow: inset 0 -.5px 0 0 rgba(#000, .6);
-  // backdrop-filter: blur(15px);
   text-align: center;
   user-select: none;
   -webkit-app-region: drag;
   .app-title{
     display: block;
-    height: 24px;
+    height: $TITLE_BAR_HEIGHT;
     color: rgba(#fff, .8);
     font-size: 13px;
     font-weight: 500;
-    line-height: 24px;
+    line-height: $TITLE_BAR_HEIGHT;
     text-transform: uppercase;
   }
   .title-bar-operates{
@@ -29,111 +31,107 @@
     height: 28px;
     padding: 2px 11px 0 9px;
   }
-  .system-buttons,
-  .task-buttons{
-    height: 22px;
-    width: 120px;
-    .button{
-      padding: 0 10px;
-      line-height: 22px;
-      -webkit-app-region: none;
-    }
-  }
-  .system-buttons{
-    left: 12px;
-    .button{
-      float: left;
-      margin-right: 3px;
-    }
-  }
-  .task-buttons{
-    right: 12px;
-    .button{
-      float: right;
-      margin-left: 3px;
-    }
-  }
-  .app-status{
-    height: 20px;
-    overflow: hidden;
-    &[data-show-progress="true"]{
-      .inner{
-        transform: translateY(-20px);
-      }
-    }
-    .inner{
-      height: 40px;
-      transition: transform .3s;
-    }
-  }
-  .app-progress-bar{
-    display: block;
-    margin: 0 auto;
-    width: 80px;
-    height: 4px;
-    margin: 7px auto;
-    -webkit-appearance: none;
-    &::-webkit-progress-bar{
-      width: 80px;
-      height: 4px;
-      background-color: rgba(#000, .1);
-      border-radius: 2px;
-      box-shadow: inset 0 0 0 .5px rgba(#000, .3);
-      transition: .2s;
-    }
-    &::-webkit-progress-value{
-      background-color: $COLOR_PRIMARY;
-      border-radius: 2px;
-    }
-  }
-  .app-status-text{
-    display: block;
-    height: 20px;
-    color: rgba(#fff, .4);
-    font-size: 11px;
-    line-height: 20px;
-    .description-text{
-      height: 20px;
-    }
-    i{
-      padding: 0 3px;
-    }
-  }
-  .switch-sticky{
+  .button-toggle-dropdown{
     position: absolute;
-    top: 3px;
+    top: 8px;
     right: 10px;
+    width: 20px;
+    height: 20px;
+    color: rgba(#fff, .3);
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
     -webkit-app-region: none;
-    &[data-checked="true"]{
-      .switch-core{
-        &::before{
-          left: 14px;
+    &:hover{
+      color: $COLOR_PRIMARY;
+    }
+  }
+}
+
+.dropdown-modal{
+  &.visible{
+    .modal-content{
+      transform: translate(0);
+    }
+  }
+  .modal-content{
+    right: 10px;
+    left: auto;
+    overflow: hidden;
+    transform: translate(0, -100%);
+    .dropdown-menu{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li{
+        height: 20px;
+        padding: 10px;
+        box-shadow: inset 0 -.5px 0 0 rgba(#000, .4);
+        &:last-child{
+          box-shadow: none;
         }
-      }
-    }
-    .switch-label{
-      font-size: 11px;
-    }
-    .switch-core{
-      width: 26px;
-      height: 12px;
-      border-radius: 6px;
-      &::before{
-        width: 14px;
-        height: 14px;
+        &:hover{
+          background-color: rgba(#000, .1);
+        }
+        .switch-label,
+        .label{
+          float: left;
+          color: rgba(#fff, .8);
+          font-size: 12px;
+          line-height: 20px;
+        }
+        .component-switch{
+          justify-content: space-between;
+        }
+        .switch-core{
+          width: 26px;
+          height: 12px;
+          &::before{
+            width: 14px;
+            height: 14px;
+            background-color: lighten($COLOR_DARK, 70);
+          }
+        }
+        .mdi{
+          float: right;
+          color: rgba(#fff, .3);
+          font-size: 14px;
+        }
       }
     }
   }
 }
 
-.light-style .component-title-bar{
-  background-color: rgba(#f4f4f4, 1);
-  background-image: linear-gradient(rgba(#000, 0), rgba(#000, .2));
-  box-shadow: inset 0 -.5px 0 0 rgba(#000, .35);
-  .app-title{
-    color: #555;
+.light-style{
+  
+  .component-title-bar{
+    background-color: rgba(#f4f4f4, 1);
+    background-image: linear-gradient(rgba(#000, 0), rgba(#000, .2));
+    box-shadow: inset 0 -.5px 0 0 rgba(#000, .35);
+    .app-title{
+      color: #555;
+    }
+    .button-toggle-dropdown{
+      color: #777;
+      &:hover{
+        color: $COLOR_PRIMARY;
+      }
+    }
   }
-  .app-status-text{
-    color: #666;
+
+  .dropdown-modal{
+    .modal-content .dropdown-menu li{
+      box-shadow: inset 0 -.5px 0 0 rgba(#000, .1);
+      &:hover{
+        background-color: rgba(#000, .05);
+      }
+      .switch-label,
+      .label{
+        color: #666;
+      }
+      .mdi{
+        color: #aaa;
+      }
+    }
   }
 }

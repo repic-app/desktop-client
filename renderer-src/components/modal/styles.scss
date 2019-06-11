@@ -76,8 +76,7 @@
     }
     &::before{
       z-index: 1;
-      background-color: rgba(lighten($COLOR_DARK, 0), .9);
-      backdrop-filter: blur(20px);
+      background-color: lighten($COLOR_DARK, 2);
     }
     &::after{
       z-index: 2;
@@ -150,12 +149,16 @@
 }
 
 .light-style .component-modal{
+  .modal-mask{
+    background-color: rgba(#fff, .1);
+    backdrop-filter: blur(5px);
+  }
   .modal-content{
     &::before{
-      background-color: rgba(#f5f5f5, .8);
+      background-color: rgba(#f5f5f5, 1);
     }
     &::after{
-      box-shadow: inset 0 0 0 .5px rgba(#000, .5), inset 0 0 0 1px rgba(#fff, .04);
+      box-shadow: inset 0 0 0 .5px rgba(#000, .15), inset 0 0 0 1px rgba(#fff, .04);
     }
     > .header{
       border-bottom: 1px solid rgba(#000, .2);

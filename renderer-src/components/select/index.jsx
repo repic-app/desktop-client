@@ -21,7 +21,7 @@ const Select = (props) => {
       <select className="b-box" value={value} onChange={handleChange} {...restProps}>
         {children}
       </select>
-      <i className="icon icon-chevron-down"></i>
+      <i className="icon mdi mdi-menu-down"></i>
     </div>
   )
 

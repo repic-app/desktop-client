@@ -11,7 +11,7 @@ export default React.memo((props) => {
         <small>JPG/PNG/WEBP/SVG/GIF</small>
       </div>
       <a onClick={props.onRequestPickFile} className="pick-enrty text-with-icon">
-        <i className="icon-plus" />
+        <i className="mdi mdi-plus" />
         <span>选择图片开始压缩</span>
       </a>
     </div>

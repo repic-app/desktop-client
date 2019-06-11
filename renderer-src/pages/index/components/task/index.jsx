@@ -14,7 +14,7 @@ const DescriptionText = React.memo((task) => {
         {/* <i className={`icon-arrow-down optimize-rate ${optimizeRateTextColor}`}></i> */}
         <span className={optimizeRateTextColor}><b>{task.optimizedRate.toFixed(2)}%</b></span>&ensp;
         <span>{formatSize(task.originalSize)}</span>
-        <i className="icon-arrow-right"></i>
+        <i className="mdi mdi-arrow-right"></i>
         <span>{formatSize(task.optimizedSize)}</span>
       </span>
     )

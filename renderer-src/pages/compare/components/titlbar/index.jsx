@@ -25,17 +25,21 @@ export default React.memo((props) => {
 
   return (
     <div className="component-compare-title-bar">
+      <div className="traffic-light">
+        <button className="button-close"></button>
+        <button className="button-minimize"></button>
+      </div>
       <span className="app-title">{props.taskData.file.name}</span>
       <div className="title-bar-operates">
         <div className="window-state">
           <button onClick={resetView} className="button button-center button-xs button-default">
-            <i className="icon-crosshair"></i>
+            <i className="mdi mdi-image-filter-center-focus"></i>
           </button>
           <button onClick={zoomIn} name="zoom-in" disabled={props.viewState.scale >= 16} className="button button-zoom-in button-xs button-default">
-            <i className="icon-zoom-in"></i>
+            <i className="mdi mdi-magnify-plus-outline"></i>
           </button>
           <button onClick={zoomOut} name="zoom-out" disabled={props.viewState.scale <= 0.5} className="button button-zoom-out button-xs button-default">
-            <i className="icon-zoom-out"></i>
+            <i className="mdi mdi-magnify-minus-outline"></i>
           </button>
           <Select className="zoom-scale-select" value={props.viewState.scale} onChange={updateScale}>
             <option value={props.viewState.scale}>{(props.viewState.scale * 100).toFixed(0)}%</option>

@@ -53,7 +53,7 @@ module.exports = {
           }
         ]
       }, {
-        test: /\.woff$/,
+        test: /\.(woff2)$/,
         use: [
           {
             loader: 'url-loader',

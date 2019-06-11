@@ -51,20 +51,34 @@
     height: 40px;
     i{
       display: block;
-      width: 16px;
-      height: 16px;
-      margin: 12px;
-      font-size: 16px;
-      &.icon-check{
-        color: $COLOR_SUCCESS;
+      box-sizing: border-box;
+      width: 20px;
+      height: 20px;
+      margin: 10px;
+      font-size: 20px;
+      line-height: 20px;
+      text-align: center;
+      &.spinning,
+      &.mdi-check{
+        width: 16px;
+        height: 16px;
+        margin: 12px;
+        font-size: 12px;
+        line-height: 16px;
       }
-      &.icon-x{
+      &.mdi-check{
+        color: $COLOR_SUCCESS;
+        font-size: 12px;
+        border: 1px solid $COLOR_SUCCESS;
+        border-radius: 50%;
+      }
+      &.icon-mdi-alert-circle-outline{
         color: $COLOR_DANGER;
       }
-      &.icon-clock{
-        color: rgba(#fff, .5);
+      &.mdi-progress-clock{
+        color: rgba(#fff, .1);
       }
-      &.icon-shield{
+      &.mdi-rotate-left{
         color: $COLOR_PRIMARY;
       }
       &.spinning{
@@ -86,7 +100,7 @@
     object-fit: cover;
     -webkit-user-drag: none;
     & + .meta .name{
-      max-width: 15rem;
+      max-width: 12rem;
     }
   }
   .thumb-holder{
@@ -103,7 +117,7 @@
     user-select: none;
     .name{
       display: block;
-      max-width: 24.5em;
+      max-width: 18em;
       overflow: hidden;
       color: rgba(#fff, .8);
       font-size: 12px;
@@ -147,7 +161,7 @@
     box-shadow: none;
   }
   .status-icon{
-    .icon-clock{
+    .mdi-clock{
       color: #ccc;
     }
   }

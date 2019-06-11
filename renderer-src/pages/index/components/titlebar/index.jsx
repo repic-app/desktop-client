@@ -1,10 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import Modal from 'components/modal'
 import Switch from 'components/switch'
 import remote from 'helpers/remote'
-import { openFolder, formatSize, formateOptimizedRate } from 'utils/base'
+import { openLink, openCacheFolder, openFolder, formatSize, formateOptimizedRate } from 'utils/base'
 import { taskStatus } from 'constants/task'
 import { cleanTempFiles, restoreTasks, reexecuteTasks } from 'helpers/task'
+import Preferences from '../preferences'
+import About from '../about'
 import './styles.scss'
+
+const preferencesModalTitle = (
+  <div className="text-with-icon">
+    <i className="icon-settings"></i>
+    <span>参数设置</span>
+  </div>
+)
+
+const aboutModalTitle = (
+  <div className="text-with-icon">
+    <i className="icon-info"></i>
+    <span>关于REPIC</span>
+  </div>
+)
+
+const cacheDirEntry = (
+  <a onClick={openCacheFolder} className="cache-dir-entry text-with-icon">
+    <i className="mdi mdi-folder-remove"></i>
+    <span>查看缓存目录</span>
+  </a>
+)
+
+const copyRightText = (
+  <div className="app-copyright">
+    <span>&copy;2019</span>
+    <a onClick={openLink} href="https://repic.app">Repic.app</a>
+    <span> 版权所有</span>
+  </div>
+)
 
 const analyzeTask = (taskList) => {
 
@@ -45,6 +77,7 @@ const formatStatusText = (data) => {
 
 export default React.memo(({ preferences, appState, setAppState, onRestoreAll, onRecompressAll }) => {
 
+  const dropdownRef = useRef(null)
   const [ clearing, setClearing ] = useState(false)
   const [ restoring, setRestoring ] = useState(false)
   const [ recompressing, setRecompressing ] = useState(false)
@@ -55,6 +88,36 @@ export default React.memo(({ preferences, appState, setAppState, onRestoreAll, o
   const toggleSticky = () => {
     remote.getCurrentWindow().setAlwaysOnTop(!appState.isSticky)
     setAppState({ isSticky: !appState.isSticky })
+  }
+
+  const toggleDropdownMenu = () => {
+
+    if (appState.showSettingsDropdown && dropdownRef) {
+      dropdownRef.current.handleCloseButtonClick()
+    } else {
+      setAppState({
+        showSettingsDropdown: !appState.showSettingsDropdown
+      })
+    }
+
+  }
+
+  const hideSettingsDropdown = () => {
+    setAppState({
+      showSettingsDropdown: false
+    })
+  }
+
+  const hidePreferencesModal = () => {
+    setAppState({
+      showPreferences: false
+    })
+  }
+
+  const hideAboutModal = () => {
+    setAppState({
+      showAbout: false
+    })
   }
 
   const togglePreferencesModal = () => {
@@ -105,32 +168,63 @@ export default React.memo(({ preferences, appState, setAppState, onRestoreAll, o
     <div className="component-title-bar">
       <span className="app-title">Repic</span>
       <div className="title-bar-operates">
-        <div className="system-buttons">
-          <button onClick={togglePreferencesModal} disabled={appState.showAbout || appState.showPreferences} title="参数设置" className="button button-xs button-default button-perferences"><i className="icon-settings"></i></button>
-          <button onClick={toggleAboutModal} disabled={appState.showPreferences || appState.showAbout} title="关于Repic" className="button button-xs button-default button-about"><i className="icon-info"></i></button>
-        </div>
-        <div className="app-status" data-show-progress={taskProgress >= 0}>
-          <div className="inner">
-            <span className="app-status-text">
-              {taskAllFinished && taskResult.counts[taskStatus.COMPLETE] ? formatStatusText(taskResult) : '准备就绪'}
-            </span>
-            <progress className="app-progress-bar" value={taskProgress} />
-          </div>
-        </div>
-        {preferences.overrideOrigin ? (
-          <div className="task-buttons">
-            <button onClick={requestClear} disabled={clearDisabled} title="清空列表" className="button button-xs button-default button-clear-task"><i className="icon-trash-2"></i></button>
-            <button onClick={requestRecompressAll} disabled={recompressDisabled} title="全部重压" className="button button-xs button-default button-recompress-all"><i className="icon-repeat"></i></button>
-            <button onClick={requestRestoreAll} disabled={restoreDisabled} title="全部还原" className="button button-xs button-default button-restore-all"><i className="icon-corner-up-left"></i></button>
-          </div>
-        ) : (
-          <div className="task-buttons">
-            <button onClick={requestClear} disabled={clearDisabled} title="清空列表" className="button button-xs button-default button-clear-task"><i className="icon-trash-2"></i></button>
-            <button onClick={openSavePath} title={'打开"保存文件夹"'} className="button button-xs button-default button-open-sava-path"><i className="icon-folder"></i></button>
-          </div>
-        )}
+        <a href="javascript:void(0);" onClick={toggleDropdownMenu} className="button-toggle-dropdown"><i className="mdi mdi-settings"></i></a>
       </div>
-      <Switch className="switch-sticky" label="置顶" onChange={toggleSticky} checked={appState.isSticky} />
+      <Modal
+        className="dropdown-modal"
+        width={150}
+        ref={dropdownRef}
+        active={appState.showSettingsDropdown}
+        onClose={hideSettingsDropdown}
+        showFooter={false}
+        closeOnBlur={true}
+      >
+        <ul className="dropdown-menu">
+          <li>
+            <Switch className="switch-sticky" label="置顶窗口" onChange={toggleSticky} checked={appState.isSticky} />
+          </li>
+          <li onClick={togglePreferencesModal}>
+            <span className="label">
+              <span>偏好设置</span>
+            </span>
+            <i className="mdi mdi-chevron-right"></i>
+          </li>
+          <li onClick={openSavePath}>
+            <span className="label">
+              <span>输出目录</span>
+            </span>
+            <i className="mdi mdi-chevron-right"></i>
+          </li>
+          <li onClick={toggleAboutModal}>
+            <span className="label">
+              <span>关于Repic</span>
+            </span>
+            <i className="mdi mdi-chevron-right"></i>
+          </li>
+        </ul>
+      </Modal>
+      <Modal
+        title={preferencesModalTitle}
+        width={380}
+        active={appState.showPreferences}
+        onClose={hidePreferencesModal}
+        showConfirm={false}
+        footerAddon={cacheDirEntry}
+        cancelText="关闭"
+      >
+        <Preferences />
+      </Modal>
+      <Modal
+        title={aboutModalTitle}
+        width={380}
+        active={appState.showAbout}
+        onClose={hideAboutModal}
+        showConfirm={false}
+        footerAddon={copyRightText}
+        cancelText="关闭"
+      >
+        <About />
+      </Modal>
     </div>
   )
 

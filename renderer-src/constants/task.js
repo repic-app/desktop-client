@@ -8,12 +8,12 @@ export const taskStatus = {
 }
 
 export const tasktStatusIcons = {
-  [taskStatus.CREATING]: 'icon-clock',
-  [taskStatus.PENDING]: 'icon-clock',
+  [taskStatus.CREATING]: 'mdi mdi-progress-clock',
+  [taskStatus.PENDING]: 'mdi mdi-progress-clock',
   [taskStatus.PROCESSING]: 'spinning',
-  [taskStatus.COMPLETE]: 'icon-check',
-  [taskStatus.FAIL]: 'icon-x',
-  [taskStatus.RESTORED]: 'icon-shield'
+  [taskStatus.COMPLETE]: 'mdi mdi-check',
+  [taskStatus.FAIL]: 'mdi mdi-alert-circle-outline',
+  [taskStatus.RESTORED]: 'mdi mdi-rotate-left'
 }
 
 export const taskStatusTexts = {

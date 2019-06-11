@@ -7,7 +7,6 @@ const rendererPageBaseURL = !isProduction ? 'http://localhost:8188' : 'file://' 
 let mainWindow = null
 
 app.commandLine.appendSwitch('--autoplay-policy', 'no-user-gesture-required')
-// app.disableHardwareAcceleration()
 
 function initialize () {
 
@@ -20,14 +19,14 @@ function initialize () {
       width: 440,
       height: 640,
       title: app.getName(),
-      vibrancy: 'dark',
-      transparent: true,
+      transparent: false,
       resizable: false,
       maximizable: false,
       fullscreenable: false,
-      frame: false,
+      frame: true,
+      hasShadow: true,
       icon: path.join(__dirname, 'assets/icon.png'),
-      titleBarStyle: 'hidden',
+      titleBarStyle: 'hiddenInset',
       webPreferences: {
         devTools: !isProduction,
         webSecurity: false,

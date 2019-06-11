@@ -14,6 +14,7 @@
     "lint": "node_modules/eslint/bin/eslint.js ."
   },
   "dependencies": {
+    "@mdi/font": "^3.6.95",
     "giflossy": "^3.0.41",
     "imagemin": "^6.1.0",
     "imagemin-pngquant": "^7.0.0",
