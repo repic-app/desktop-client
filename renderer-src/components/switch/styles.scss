@@ -9,6 +9,7 @@
     .switch-core{
       background-color: $COLOR_PRIMARY;
       &::before{
+        left: 1px;
         transform: translateX(100%);
       }
     }

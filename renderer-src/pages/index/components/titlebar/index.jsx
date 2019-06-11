@@ -11,14 +11,14 @@ import './styles.scss'
 
 const preferencesModalTitle = (
   <div className="text-with-icon">
-    <i className="icon-settings"></i>
+    <i className="mdi mdi-settings"></i>
     <span>参数设置</span>
   </div>
 )
 
 const aboutModalTitle = (
   <div className="text-with-icon">
-    <i className="icon-info"></i>
+    <i className="mdi mdi-info"></i>
     <span>关于REPIC</span>
   </div>
 )
