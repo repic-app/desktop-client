@@ -121,12 +121,14 @@ export default React.memo(({ preferences, appState, setAppState, onRestoreAll, o
   }
 
   const togglePreferencesModal = () => {
+    dropdownRef.current.handleCloseButtonClick()
     setAppState({
       showPreferences: true
     })
   }
 
   const toggleAboutModal = () => {
+    dropdownRef.current.handleCloseButtonClick()
     setAppState({
       showAbout: true
     })

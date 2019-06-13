@@ -35,7 +35,7 @@ export default React.memo((props) => {
   }
 
   return (
-    <div className="component-task-item"  data-status={props.task.status}>
+    <li className="component-task-item"  data-status={props.task.status}>
       <span className="status-icon">
         <i className={tasktStatusIcons[props.task.status]} />
       </span>
@@ -43,7 +43,7 @@ export default React.memo((props) => {
         props.task.thumbUrl ? (
           <img className="thumb" src={props.task.thumbUrl} />
         ) : (
-          <i className="thumb thumb-holder icon-image" />
+          <i className="thumb thumb-holder mdi mdi-image" />
         )
       ) : null}
       <div className="meta">
@@ -67,7 +67,7 @@ export default React.memo((props) => {
           <a href="javascript:void(0);" className="button button-compare" onClick={requestCompareView}>对比</a>
         </div>
       )}
-    </div>
+    </li>
   )
 
 })

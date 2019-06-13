@@ -9,8 +9,8 @@ $TITLE_BAR_HEIGHT: 36px;
   height: $TITLE_BAR_HEIGHT;
   margin: 0 auto;
   overflow: hidden;
-  background-color: darken($COLOR_DARK, 5);
-  border-radius: 5px 5px 0 0;
+  background-color: lighten($COLOR_DARK, 3);
+  background-image: linear-gradient(rgba(#000, 0), rgba(#000, .2));
   box-shadow: inset 0 -.5px 0 0 rgba(#000, .6);
   text-align: center;
   user-select: none;
@@ -55,23 +55,36 @@ $TITLE_BAR_HEIGHT: 36px;
     }
   }
   .modal-content{
-    right: 10px;
+    top: $TITLE_BAR_HEIGHT + 10px;
+    right: 7px;
     left: auto;
-    overflow: hidden;
-    transform: translate(0, -100%);
+    border-radius: 3px;
+    transform: translate(0, -120%);
+    &::before{
+      position: absolute;
+      top: -3px;
+      right: 10px;
+      width: 6px;
+      height: 6px;
+      background-color: lighten($COLOR_DARK, 4);
+      box-shadow: -.5px -.5px 0 0 rgba(#000, .3);
+      transform: rotate(45deg);
+      content: '';
+    }
     .dropdown-menu{
       list-style: none;
       margin: 0;
-      padding: 0;
+      padding: 5px 0;
+      overflow: hidden;
+      border-radius: 3px;
       li{
         height: 20px;
-        padding: 10px;
-        box-shadow: inset 0 -.5px 0 0 rgba(#000, .4);
+        padding: 5px 10px;
         &:last-child{
           box-shadow: none;
         }
         &:hover{
-          background-color: rgba(#000, .1);
+          background-color: rgba(#000, .15);
         }
         .switch-label,
         .label{
@@ -105,9 +118,9 @@ $TITLE_BAR_HEIGHT: 36px;
 .light-style{
   
   .component-title-bar{
-    background-color: rgba(#f4f4f4, 1);
+    background-color: rgba(#fff, 1);
     background-image: linear-gradient(rgba(#000, 0), rgba(#000, .2));
-    box-shadow: inset 0 -.5px 0 0 rgba(#000, .35);
+    box-shadow: inset 0 -.5px 0 0 rgba(#000, .2);
     .app-title{
       color: #555;
     }
@@ -120,17 +133,25 @@ $TITLE_BAR_HEIGHT: 36px;
   }
 
   .dropdown-modal{
-    .modal-content .dropdown-menu li{
-      box-shadow: inset 0 -.5px 0 0 rgba(#000, .1);
-      &:hover{
-        background-color: rgba(#000, .05);
+    .modal-content {
+      &::before{
+        background-color: #ececec;
+        box-shadow: -.5px -.5px 0 0 rgba(#000, .14);
       }
-      .switch-label,
-      .label{
-        color: #666;
-      }
-      .mdi{
-        color: #aaa;
+      .dropdown-menu li{
+        &:last-child{
+          box-shadow: none;
+        }
+        &:hover{
+          background-color: rgba(#000, .05);
+        }
+        .switch-label,
+        .label{
+          color: #666;
+        }
+        .mdi{
+          color: #aaa;
+        }
       }
     }
   }

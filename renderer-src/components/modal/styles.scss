@@ -60,28 +60,11 @@
     top: $TITLE_BAR_HEIGHT - 2;
     left: 50%;
     max-width: 95%;
+    background-color: lighten($COLOR_DARK, 4);
     border-radius: 0 0 5px 5px;
-    box-shadow: 0 10px 40px rgba(#000, .2);
+    box-shadow: 0 0 0 .5px rgba(#000, .3), 0 10px 40px rgba(#000, .2);
     transform: translate(-50%, -100%);
     transition: transform .3s;
-    &::before,
-    &::after{
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      border-radius: 0 0 5px 5px;
-      content: '';
-    }
-    &::before{
-      z-index: 1;
-      background-color: lighten($COLOR_DARK, 2);
-    }
-    &::after{
-      z-index: 2;
-      box-shadow: inset 0 0 0 .5px rgba(#000, .3);
-    }
     > .header{
       position: relative;
       z-index: 3;
@@ -153,12 +136,8 @@
     background-color: rgba(#fff, .1);
   }
   .modal-content{
-    &::before{
-      background-color: rgba(#f5f5f5, 1);
-    }
-    &::after{
-      box-shadow: inset 0 0 0 .5px rgba(#000, .15), inset 0 0 0 1px rgba(#fff, .04);
-    }
+    background-color: #ECECEC;
+    box-shadow: 0 0 0 .5px rgba(#000, .1), 0 10px 40px rgba(#000, .2);
     > .header{
       border-bottom: 1px solid rgba(#000, .2);
       border-width: .5px;
