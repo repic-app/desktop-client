@@ -4,14 +4,15 @@
 ::-webkit-scrollbar{
   width: 5px;
   height: 1px;
-  background-color: lighten($COLOR_DARK, 5);
+  background-color: rgba(#fff, .05);
 }
 
 ::-webkit-scrollbar-thumb{
-  width: 5px;
-  background-color: rgba(#000, .4);
+  width: 3px;
+  background-color: rgba(#000, .6);
+  border-radius: 2px;
   &:hover{
-    background-color: rgba(#000, .3);
+    background-color: rgba(#000, .8);
   }
 }
 
@@ -119,8 +120,8 @@ a{
     line-height: 22px;
   }
   &-md{
-    height: 36px;
-    font-size: 16px;
+    height: 30px;
+    font-size: 14px;
   }
   &-lg{
     height: 40px;

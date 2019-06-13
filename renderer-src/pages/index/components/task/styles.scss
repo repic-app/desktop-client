@@ -49,46 +49,34 @@
     }
   }
   .status-icon{
-    width: 20px;
+    width: 6px;
     height: 40px;
     margin-right: 10px;
     i{
       display: block;
       box-sizing: border-box;
-      width: 20px;
-      height: 20px;
-      margin: 10px 0;
-      font-size: 20px;
-      line-height: 20px;
-      text-align: center;
-      &.spinning,
-      &.mdi-check{
-        width: 16px;
-        height: 16px;
-        margin: 12px 0 0 0px;
-        font-size: 12px;
-        line-height: 16px;
-      }
-      &.mdi-check{
-        color: $COLOR_SUCCESS;
-        font-size: 12px;
-        border: 1px solid $COLOR_SUCCESS;
-        border-radius: 50%;
-      }
-      &.mdi-alert-circle-outline{
-        color: $COLOR_DANGER;
-      }
-      &.mdi-progress-clock{
-        color: rgba(#fff, .1);
-      }
-      &.mdi-rotate-left{
-        color: $COLOR_PRIMARY;
-      }
-      &.spinning{
-        border: 1px solid $COLOR_PRIMARY;
+      width: 6px;
+      height: 6px;
+      margin: 17px 0;
+      background-color: rgba(#fff, .2);
+      border-radius: 50%;
+      &[data-status="2"]{ //PROCESSING
+        width: 8px;
+        height: 8px;
+        margin: 16px 0 0 -1px;
+        background-color: transparent;
+        border: solid 1px $COLOR_PRIMARY;
         border-bottom-color: transparent;
-        border-radius: 50%;
-        @include linear_spinning;
+        animation: spinning infinite 1s;
+      }
+      &[data-status="3"]{ //COMPLETE
+        background-color: $COLOR_SUCCESS;
+      }
+      &[data-status="4"]{ //FAIL
+        background-color: $COLOR_DANGER;
+      }
+      &[data-status="5"]{ //RESTORED
+        background-color: $COLOR_WARNING;
       }
     }
   }
@@ -99,8 +87,7 @@
     margin-right: 12px;
     overflow: hidden;
     background-color: rgba(#fff, .5);
-    // border: 2px solid #fff;
-    // border-radius: 50%;
+    border-radius: 50%;
     object-fit: cover;
     -webkit-user-drag: none;
     & + .meta .name{
@@ -124,8 +111,8 @@
       max-width: 18em;
       overflow: hidden;
       color: rgba(#fff, .8);
-      font-size: 12px;
-      font-weight: 500;
+      font-size: 11px;
+      line-height: 14px;
       text-overflow: ellipsis;
       text-transform: uppercase;
       white-space: nowrap;
@@ -133,7 +120,7 @@
     .description-text{
       display: flex;
       color: rgba(#fff, .4);
-      font-size: 11px;
+      font-size: 10px;
       i{
         padding: 0 3px;
       }
@@ -148,28 +135,32 @@
     margin-right: 10px;
     .button{
       display: block;
-      margin: 0 3px;
-      background-color: transparent;
+      width: 26px;
+      height: 26px;
+      margin-left: 5px;
+      background-color: rgba(#000, .2);
+      border-radius: 50%;
       color: rgba(#fff, .5);
-      font-size: 12px;
+      font-size: 13px;
+      line-height: 26px;
+      text-align: center;
       cursor: pointer;
       &:hover{
-        color: $COLOR_PRIMARY;
+        background-color: rgba(#000, .4);
       }
     }
   }
 }
 
 .light-style .component-task-item{
-  box-shadow: inset 0 -.5px 0 0 rgba(#000, .1);
+  box-shadow: inset 0 -.5px 0 0 rgba(#000, .2);
   .status-icon{
     .mdi-clock{
       color: #ccc;
     }
   }
   .thumb{
-    background-color: #eee;
-    box-shadow: 0 1px 3px rgba(#000, .1);
+    background-color: #fff;
   }
   .thumb-holder{
     color: #ccc;
@@ -184,10 +175,10 @@
   }
   .operates{
     .button{
-      // background-color: #f5f5f5;
-      color: #777;
+      background-color: rgba(#fff, 1);
+      color: #999;
       &:hover{
-        color: $COLOR_PRIMARY;
+        background-color: rgba(#fff, .8);
       }
     }
   }

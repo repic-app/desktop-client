@@ -1,6 +1,6 @@
 import React from 'react'
 import { locateFile, formatSize, formateOptimizedRate } from 'utils/base'
-import { taskStatus, tasktStatusIcons, taskStatusTexts } from 'constants/task'
+import { taskStatus, taskStatusTexts } from 'constants/task'
 import { openCompareView } from 'helpers/compare'
 import './styles.scss'
 
@@ -11,8 +11,7 @@ const DescriptionText = React.memo((task) => {
   if (task.status === taskStatus.COMPLETE) {
     return (
       <span className="description-text text-with-icon">
-        {/* <i className={`icon-arrow-down optimize-rate ${optimizeRateTextColor}`}></i> */}
-        <span className={optimizeRateTextColor}><b>{task.optimizedRate.toFixed(2)}%</b></span>&ensp;
+        <span className={optimizeRateTextColor}>{task.optimizedRate.toFixed(2)}%</span>&ensp;
         <span>{formatSize(task.originalSize)}</span>
         <i className="mdi mdi-arrow-right"></i>
         <span>{formatSize(task.optimizedSize)}</span>
@@ -35,10 +34,8 @@ export default React.memo((props) => {
   }
 
   return (
-    <li className="component-task-item"  data-status={props.task.status}>
-      <span className="status-icon">
-        <i className={tasktStatusIcons[props.task.status]} />
-      </span>
+    <li className="component-task-item" data-status={props.task.status}>
+      <span className="status-icon"><i data-status={props.task.status} /></span>
       {props.preferences.showThumb ? (
         props.task.thumbUrl ? (
           <img className="thumb" src={props.task.thumbUrl} />
@@ -57,14 +54,24 @@ export default React.memo((props) => {
       </div>
       {props.preferences.overrideOrigin ? (
         <div className="operates">
-          <a href="javascript:void(0);" className="button button-restore" onClick={props.onRestore}>还原</a>
-          <a href="javascript:void(0);" className="button button-recompress" onClick={props.onRecompress}>重压</a>
-          <a href="javascript:void(0);" className="button button-compare" onClick={requestCompareView}>对比</a>
+          <a href="javascript:void(0);" className="button button-restore" onClick={props.onRestore}>
+            <i className="mdi mdi-undo-variant"></i>
+          </a>
+          <a href="javascript:void(0);" className="button button-recompress" onClick={props.onRecompress}>
+            <i className="mdi mdi-redo-variant"></i>
+          </a>
+          <a href="javascript:void(0);" className="button button-compare" onClick={requestCompareView}>
+            <i className="mdi mdi-compare"></i>
+          </a>
         </div>
       ) : (
         <div className="operates">
-          <a href="javascript:void(0);" className="button button-restore" onClick={requestLocationImage}>查看</a>
-          <a href="javascript:void(0);" className="button button-compare" onClick={requestCompareView}>对比</a>
+          <a href="javascript:void(0);" className="button button-restore" onClick={requestLocationImage}>
+            <i className="mdi mdi-folder-open"></i>
+          </a>
+          <a href="javascript:void(0);" className="button button-compare" onClick={requestCompareView}>
+            <i className="mdi mdi-compare"></i>
+          </a>
         </div>
       )}
     </li>

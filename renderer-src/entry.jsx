@@ -73,7 +73,11 @@ export default class extends React.PureComponent {
     taskProgress >= 1 && (taskProgress = -1)
 
     this.setAppState({ taskProgress, taskAllFinished })
-    remote.getCurrentWindow().setProgressBar(taskProgress)
+    try {
+      remote.getCurrentWindow().setProgressBar(taskProgress)
+    } catch {
+      // ...
+    }
 
   }
 
