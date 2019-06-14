@@ -38,22 +38,6 @@ $TITLE_BAR_HEIGHT: 36px;
       color: $COLOR_PRIMARY;
     }
   }
-  .progress-bar{
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, $COLOR_PRIMARY, $COLOR_SUCCESS);
-    background-size: 100vw 2px;
-    opacity: 0;
-    transition: width .2s, opacity .3s;
-    &[data-visible="false"]{
-      width: 100vw !important;
-    }
-    &[data-visible="true"]{
-      opacity: 1;
-    }
-  }
 }
 
 .dropdown-modal{

@@ -77,6 +77,8 @@ export default React.memo(({ appState, preferences, setAppState, onClear, onReco
 
   return (
     <div className="component-task-analyzer" data-visible={taskList.length > 0}>
+      <div className="progress-bar" data-completed={appState.taskAllFinished} data-visible={appState.taskProgress > 0} style={{width: `${appState.taskProgress * 100}%`}} />
+      <div className="blur-layer"></div>
       <div className="content">
         <ProgressCircle className={`total-optimized-rate ${optimizeRateTextColor}`} strokeWidth={6} size={14} progress={totalOptimizedRate} />
         <div className="analyze-text">

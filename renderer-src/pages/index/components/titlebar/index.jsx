@@ -97,7 +97,6 @@ export default React.memo(({ preferences, appState, setAppState }) => {
     <div className="component-title-bar">
       <span className="app-title">Repic</span>
       <a href="javascript:void(0);" onClick={toggleDropdownMenu} className="button-toggle-dropdown"><i className="mdi mdi-settings"></i></a>
-      <div className="progress-bar" data-visible={appState.taskProgress > 0} style={{width: `${appState.taskProgress * 100}%`}} />
       <Modal
         className="dropdown-modal"
         width={150}

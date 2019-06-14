@@ -113,11 +113,15 @@ export const backupTask = (task) => {
 
 export const restoreTask = (task, copy = false) => {
 
-  try {
-    copy ? fs.copyFileSync(task.backupPath, task.path) : fs.renameSync(task.backupPath, task.path)
-  } catch (error) {
-    console.warn(error)
-    // ...
+  if (task.backupPath) {
+
+    try {
+      copy ? fs.copyFileSync(task.backupPath, task.path) : fs.renameSync(task.backupPath, task.path)
+    } catch (error) {
+      console.warn(error)
+      // ...
+    }
+
   }
 
   return {
