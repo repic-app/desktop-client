@@ -37,11 +37,11 @@ export const formatSize = (size) => {
 export const formateOptimizedRate = (optimizedRate) => {
 
   if (optimizedRate >= 30) {
-    return 'text-success'
-  } else if (optimizedRate >= 10) {
-    return 'text-warning'
+    return 'success'
+  } else if (optimizedRate >= 5) {
+    return 'warning'
   } else {
-    return 'text-danger'
+    return 'danger'
   }
 
 }

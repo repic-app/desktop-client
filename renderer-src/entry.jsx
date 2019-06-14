@@ -97,9 +97,7 @@ export default class extends React.PureComponent {
       document.body.classList.add('light-style')
     }
 
-    console.log('update theme')
     const compareViewWindow = getCompareViewWindow()
-    console.log(compareViewWindow)
     compareViewWindow && compareViewWindow.webContents.send('user-change-app-theme', theme)
 
   }

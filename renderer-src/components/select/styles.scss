@@ -5,6 +5,7 @@
   margin: 0;
   background-color: lighten($COLOR_DARK, 7);
   border-radius: 3px;
+  box-shadow: 0 0 0 .5px rgba(#000, .15);
   &.size-small{
     height: 20px;
     font-size: 12px;
@@ -59,6 +60,7 @@
     height: 100%;
     background-color: $COLOR_PRIMARY;
     border-radius: 0 3px 3px 0;
+    box-shadow: 0 0 0 .5px rgba(#000, .2), inset 0 .5px 0 0 rgba(#fff, .25);
     color: rgba(#fff, 1);
     font-size: 12px;
     pointer-events: none;

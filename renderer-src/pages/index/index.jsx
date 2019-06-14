@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
-import ProgressCircle from 'components/progress-circle'
 import TitleBar from './components/titlebar'
 import Start from './components/start'
 import TaskList from './components/tasklist'
+import TaskAnalyzer from './components/analyzer'
 import { playSound } from 'helpers/sound'
 import remote from 'helpers/remote'
 import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
@@ -171,6 +171,10 @@ export default () => {
     }, updateProgress)
   }
 
+  const handleClear = () => {
+    setPageState({ isDraggingOver: false })
+  }
+
   const handleRestoreAll = (taskList) => {
     setAppState({ taskList })
   }
@@ -187,8 +191,6 @@ export default () => {
         appState={appState}
         setAppState={setAppState}
         preferences={preferences}
-        onRestoreAll={handleRestoreAll}
-        onRecompressAll={handleRecompressAll}
       />
       <div
         className="index-content"
@@ -212,19 +214,14 @@ export default () => {
           onRestore={handleRestore}
           onRecompress={handleRecompress}
         />
-        <div className="task-analyze">
-          <div className="content">
-            <ProgressCircle className="total-optimized-rate" strokeWidth={6} size={14} progress={0.5} />
-            <div className="analyze-text">
-              <b className="count">3张图片压缩成功</b>
-              <span className="size">体积共减少<span className="text-success">82.3%(5.4MB)</span></span>
-            </div>
-            <div className="operates">
-              <button className="button button-md button-default">清空</button>
-              <button className="button button-md button-default">全部复原</button>
-            </div>
-          </div>
-        </div>
+        <TaskAnalyzer
+          appState={appState}
+          setAppState={setAppState}
+          preferences={preferences}
+          onClear={handleClear}
+          onRestoreAll={handleRestoreAll}
+          onRecompressAll={handleRecompressAll}
+        />
       </div>
     </div>
   )

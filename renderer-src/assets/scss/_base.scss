@@ -129,6 +129,7 @@ a{
   }
   &-default{
     background-color: lighten($COLOR_DARK, 10);
+    box-shadow: 0 .5px 0 0 rgba(#000, .3);
     color: rgba(#fff, .6);
     &:active{
       background-color: lighten($COLOR_DARK, 12);

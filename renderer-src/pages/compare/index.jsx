@@ -92,6 +92,10 @@ export default React.memo(() => {
 
   }
 
+  const handleDblClick = () => {
+    applyZoom(1)
+  }
+
   const handleMouseWheel = (event) => {
     !mouseDragging && applyZoom(calcZoomScale(viewState.scale, event.deltaY > 0), event.pageX, event.pageY, true, false)
   }
@@ -151,6 +155,7 @@ export default React.memo(() => {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         onWheel={handleMouseWheel}
+        onDoubleClick={handleDblClick}
         className="view-container"
       >
         <div className="view-core">

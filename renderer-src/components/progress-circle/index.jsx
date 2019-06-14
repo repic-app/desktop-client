@@ -15,9 +15,9 @@ export default ({ className, size, strokeWidth = 1, progress }) => {
   const dasharray = circlePerimeter * progress + ' ' + circlePerimeter
 
   return (
-    <svg class={`component-progress-circle ${className}`}>
-      <circle class="circle" style={{ strokeWidth }} cx={radius + strokeWidth / 2} cy={radius + strokeWidth / 2} r={radius} stroke-width="1"></circle>
-      <circle class="played" style={{ strokeWidth }} cx={radius + strokeWidth / 2} cy={radius + strokeWidth / 2} r={radius} stroke-width="1" stroke-dasharray={dasharray}></circle>
+    <svg className={`component-progress-circle ${className}`}>
+      <circle className="circle" style={{ strokeWidth }} cx={radius + strokeWidth / 2} cy={radius + strokeWidth / 2} r={radius} strokeWidth="1"></circle>
+      <circle className="played" style={{ strokeWidth }} cx={radius + strokeWidth / 2} cy={radius + strokeWidth / 2} r={radius} strokeWidth="1" strokeDasharray={dasharray}></circle>
     </svg>
   )
 

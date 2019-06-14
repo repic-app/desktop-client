@@ -1,10 +1,8 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import Modal from 'components/modal'
 import Switch from 'components/switch'
 import remote from 'helpers/remote'
-import { openLink, openCacheFolder, openFolder, formatSize, formateOptimizedRate } from 'utils/base'
-import { taskStatus } from 'constants/task'
-import { cleanTempFiles, restoreTasks, reexecuteTasks } from 'helpers/task'
+import { openLink, openFolder, openCacheFolder } from 'utils/base'
 import Preferences from '../preferences'
 import About from '../about'
 import './styles.scss'
@@ -38,52 +36,9 @@ const copyRightText = (
   </div>
 )
 
-const analyzeTask = (taskList) => {
-
-  return taskList.reduce((result, task) => {
-    if (task.status === taskStatus.COMPLETE) {
-      result.totalOriginalSize += task.originalSize
-      result.totalOptimizedSize += task.optimizedSize
-    }
-    result.counts[task.status] += 1
-    return result
-  }, {
-    counts: {
-      [taskStatus.CREATING]: 0,
-      [taskStatus.PENDING]: 0,
-      [taskStatus.PROCESSING]: 0,
-      [taskStatus.COMPLETE]: 0,
-      [taskStatus.FAIL]: 0,
-      [taskStatus.RESTORED]: 0
-    },
-    totalOptimizedSize: 0,
-    totalOriginalSize: 0
-  })
-
-}
-
-const formatStatusText = (data) => {
-
-  const totalOptimizedRate = (1 - data.totalOptimizedSize / data.totalOriginalSize) * 100
-  const optimizeRateTextColor = formateOptimizedRate(totalOptimizedRate)
-
-  return (
-    <span className="description-text text-with-icon">
-      <b>已节省空间 <span className={optimizeRateTextColor}>{formatSize(data.totalOriginalSize - data.totalOptimizedSize)} | {totalOptimizedRate.toFixed(2)}%</span></b>
-    </span>
-  )
-
-}
-
-export default React.memo(({ preferences, appState, setAppState, onRestoreAll, onRecompressAll }) => {
+export default React.memo(({ preferences, appState, setAppState }) => {
 
   const dropdownRef = useRef(null)
-  const [ clearing, setClearing ] = useState(false)
-  const [ restoring, setRestoring ] = useState(false)
-  const [ recompressing, setRecompressing ] = useState(false)
-
-  const { taskList, taskProgress, taskAllFinished } = appState
-  const taskResult = taskAllFinished ? analyzeTask(taskList) : {}
 
   const toggleSticky = () => {
     remote.getCurrentWindow().setAlwaysOnTop(!appState.isSticky)
@@ -134,42 +89,15 @@ export default React.memo(({ preferences, appState, setAppState, onRestoreAll, o
     })
   }
 
-  const requestClear = () => {
-    setClearing(true)
-    setAppState({
-      taskList: [],
-      taskProgress: -1,
-      taskAllFinished: false,
-    }, async () => {
-      await cleanTempFiles()
-      setClearing(false)
-    })
-  }
-
-  const requestRecompressAll = async () => {
-    setRecompressing(true)
-    onRecompressAll(await reexecuteTasks(appState.taskList))
-    setRecompressing(false)
-  }
-
-  const requestRestoreAll = async () => {
-    setRestoring(true)
-    onRestoreAll(await restoreTasks(appState.taskList))
-    setRestoring(false)
-  }
-
   const openSavePath = () => {
     openFolder(preferences.autoSavePath)
   }
-
-  const clearDisabled = clearing || !appState.taskList.length || !taskAllFinished
-  const recompressDisabled = recompressing || !appState.taskList.length || !taskAllFinished || !taskResult.counts[taskStatus.RESTORED]
-  const restoreDisabled = restoring || !appState.taskList.length || !taskAllFinished || !(taskResult.counts[taskStatus.COMPLETE] + taskResult.counts[taskStatus.FAIL])
 
   return (
     <div className="component-title-bar">
       <span className="app-title">Repic</span>
       <a href="javascript:void(0);" onClick={toggleDropdownMenu} className="button-toggle-dropdown"><i className="mdi mdi-settings"></i></a>
+      <div className="progress-bar" data-visible={appState.taskProgress > 0} style={{width: `${appState.taskProgress * 100}%`}} />
       <Modal
         className="dropdown-modal"
         width={150}

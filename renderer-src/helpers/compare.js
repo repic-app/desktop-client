@@ -13,7 +13,7 @@ const compareViewWindowOptions = {
   frame: true,
   hasShadow: true,
   transparent: true,
-  titleBarStyle: 'hidden',
+  titleBarStyle: 'hiddenInset',
   webPreferences: {
     devTools: true,
     webSecurity: false,
