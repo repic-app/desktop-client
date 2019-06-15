@@ -90,14 +90,29 @@
     }
   }
   .thumb{
+    position: relative;
     box-sizing: border-box;
     width: 32px;
     height: 32px;
     margin-right: 12px;
     overflow: hidden;
-    background-color: rgba(#fff, .5);
-    object-fit: cover;
-    -webkit-user-drag: none;
+    .thumb-image,
+    .optimized-image{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 32px;
+    }
+    .thumb-image{
+      background-color: rgba(#fff, .5);
+      object-fit: cover;
+      -webkit-user-drag: none;
+    }
+    .optimized-image{
+      z-index: 2;
+      opacity: 0;
+    }
     & + .meta .name{
       max-width: 12rem;
     }
@@ -145,16 +160,16 @@
       display: block;
       width: 26px;
       height: 26px;
-      margin-left: 5px;
-      background-color: rgba(#000, .2);
-      border-radius: 50%;
-      color: rgba(#fff, .5);
-      font-size: 13px;
+      margin-left: 0;
+      // background-color: rgba(#000, .2);
+      // border-radius: 3px;
+      color: rgba(#fff, .7);
+      font-size: 14px;
       line-height: 26px;
       text-align: center;
       cursor: pointer;
       &:hover{
-        background-color: rgba(#000, .4);
+        background-color: rgba(#000, .2);
       }
     }
   }
@@ -185,11 +200,7 @@
   }
   .operates{
     .button{
-      background-color: rgba(#fff, 1);
-      color: #999;
-      &:hover{
-        background-color: rgba(#fff, .8);
-      }
+      color: rgba(#000, .35);
     }
   }
 }

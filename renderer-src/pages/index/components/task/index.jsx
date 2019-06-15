@@ -23,6 +23,10 @@ const DescriptionText = React.memo((task) => {
 
 })
 
+const handleThumbClick = (event) => {
+  event.preventDefault()
+}
+
 export default React.memo((props) => {
 
   const requestCompareView = () => {
@@ -38,7 +42,10 @@ export default React.memo((props) => {
       <span className="status-icon"><i data-status={props.task.status} /></span>
       {props.preferences.showThumb ? (
         props.task.thumbUrl ? (
-          <img className="thumb" src={props.task.thumbUrl} />
+          <div className="thumb">
+            {props.task.status === taskStatus.COMPLETE ? <img src={`file://${props.task.optimizedPath || props.task.path}`} className="optimized-image"/> : null}
+            <img className="thumb-image" src={props.task.thumbUrl} />
+          </div>
         ) : (
           <i className="thumb thumb-holder mdi mdi-image" />
         )
