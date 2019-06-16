@@ -131,7 +131,7 @@ export default () => {
       taskList: nextTaskList
     }, async () => {
       if (!currentTaskList.length) {
-        await sleep(500)
+        await sleep(800)
       }
       setAppState({
         taskList: executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)

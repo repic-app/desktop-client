@@ -39,3 +39,15 @@ $TITLE_BAR_HEIGHT: 36px;
     transform: rotate(360deg);
   }
 }
+
+@keyframes background_translate{
+  0% {
+    background-position-x: 0%;
+  }
+  50% {
+    background-position-x: 320px;
+  }
+  100% {
+    background-position-x: 640px;
+  }
+}

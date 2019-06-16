@@ -69,3 +69,13 @@ export const openLink = (event) => {
   event.preventDefault()
 
 }
+
+export const formatJJMa = (stringJJMa) => {
+
+  if (stringJJMa.length !== 20) {
+    return 'INVAILD SN NUMBER'
+  }
+
+  return [stringJJMa.slice(0, 4), stringJJMa.slice(4, 8), '****', '****',stringJJMa.slice(16, 20)].join(' ')
+
+}

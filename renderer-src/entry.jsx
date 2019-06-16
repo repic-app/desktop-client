@@ -9,6 +9,7 @@ import APPContext from 'store/index'
 import IndexPage from 'pages/index'
 import ComparePage from 'pages/compare'
 
+const { checkRegistrationAPI } = requireRemote('./helpers/registration')
 const { setAPPData, getAPPData } = requireRemote('./helpers/storage')
 const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
 
@@ -16,6 +17,7 @@ const defaultAppState = {
   isSticky: false,
   taskList: [],
   taskProgress: -1,
+  jjma: null,
   taskAllFinished: false,
   showSettingsDropdown: false,
   showAbout: false,
@@ -102,7 +104,19 @@ export default class extends React.PureComponent {
 
   }
 
+  async checkRegistration () {
+
+    const registration = await checkRegistrationAPI()
+
+    if (registration) {
+      this.setAppState({ jjma: registration.jjma })
+    }
+
+  }
+
   componentDidMount () {
+
+    this.checkRegistration()
 
     if (isWindows) {
       document.body.classList.add('system-windows')

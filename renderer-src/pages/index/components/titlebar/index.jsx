@@ -95,7 +95,10 @@ export default React.memo(({ preferences, appState, setAppState }) => {
 
   return (
     <div className="component-title-bar">
-      <span className="app-title">Repic</span>
+      <div className="app-title">
+        <span>Repic</span>
+        {appState.jjma ? null : <a onClick={toggleAboutModal} href="javascript:void(0);" className="unlock-entry"><i className="mdi mdi-lock"></i>未激活</a>}
+      </div>
       <a href="javascript:void(0);" onClick={toggleDropdownMenu} className="button-toggle-dropdown"><i className="mdi mdi-settings"></i></a>
       <Modal
         className="dropdown-modal"
@@ -150,7 +153,7 @@ export default React.memo(({ preferences, appState, setAppState }) => {
         footerAddon={copyRightText}
         cancelText="关闭"
       >
-        <About />
+        <About appState={appState} setAppState={setAppState} />
       </Modal>
     </div>
   )

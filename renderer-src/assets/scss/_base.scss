@@ -147,12 +147,14 @@ a{
   }
   &-primary{
     background-color: lighten($COLOR_PRIMARY, 0);
+    background-image: linear-gradient(rgba(#fff, .1), rgba(#fff, .0));
+    box-shadow: inset 0 .5px 0 0 rgba(#fff, .5), 0 1px 2px rgba(#000, .2);
     color: rgba(#fff, 1);
     &:active{
       background-color: lighten($COLOR_PRIMARY, 3);
     }
     &:disabled{
-      background-color: lighten(desaturate($COLOR_PRIMARY, 60%), 20);
+      opacity: .4;
       pointer-events: none;
     }
   }
@@ -198,17 +200,22 @@ a{
     }
   }
 
-  .button.button-default{
-    background-color: #fff;
-    box-shadow: 0 0 0 .5px rgba(#000, .1), 0 1px 1px rgba(#000, .15);
-    color: #666;
-    &:disabled{
+  .button{
+    &.button-default{
       background-color: #fff;
-      opacity: 1;
-      color: #ccc;
+      box-shadow: 0 0 0 .5px rgba(#000, .1), 0 1px 1px rgba(#000, .15);
+      color: #666;
+      &:disabled{
+        background-color: #fff;
+        opacity: 1;
+        color: #ccc;
+      }
+      &:active{
+        background-color: #f2f2f2;
+      }
     }
-    &:active{
-      background-color: #f2f2f2;
+    &.button-primary{
+      box-shadow: inset 0 1px 0 0 rgba(#fff, .5), inset 0 0 0 .5px rgba(#000, .2);
     }
   }
 }
