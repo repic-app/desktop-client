@@ -96,6 +96,7 @@
     height: 32px;
     margin-right: 12px;
     overflow: hidden;
+    background-color: rgba(#fff, .5);
     .thumb-image,
     .optimized-image{
       position: absolute;
@@ -105,7 +106,6 @@
       height: 32px;
     }
     .thumb-image{
-      background-color: rgba(#fff, .5);
       object-fit: cover;
       -webkit-user-drag: none;
     }

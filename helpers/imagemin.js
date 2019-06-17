@@ -6,7 +6,7 @@ const compressByImagemin = (task, preferences) => new Promise((resolve, reject) 
 
   const outputPath = preferences.overrideOrigin ? `${task.path}.temp` : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
 
-  execFile(pngquant, ['--force', `--quality=${preferences.outputQuality * 100}-${preferences.outputQuality * 100}`, '-o', outputPath, task.path], error => {
+  execFile(pngquant, ['--quality=100', '-o', outputPath, task.path], error => {
     if (error) {
       reject(error)
     } else {

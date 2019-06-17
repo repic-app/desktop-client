@@ -68,7 +68,7 @@ export default React.memo(() => {
             <Switch checked={preferences.tryFixOrientation} name="tryFixOrientation" onChange={handleChange} />
           </div>
         </div>
-        <div className="option-group">
+        {/* <div className="option-group">
           <label className="label text-with-icon">
             <span>抹除图片元信息</span>
             <i className="icon-help-circle" title="仅部分图片格式支持此选项"></i>
@@ -76,9 +76,9 @@ export default React.memo(() => {
           <div className="option">
             <Switch checked={preferences.stripMetedata} name="stripMetedata" onChange={handleChange} />
           </div>
-        </div>
+        </div> */}
         <span className="divider" />
-        <div className="option-group">
+        <div className="option-group" data-disabled={!appState.jjma}>
           <label className="label">外观</label>
           <div className="option">
             <Select value={`${preferences.theme}`} name="theme" onChange={handleChange} >
@@ -88,13 +88,13 @@ export default React.memo(() => {
             </Select>
           </div>
         </div>
-        <div className="option-group">
+        <div className="option-group" data-disabled={!appState.jjma}>
           <label className="label">显示缩略图</label>
           <div className="option">
             <Switch checked={preferences.showThumb} name="showThumb" onChange={handleChange} />
           </div>
         </div>
-        <div className="option-group">
+        <div className="option-group" data-disabled={!appState.jjma}>
           <label className="label">并行压缩数量</label>
           <div className="option">
             <Select value={`${preferences.parallelTaskCount}`} name="parallelTaskCount" onChange={handleChange} >
@@ -106,7 +106,7 @@ export default React.memo(() => {
             </Select>
           </div>
         </div>
-        <div className="option-group">
+        <div className="option-group" data-disabled={!appState.jjma}>
           <label className="label">启动后置顶</label>
           <div className="option">
             <Switch checked={preferences.stickyOnLaunch} name="stickyOnLaunch" onChange={handleChange} />
