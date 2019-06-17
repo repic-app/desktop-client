@@ -44,6 +44,7 @@ export default React.memo(() => {
               <option value="0.5" key={1}>低</option>
               <option value="0.6" key={2}>中</option>
               <option value="0.8" key={3}>高</option>
+              <option value="1" key={4}>极高</option>
             </Select>
           </div>
         </div>

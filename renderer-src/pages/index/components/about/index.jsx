@@ -15,7 +15,6 @@ export default React.memo(({ appState, setAppState }) => {
       defaultId: 1,
       buttons: ['确定', '取消'],
     }, (index) => {
-      console.log(index)
       if (index === 0) {
         setAppState({ jjma: null })
       }

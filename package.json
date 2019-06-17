@@ -15,12 +15,17 @@
   },
   "dependencies": {
     "@mdi/font": "^3.6.95",
+    "advpng-bin": "^3.0.0",
     "giflossy": "^3.0.41",
     "imagemin": "^6.1.0",
     "imagemin-pngquant": "^7.0.0",
     "mime-types": "^2.1.24",
     "node-machine-id": "^1.1.12",
-    "svgo": "^1.2.2"
+    "optipng-bin": "^6.0.0",
+    "pngcrush-bin": "^4.0.0",
+    "pngout-bin": "^4.0.0",
+    "svgo": "^1.2.2",
+    "zopflipng-bin": "^5.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
