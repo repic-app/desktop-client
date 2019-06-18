@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import TitleBar from './components/titlebar'
 import Start from './components/start'
 import TaskList from './components/tasklist'
@@ -6,11 +6,14 @@ import TaskAnalyzer from './components/analyzer'
 import { playSound } from 'helpers/sound'
 import remote from 'helpers/remote'
 import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
+import { requireRemote } from 'helpers/remote'
 import { resolveLocalFiles } from 'utils/base'
 import { taskStatus } from 'constants/task'
 import { sleep } from 'utils/base'
 import APPContext from 'store/index'
 import './styles.scss'
+
+const { registerBuiltPlugins, getRegisteredCompressors } = requireRemote('./helpers/plugin')
 
 const defaultPageState = {
   isDraggingOver: false
@@ -184,6 +187,10 @@ export default () => {
       taskList: executeTasks(taskList, handleTaskUpdate, handleThumbCreate)
     }, updateProgress)
   }
+
+  useEffect(() => {
+    registerBuiltPlugins()
+  }, [])
 
   return (
     <div className="app-page page-index">

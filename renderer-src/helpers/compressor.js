@@ -1,14 +1,12 @@
-import Compressor from 'compressorjs'
 import { requireRemote } from 'helpers/remote'
 import { createThumbnail } from 'utils/image'
-import { imageTypesForImagemin, imageTypesForCompressorJS, imageTypesForSvgo, imageTypesForGiflossy, svgoOptions } from 'constants/image'
+
+const { getRegisteredCompressors } = requireRemote('./helpers/plugin')
+
+const cachedCompressors = {}
 
 const fs = requireRemote('fs')
 const path = requireRemote('path')
-const Svgo = requireRemote('svgo')
-const giflossy = requireRemote('giflossy')
-const { compressByImagemin } = requireRemote('./helpers/imagemin')
-const { execFile } = requireRemote('child_process')
 
 export const { APP_TEMP_PATH } = requireRemote('./helpers/storage')
 
@@ -24,53 +22,6 @@ export const cleanTempFiles = () => new Promise((resolve) => {
     }
   })
 })
-
-export const compressByCompressorJS = (file, preferences) => new Promise((resolve, reject) => {
-  new Compressor(file, {
-    quality: preferences.outputQuality * 1,
-    checkOrientation: preferences.tryFixOrientation,
-    convertSize: Infinity,
-    success: (data) => resolve({ data }),
-    error: reject
-  })
-})
-
-export const compressByGiflossy = (task, preferences) => new Promise((resolve, reject) => {
-
-  const outputPath = preferences.overrideOrigin ? `${task.path}.temp` : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
-
-  execFile(giflossy, ['-O3', `--lossy=${preferences.outputQuality * 100}`, '-o', outputPath, task.path], error => {
-    if (error) {
-      console.log(error)
-      reject(error)
-    } else {
-      if (preferences.overrideOrigin) {
-        fs.renameSync(outputPath, task.path)
-        resolve({
-          outputFileCreated: true,
-          outputFilePath: task.path,
-          outputFileSize: fs.statSync(task.path).size
-        })
-      } else {
-        resolve({
-          outputFileCreated: true,
-          outputFilePath: outputPath,
-          outputFileSize: fs.statSync(outputPath).size
-        })
-      }
-    }
-  })
-
-})
-
-export const compressBySvgo = async (filePath) => {
-
-  const svgo = new Svgo(svgoOptions)
-  const fileData = fs.readFileSync(filePath)
-
-  return await svgo.optimize(fileData)
-
-}
 
 export const writeFileAsync = (filePath, fileData) => new Promise((resolve, reject) => {
 
@@ -137,8 +88,10 @@ export const restoreTask = (task, copy = false) => {
 
 export const compressTask = async (task, preferences, onThumbCreate) => {
 
+  const compressors = getRegisteredCompressors()
+
   let backupPath = null
-  let optimizedFile = null
+  let optimizeResule = null
   let optimizedSize = null
   let optimizedPath = null
 
@@ -165,24 +118,26 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
       backupPath = backupTask(task)
     }
 
-    if (imageTypesForImagemin.includes(imageType)) {
-      optimizedFile = await compressByImagemin(task, preferences)
-    } else if (imageTypesForCompressorJS.includes(imageType)) {
-      optimizedFile = await compressByCompressorJS(task.file, preferences)
-    } else if (imageTypesForSvgo.includes(imageType)) {
-      optimizedFile = await compressBySvgo(filePath, preferences)
-    } else if (imageTypesForGiflossy.includes(imageType)) {
-      optimizedFile = await compressByGiflossy(task, preferences)
-    } else {
-      throw 'format unsupport.'
+    const matchedCompressor = compressors.find(compressor => {
+      return compressor.accepts.includes(imageType)
+    })
+
+    if (!matchedCompressor) {
+      throw 'Unsupported file format.'
     }
 
-    if (optimizedFile && optimizedFile.outputFileCreated) {
-      optimizedSize = optimizedFile.outputFileSize
-      optimizedPath = optimizedFile.outputFilePath
+    if (!cachedCompressors[matchedCompressor.name]) {
+      cachedCompressors[matchedCompressor.name] = matchedCompressor.process === 'main' ? requireRemote(matchedCompressor.path) : requireRemote(matchedCompressor.path)
+    }
+
+    optimizeResule = await cachedCompressors[matchedCompressor.name](task, preferences)
+
+    if (optimizeResule && optimizeResule.path) {
+      optimizedSize = optimizeResule.size
+      optimizedPath = optimizeResule.path
     } else {
       optimizedPath = preferences.overrideOrigin ? filePath : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
-      optimizedSize = await writeFileAsync(optimizedPath, optimizedFile.data)
+      optimizedSize = await writeFileAsync(optimizedPath, optimizeResule.data)
     }
 
     if (optimizedSize >= task.originalSize) {
