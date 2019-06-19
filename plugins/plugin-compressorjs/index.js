@@ -2,7 +2,7 @@
 module.exports = {
   name: 'plugin-compressorjs',
   type: 'compressor',
-  accepts: ['jpeg', 'jpg', 'webp'],
+  accepts: ['image/jpeg', 'image/webp'],
   process: 'renderer',
   main: './lib'
 }

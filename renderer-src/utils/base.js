@@ -79,3 +79,9 @@ export const formatJJMa = (stringJJMa) => {
   return [stringJJMa.slice(0, 4), stringJJMa.slice(4, 8), '****', '****',stringJJMa.slice(16, 20)].join(' ')
 
 }
+
+export const requireLocal = (path) => {
+
+  
+
+}

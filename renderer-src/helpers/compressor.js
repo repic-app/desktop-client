@@ -112,14 +112,13 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
     }
 
     const filePath = task.path
-    const imageType = task.file.type.split('/')[1].toLowerCase()
 
     if (preferences.overrideOrigin) {
       backupPath = backupTask(task)
     }
 
     const matchedCompressor = compressors.find(compressor => {
-      return compressor.accepts.includes(imageType)
+      return compressor.accepts.includes(task.file.type)
     })
 
     if (!matchedCompressor) {
@@ -127,7 +126,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
     }
 
     if (!cachedCompressors[matchedCompressor.name]) {
-      cachedCompressors[matchedCompressor.name] = matchedCompressor.process === 'main' ? requireRemote(matchedCompressor.path) : requireRemote(matchedCompressor.path)
+      cachedCompressors[matchedCompressor.name] = matchedCompressor.process === 'main' ? requireRemote(matchedCompressor.path) : global.require(matchedCompressor.path)
     }
 
     optimizeResule = await cachedCompressors[matchedCompressor.name](task, preferences)

@@ -1,7 +1,7 @@
 module.exports = {
   name: 'plugin-svgo',
   type: 'compressor',
-  accepts: ['svg'],
+  accepts: ['image/svg+xml'],
   process: 'main',
   main: './lib'
 }

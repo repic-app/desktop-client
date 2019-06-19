@@ -27,6 +27,7 @@ $TITLE_BAR_HEIGHT: 36px;
     padding-left: 5px;
     color: rgba($COLOR_WARNING, .8);
     cursor: pointer;
+    -webkit-app-region: none;
     &:active{
       color: rgba($COLOR_WARNING, .7);
     }

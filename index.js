@@ -17,7 +17,7 @@ function initialize () {
     const windowOptions = {
       show: false,
       width: 440,
-      height: 640,
+      height: 680,
       title: app.getName(),
       transparent: true,
       resizable: false,
@@ -27,7 +27,6 @@ function initialize () {
       hasShadow: true,
       vibrancy: 'dark',
       icon: path.join(__dirname, 'assets/icon.png'),
-      // titleBarStyle: 'customButtonsOnHover',
       titleBarStyle: 'hiddenInset',
       webPreferences: {
         devTools: !isProduction,

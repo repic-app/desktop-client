@@ -1,6 +1,6 @@
 
 module.exports = {
-  name: 'plugin-pngquant',
+  name: 'plugin-pngcrush',
   type: 'compressor',
   accepts: ['image/png'],
   process: 'main',

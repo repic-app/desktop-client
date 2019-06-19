@@ -2,7 +2,7 @@
 module.exports = {
   name: 'plugin-giflossy',
   type: 'compressor',
-  accepts: ['gif'],
+  accepts: ['image/gif'],
   process: 'main',
   main: './lib'
 }
