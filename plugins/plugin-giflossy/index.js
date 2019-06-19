@@ -4,5 +4,6 @@ module.exports = {
   type: 'compressor',
   accepts: ['image/gif'],
   process: 'main',
-  main: './lib'
+  main: './lib',
+  disabled: false
 }

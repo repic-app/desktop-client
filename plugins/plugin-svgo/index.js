@@ -3,5 +3,6 @@ module.exports = {
   type: 'compressor',
   accepts: ['image/svg+xml'],
   process: 'main',
-  main: './lib'
+  main: './lib',
+  disabled: false
 }
