@@ -10,8 +10,10 @@ const registerBuiltPlugins = () => {
 
   plugins && plugins.forEach((item) => {
     const plugin = require(path.join(builtinPluginFolder, item))
-    plugin.path = path.join(builtinPluginFolder, item, plugin.main)
-    registerPlugin(plugin)
+    if (!plugin.disabled) {
+      plugin.path = path.join(builtinPluginFolder, item, plugin.main)
+      registerPlugin(plugin)
+    }
   })
 
 }
