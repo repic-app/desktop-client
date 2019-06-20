@@ -1,12 +1,14 @@
 import { taskStatus } from 'constants/task'
-import { acceptImageTypes } from 'constants/image'
 import { requireRemote } from 'helpers/remote'
 import { generateId } from 'utils/base'
 import { compressTask, restoreTask, cleanTempFiles} from 'helpers/compressor'
 
+const { getRegisteredCompressors } = requireRemote('./helpers/plugin')
 const { getAPPData } = requireRemote('./helpers/storage')
 
 export const appendTasks = (currentTaskItems, newTaskFiles) => {
+
+  const acceptImageTypes = getRegisteredCompressors().map(item => item.accepts).flat()
 
   const newTaskItems = [].filter.call(newTaskFiles, ({ file, path }) => {
     return currentTaskItems.find(item => item.path === path) === undefined && acceptImageTypes.includes(file.type.toLowerCase())

@@ -9,11 +9,17 @@ const registerBuiltPlugins = () => {
   const plugins = fs.readdirSync(builtinPluginFolder)
 
   plugins && plugins.forEach((item) => {
-    const plugin = require(path.join(builtinPluginFolder, item))
-    if (!plugin.disabled) {
-      plugin.path = path.join(builtinPluginFolder, item, plugin.main)
-      registerPlugin(plugin)
+
+    const pluginPath = path.join(builtinPluginFolder, item)
+
+    if (fs.statSync(pluginPath).isDirectory()) {
+      const plugin = require(pluginPath)
+      if (!plugin.disabled) {
+        plugin.path = path.join(builtinPluginFolder, item, plugin.main)
+        registerPlugin(plugin)
+      }
     }
+
   })
 
 }

@@ -144,18 +144,22 @@ export default () => {
   }
 
   const handleRequestPickFile = () => {
+
+    const acceptImageExtensions = getRegisteredCompressors().map(item => item.extensions).flat()
+
     remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
       title: '选择图片文件',
       filters: [
         {
           name: '图片文件',
-          extensions: ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']
+          extensions: acceptImageExtensions
         }
       ],
       properties: ['openFile', 'multiSelections', 'noResolveAliases', 'treatPackageAsDirectory'],
     }, (filePaths) => {
       filePaths && handlePickedFile(resolveLocalFiles(filePaths))
     })
+
   }
 
   const handleRestore = (task) => {
