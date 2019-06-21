@@ -25,6 +25,7 @@ export default () => {
 
   const [ pageState, _setPageState ] = useState(defaultPageState)
   const { appState, preferences, setAppState, getAppState, updateProgress } = useContext(APPContext)
+  const acceptImageExtensions = getRegisteredCompressors().map(item => item.extensions).flat()
 
   const setPageState = (changePageState) => {
     _setPageState({ ...pageState, ...changePageState })
@@ -145,8 +146,6 @@ export default () => {
 
   const handleRequestPickFile = () => {
 
-    const acceptImageExtensions = getRegisteredCompressors().map(item => item.extensions).flat()
-
     remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
       title: '选择图片文件',
       filters: [
@@ -218,6 +217,7 @@ export default () => {
           appState={appState}
           setAppState={setAppState}
           onRequestPickFile={handleRequestPickFile}
+          acceptImageExtensions={acceptImageExtensions}
         />
         <TaskList
           appState={appState}

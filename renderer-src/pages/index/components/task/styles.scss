@@ -19,44 +19,6 @@
   &:last-child::after{
     content: none;
   }
-  &[data-status="0"],
-  &[data-status="1"],
-  &[data-status="2"]{
-    .operates{
-      .button-restore,
-      .button-compare,
-      .button-recompress{
-        opacity: .3;
-        pointer-events: none;
-      }
-    }
-  }
-  &[data-status="3"]{
-    .operates{
-      .button-recompress{
-        opacity: .3;
-        pointer-events: none;
-      }
-    }
-  }
-  &[data-status="4"]{
-    .operates{
-      .button-restore,
-      .button-compare{
-        opacity: .3;
-        pointer-events: none;
-      }
-    }
-  }
-  &[data-status="5"]{
-    .operates{
-      .button-restore,
-      .button-compare{
-        opacity: .3;
-        pointer-events: none;
-      }
-    }
-  }
   .status-icon{
     width: 6px;
     height: 40px;
@@ -170,6 +132,10 @@
       cursor: pointer;
       &:hover{
         background-color: rgba(#000, .2);
+      }
+      &[data-disabled="true"]{
+        opacity: .3;
+        pointer-events: none;
       }
     }
   }

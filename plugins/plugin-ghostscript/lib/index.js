@@ -29,7 +29,7 @@ module.exports = (task, preferences) => new Promise((resolve, reject) => {
 
   const outputPath = preferences.overrideOrigin ? `${task.path}.temp` : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
 
-  execFile(gsBinPath, ['-dCompatibilityLevel=1.4', '-dPDFSETTINGS=/ebook', '-dNOPAUSE', '-dQUIET', '-dBATCH', `-sOutputFile=${outputPath}`, task.path], (error, res) => {
+  execFile(gsBinPath, ['-sDEVICE=pdfwrite', '-dCompatibilityLevel=1.4', '-dPDFSETTINGS=/screen', '-dNOPAUSE', '-dQUIET', '-dBATCH', `-sOutputFile=${outputPath}`, task.path], (error, res) => {
     if (error) {
       console.log(error)
       reject(error)

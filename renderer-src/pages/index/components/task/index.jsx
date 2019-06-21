@@ -37,6 +37,11 @@ export default React.memo((props) => {
     locateFile(props.task.optimizedPath)
   }
 
+  const taskFileIsImage = props.task.file.type.indexOf('image/') === 0
+  const restoreDisabled = props.task.status !== taskStatus.COMPLETE
+  const recompressDisabled = props.task.status !== taskStatus.RESTORED
+  const compareDisabled = !taskFileIsImage || props.task.status !== taskStatus.COMPLETE
+
   return (
     <li className="component-task-item" data-status={props.task.status}>
       <span className="status-icon"><i data-status={props.task.status} /></span>
@@ -61,22 +66,22 @@ export default React.memo((props) => {
       </div>
       {props.preferences.overrideOrigin ? (
         <div className="operates">
-          <a href="javascript:void(0);" className="button button-restore" onClick={props.onRestore}>
+          <a href="javascript:void(0);" data-disabled={restoreDisabled} className="button button-restore" onClick={props.onRestore}>
             <i className="mdi mdi-undo-variant"></i>
           </a>
-          <a href="javascript:void(0);" className="button button-recompress" onClick={props.onRecompress}>
+          <a href="javascript:void(0);" data-disabled={recompressDisabled} className="button button-recompress" onClick={props.onRecompress}>
             <i className="mdi mdi-redo-variant"></i>
           </a>
-          <a href="javascript:void(0);" className="button button-compare" onClick={requestCompareView}>
+          <a href="javascript:void(0);" data-disabled={compareDisabled} className="button button-compare" onClick={requestCompareView}>
             <i className="mdi mdi-compare"></i>
           </a>
         </div>
       ) : (
         <div className="operates">
-          <a href="javascript:void(0);" className="button button-restore" onClick={requestLocationImage}>
+          <a href="javascript:void(0);" data-disabled={restoreDisabled} className="button button-restore" onClick={requestLocationImage}>
             <i className="mdi mdi-folder-open"></i>
           </a>
-          <a href="javascript:void(0);" className="button button-compare" onClick={requestCompareView}>
+          <a href="javascript:void(0);" data-disabled={compareDisabled}  className="button button-compare" onClick={requestCompareView}>
             <i className="mdi mdi-compare"></i>
           </a>
         </div>
