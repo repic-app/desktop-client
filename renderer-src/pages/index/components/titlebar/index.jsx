@@ -7,13 +7,6 @@ import Preferences from '../preferences'
 import About from '../about'
 import './styles.scss'
 
-const preferencesModalTitle = (
-  <div className="text-with-icon">
-    <i className="mdi mdi-settings"></i>
-    <span>参数设置</span>
-  </div>
-)
-
 const aboutModalTitle = (
   <div className="text-with-icon">
     <i className="mdi mdi-info"></i>
@@ -134,12 +127,11 @@ export default React.memo(({ preferences, appState, setAppState }) => {
         </ul>
       </Modal>
       <Modal
-        title={preferencesModalTitle}
+        title={null}
         width={380}
         active={appState.showPreferences}
         onClose={hidePreferencesModal}
         showConfirm={false}
-        footerAddon={cacheDirEntry}
         cancelText="关闭"
       >
         <Preferences />
