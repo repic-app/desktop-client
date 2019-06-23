@@ -6,5 +6,5 @@ module.exports = {
   extensions: ['png'],
   process: 'main',
   main: './lib',
-  disabled: false
+  disabled: true
 }

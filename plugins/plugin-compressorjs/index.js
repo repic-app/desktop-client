@@ -1,4 +1,3 @@
-
 module.exports = {
   name: 'plugin-compressorjs',
   type: 'compressor',
@@ -6,5 +5,5 @@ module.exports = {
   extensions: ['jpg', 'jpeg', 'webp'],
   process: 'renderer',
   main: './lib',
-  disabled: false
+  disabled: true
 }
