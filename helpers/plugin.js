@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { getAPPData } = require('./storage')
 
 const builtinPluginFolder = path.join(__dirname, '../plugins')
 const registeredPlugins = []
@@ -28,7 +29,14 @@ const getRegisteredCompressors = () => {
   return registeredPlugins.filter(plugin => plugin.type === 'compressor')
 }
 
-const getRegisteredPlugins = () => registeredPlugins
+const getRegisteredPlugins = () => { 
+
+  const pluginData = getAPPData('plugins', {})
+
+  return registeredPlugins.map(item => {
+    return { ...item, ...pluginData[item.name] }
+  })
+}
 
 const registerPlugin = (plugin) => {
 
@@ -50,4 +58,4 @@ const removePlugin = async () => {
   // ...
 }
 
-module.exports = { registerBuiltPlugins, registerPlugin, getRegisteredCompressors }
+module.exports = { registerBuiltPlugins, registerPlugin, getRegisteredPlugins, getRegisteredCompressors }

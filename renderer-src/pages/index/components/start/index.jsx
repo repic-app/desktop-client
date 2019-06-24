@@ -8,7 +8,7 @@ export default React.memo((props) => {
       <div className="photos-folder"></div>
       <div className="drag-tip">
         <span>拖拽图片至此窗口以开始压缩</span>
-        <small>{props.acceptImageExtensions.join('/')}</small>
+        <small>{props.acceptImageExtensions.filter((ext, index, exts) => index === exts.indexOf(ext)).join('/')}</small>
       </div>
       <a onClick={props.onRequestPickFile} className="pick-enrty text-with-icon">
         <i className="mdi mdi-plus" />

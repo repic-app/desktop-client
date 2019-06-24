@@ -125,6 +125,10 @@
       }
     }
   }
+  .extensions-table{
+    max-height: 180px;
+    overflow: auto;
+  }
   .plugins-table{
     background-color: rgba(0,0,0,.1);
     max-height: 225px;

@@ -10,6 +10,7 @@ import IndexPage from 'pages/index'
 import ComparePage from 'pages/compare'
 
 const { checkRegistrationAPI } = requireRemote('./helpers/registration')
+const { registerBuiltPlugins, getRegisteredPlugins } = requireRemote('./helpers/plugin')
 const { setAPPData, getAPPData } = requireRemote('./helpers/storage')
 const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
 
@@ -28,7 +29,9 @@ export default class extends React.PureComponent {
 
   state = {
     appState: defaultAppState,
-    preferences: getAPPData('preferences')
+    preferences: getAPPData('preferences'),
+    plugins: [],
+    compressors: []
   }
 
   setAppState = (changedAppState, callback) => {
@@ -104,6 +107,11 @@ export default class extends React.PureComponent {
 
   }
 
+  setPlugins = (plugins) => {
+    const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
+    this.setState({ plugins, compressors })
+  }
+
   async checkRegistration () {
 
     const registration = await checkRegistrationAPI()
@@ -138,16 +146,19 @@ export default class extends React.PureComponent {
       this.setAppState({ isSticky: true })
     }
 
+    registerBuiltPlugins()
+    this.setPlugins(getRegisteredPlugins())
+
   }
 
   render () {
 
-    const { appState, preferences } = this.state
+    const { appState, preferences, plugins, compressors } = this.state
     const { setAppState, getAppState, setPreferences, updateProgress } = this
 
     return (
       <HashRouter>
-        <APPContext.Provider value={{ appState, setAppState, getAppState, preferences, setPreferences, updateProgress }}>
+        <APPContext.Provider value={{ appState, setAppState, getAppState, preferences, setPreferences, updateProgress, plugins, compressors }}>
           <div className="page-container">
             <Route path="/" exact component={IndexPage} />
             <Route path="/compare" exact component={ComparePage} />

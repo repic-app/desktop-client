@@ -5,9 +5,63 @@ import Select from 'components/select'
 import APPContext from 'store/index'
 import './styles.scss'
 
+const similarExtensions = ['jpeg']
+
+const mapExtensionsAndCompressors = (compressors) => {
+
+  const supportedExtensions = {}
+
+  compressors.forEach(item => {
+
+    item.extensions.filter(ext => !similarExtensions.includes(ext)).forEach(ext => {
+
+      supportedExtensions[ext] = supportedExtensions[ext] || {
+        compressors: [],
+        defaultComprssor: null
+      }
+
+      supportedExtensions[ext].compressors.push({
+        name: item.name,
+        title: item.title,
+      })
+
+      if (item.defaultFor && item.defaultFor.includes(ext)) {
+        supportedExtensions[ext].defaultComprssor = item.name
+      }
+
+    })
+
+  })
+
+  return Object.keys(supportedExtensions).map(key => {
+    return {
+      extension: key,
+      ...supportedExtensions[key]
+    }
+  })
+
+}
+
+const requestPickSaveFolder = (preferences, setPreferences) => {
+
+  remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+    title: '选择存储文件夹',
+    buttonLabel: '选择此文件夹',
+    defaultPath: preferences.autoSavePath,
+    properties: ['openDirectory', 'createDirectory'],
+  }, (filePaths) => {
+    if (filePaths && filePaths[0]) {
+      setPreferences({
+        autoSavePath: filePaths[0]
+      })
+    }
+  })
+
+}
+
 export default React.memo(() => {
 
-  const { appState, preferences, setPreferences } = useContext(APPContext)
+  const { appState, preferences, setPreferences, plugins, compressors } = useContext(APPContext)
   const [ tabIndex, _setTabIndex ] = useState(0)
 
   const setTabIndex = (event) => {
@@ -18,22 +72,12 @@ export default React.memo(() => {
     setPreferences({ [name]: value })
   }
 
-  const requestPickSaveFolder = () => {
-    remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
-      title: '选择存储文件夹',
-      buttonLabel: '选择此文件夹',
-      defaultPath: preferences.autoSavePath,
-      properties: ['openDirectory', 'createDirectory'],
-    }, (filePaths) => {
-      if (filePaths && filePaths[0]) {
-        setPreferences({
-          autoSavePath: filePaths[0]
-        })
-      }
-    })
+  const pickSaveFolder = () => {
+    requestPickSaveFolder(preferences, setPreferences)
   }
 
   const taskNotEmpty = appState.taskList.length > 0
+  const extensionCompressors = mapExtensionsAndCompressors(compressors)
 
   return (
     <div className="component-preferences">
@@ -44,7 +88,7 @@ export default React.memo(() => {
       </div>
       <div className="tab-content">
         <div className="tab-item" data-index="0" data-active={tabIndex === 0}>
-          <div className="option-group" data-disabled={!appState.jjma}>
+          <div className="option-group">
             <label className="label">外观</label>
             <div className="option">
               <Select value={`${preferences.theme}`} name="theme" onChange={handleChange} >
@@ -54,13 +98,13 @@ export default React.memo(() => {
               </Select>
             </div>
           </div>
-          <div className="option-group" data-disabled={!appState.jjma}>
+          <div className="option-group">
             <label className="label">显示缩略图</label>
             <div className="option">
               <Switch checked={preferences.showThumb} name="showThumb" onChange={handleChange} />
             </div>
           </div>
-          <div className="option-group" data-disabled={!appState.jjma}>
+          <div className="option-group">
             <label className="label">并行压缩数量</label>
             <div className="option">
               <Select value={`${preferences.parallelTaskCount}`} name="parallelTaskCount" onChange={handleChange} >
@@ -72,7 +116,7 @@ export default React.memo(() => {
               </Select>
             </div>
           </div>
-          <div className="option-group" data-disabled={!appState.jjma}>
+          <div className="option-group">
             <label className="label">启动后置顶</label>
             <div className="option">
               <Switch checked={preferences.stickyOnLaunch} name="stickyOnLaunch" onChange={handleChange} />
@@ -89,7 +133,7 @@ export default React.memo(() => {
           <div className="option-group">
             <label className="label"><b>指定各类文件的压缩插件</b></label>
           </div>
-          <div className="options-table">
+          <div className="options-table extensions-table">
             <table>
               <thead>
                 <tr>
@@ -98,24 +142,18 @@ export default React.memo(() => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>.jpg/.jpeg</td>
-                  <td>
-                    <Select>
-                      <option value="1" key={0}>CompressorJS</option>
-                      <option value="2" key={1}>TinyPNG</option>
-                    </Select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>.png</td>
-                  <td>
-                    <Select>
-                      <option value="1" key={0}>Pngquant</option>
-                      <option value="2" key={1}>TinyPNG</option>
-                    </Select>
-                  </td>
-                </tr>
+                {extensionCompressors.map(item => (
+                  <tr key={item.extension}>
+                    <td>{item.extension}</td>
+                    <td>
+                      <Select disabled={item.compressors.length <= 1} value={item.defaultComprssor || item.compressors[0].name}>
+                        {item.compressors.map(({ name, title }) => (
+                          <option value={name} key={name}>{title}</option>
+                        ))}
+                      </Select>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -146,24 +184,9 @@ export default React.memo(() => {
               <small title={preferences.autoSavePath}>{preferences.autoSavePath}</small>
             </label>
             <div className="option">
-              <button onClick={requestPickSaveFolder} className="button button-xs button-default">更改</button>
+              <button onClick={pickSaveFolder} className="button button-xs button-default">更改</button>
             </div>
           </div>
-          {/* <div className="option-group">
-            <label className="label">尝试修正图片方向</label>
-            <div className="option">
-              <Switch checked={preferences.tryFixOrientation} name="tryFixOrientation" onChange={handleChange} />
-            </div>
-          </div>
-          <div className="option-group">
-            <label className="label text-with-icon">
-              <span>抹除图片元信息</span>
-              <i className="icon-help-circle" title="仅部分图片格式支持此选项"></i>
-            </label>
-            <div className="option">
-              <Switch checked={preferences.stripMetedata} name="stripMetedata" onChange={handleChange} />
-            </div>
-          </div> */}
         </div>
         <div className="tab-item" data-index="2" data-active={tabIndex === 2}>
           <div className="option-group">
@@ -172,54 +195,16 @@ export default React.memo(() => {
           <div className="options-table plugins-table">
             <table>
               <tbody>
-                <tr>
-                  <td>
-                    <h5 className="name">
-                      <span>CompressorJS</span>
-                    </h5>
-                    <p className="description">用于压缩jpg与webp格式的图片</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h5 className="name">
-                      <span>PNGQuant</span>
-                    </h5>
-                    <p className="description">用于压缩png格式的图片，压缩速度快、压缩率高，但是出图质量欠佳</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h5 className="name">
-                      <span>TinyPNG</span>
-                    </h5>
-                    <p className="description">用于压缩png格式的图片，压缩率高、出图质量高，但是需要自行配置API Key，每月仅可使用500次且无法离线使用</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h5 className="name">
-                      <span>Gifsicle</span>
-                    </h5>
-                    <p className="description">用于压缩gif格式的图片</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h5 className="name">
-                      <span>Svgo</span>
-                    </h5>
-                    <p className="description">用于压缩svg格式的图片，可能会更改出图尺寸和造成内容失真</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h5 className="name">
-                      <span>GhostScript</span>
-                    </h5>
-                    <p className="description">用于压缩pdf文件</p>
-                  </td>
-                </tr>
+                {plugins.map(plugin => (
+                  <tr key={plugin.name}>
+                    <td>
+                      <h5 className="name">
+                        <span>{plugin.title}</span>
+                      </h5>
+                      <p className="description">{plugin.description}</p>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

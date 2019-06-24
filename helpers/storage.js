@@ -30,7 +30,8 @@ const defaultAPPData = {
     showThumb: true,
     stickyOnLaunch: false,
     soundEffects: true
-  }
+  },
+  plugins: {}
 }
 
 let cachedAPPData = {}

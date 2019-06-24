@@ -9,6 +9,7 @@ const Select = (props) => {
     value,
     onChange,
     children,
+    disabled,
     ...restProps
   } = props
 
@@ -17,8 +18,8 @@ const Select = (props) => {
   }
 
   return (
-    <div className={`component-select size-${size} ${className}`}>
-      <select className="b-box" value={value} onChange={handleChange} {...restProps}>
+    <div className={`component-select size-${size} ${className} ${disabled ? 'disabled' : ''}`}>
+      <select className="b-box" value={value} onChange={handleChange} disabled={disabled} {...restProps}>
         {children}
       </select>
       <i className="icon mdi mdi-menu-down"></i>
