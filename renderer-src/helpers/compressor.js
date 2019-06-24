@@ -1,12 +1,10 @@
 import { requireRemote } from 'helpers/remote'
 import { createThumbnail } from 'utils/image'
 
-const { getRegisteredCompressors } = requireRemote('./helpers/plugin')
-
-const cachedCompressors = {}
-
+const { getCompressors } = requireRemote('./helpers/plugin')
 const fs = requireRemote('fs')
 const path = requireRemote('path')
+const cachedCompressors = {}
 
 export const { APP_TEMP_PATH } = requireRemote('./helpers/storage')
 
@@ -88,7 +86,7 @@ export const restoreTask = (task, copy = false) => {
 
 export const compressTask = async (task, preferences, onThumbCreate) => {
 
-  const compressors = getRegisteredCompressors()
+  const compressors = getCompressors()
 
   let backupPath = null
   let optimizeResule = null
@@ -112,14 +110,20 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
     }
 
     const filePath = task.path
+    const fileExtension = task.file.name.split('.').slice(-1)[0]
 
     if (preferences.overrideOrigin) {
       backupPath = backupTask(task)
     }
 
-    const matchedCompressor = compressors.find(compressor => {
+    const compressorsForExtension = compressors.filter(compressor => {
       return compressor.accepts.includes(task.file.type)
     })
+
+    const matchedCompressor = compressorsForExtension.find(compressor => {
+      console.log(compressor)
+      return compressor.defaultFor && compressor.defaultFor.includes(fileExtension)
+    }) || compressorsForExtension[0]
 
     if (!matchedCompressor) {
       throw 'Unsupported file format.'

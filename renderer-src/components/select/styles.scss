@@ -7,8 +7,11 @@
   border-radius: 3px;
   box-shadow: 0 0 0 .5px rgba(#000, .15);
   &.disabled{
-    opacity: .3;
-    filter: grayscale(.5);
+    .icon{
+      background-color: transparent;
+      box-shadow: none;
+      opacity: .1;
+    }
   }
   &.size-small{
     height: 20px;

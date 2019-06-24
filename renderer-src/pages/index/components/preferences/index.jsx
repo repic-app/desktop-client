@@ -59,9 +59,38 @@ const requestPickSaveFolder = (preferences, setPreferences) => {
 
 }
 
+const setDefaultCompressorForExtension = (plugins, extension, compressorName) => {
+
+  return plugins.map(item => {
+
+    let { defaultFor = [] } = item 
+
+    if (item.name === compressorName) {
+      defaultFor.push(extension)
+    } else {
+      defaultFor = defaultFor.filter(ext => ext !== extension)
+    }
+
+    return {
+      ...item,
+      defaultFor: defaultFor.filter((ext, index, array) => index === array.indexOf(ext))
+    }
+
+  })
+
+}
+
+const setPluginState = (plugins, name, state) => {
+
+  return plugins.map(item => {
+    return item.name === name ? { ...item, ...state } : item
+  })
+
+}
+
 export default React.memo(() => {
 
-  const { appState, preferences, setPreferences, plugins, compressors } = useContext(APPContext)
+  const { appState, preferences, setPreferences, plugins, setPlugins, compressors } = useContext(APPContext)
   const [ tabIndex, _setTabIndex ] = useState(0)
 
   const setTabIndex = (event) => {
@@ -70,6 +99,17 @@ export default React.memo(() => {
 
   const handleChange = (value, name) => {
     setPreferences({ [name]: value })
+  }
+
+  const handleDefaultCompressorChange = (value, name) => {
+    setPlugins(setDefaultCompressorForExtension(plugins, name, value))
+  }
+
+  const togglePluginDisabled = (event) => {
+    const { name, disabled } = event.currentTarget.dataset
+    setPlugins(setPluginState(plugins, name, {
+      disabled: disabled !== 'true'
+    }))
   }
 
   const pickSaveFolder = () => {
@@ -146,7 +186,12 @@ export default React.memo(() => {
                   <tr key={item.extension}>
                     <td>{item.extension}</td>
                     <td>
-                      <Select disabled={item.compressors.length <= 1} value={item.defaultComprssor || item.compressors[0].name}>
+                      <Select
+                        disabled={item.compressors.length <= 1}
+                        value={item.defaultComprssor || item.compressors[0].name}
+                        name={item.extension}
+                        onChange={handleDefaultCompressorChange}
+                      >
                         {item.compressors.map(({ name, title }) => (
                           <option value={name} key={name}>{title}</option>
                         ))}
@@ -198,8 +243,22 @@ export default React.memo(() => {
                 {plugins.map(plugin => (
                   <tr key={plugin.name}>
                     <td>
-                      <h5 className="name">
-                        <span>{plugin.title}</span>
+                      <h5 className="caption">
+                        <span className="title">{plugin.title}{plugin.disabled ? <small> [已停用]</small> : null}</span>
+                        <div className="operates">
+                          <a
+                            href="javascript:void(0);"
+                            className="button button-xs button-default button-toggle-disabled"
+                            data-name={plugin.name}
+                            data-disabled={!!plugin.disabled}
+                            onClick={togglePluginDisabled}
+                          >{plugin.disabled ? '启用' : '停用'}</a>
+                          <a
+                            href="javascript:void(0);"
+                            className="button button-xs button-default button-uninstall"
+                            data-name={plugin.name}
+                          >卸载</a>
+                        </div>
                       </h5>
                       <p className="description">{plugin.description}</p>
                     </td>

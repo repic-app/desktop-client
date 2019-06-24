@@ -3,39 +3,48 @@ const path = require('path')
 const { getAPPData } = require('./storage')
 
 const builtinPluginFolder = path.join(__dirname, '../plugins')
-const registeredPlugins = []
+let registeredPlugins = []
 
 const registerBuiltPlugins = () => {
 
   const plugins = fs.readdirSync(builtinPluginFolder)
+  const pluginsData = getAPPData('plugins', [])
+
+  registeredPlugins = []
 
   plugins && plugins.forEach((item) => {
 
     const pluginPath = path.join(builtinPluginFolder, item)
 
     if (fs.statSync(pluginPath).isDirectory()) {
+
       const plugin = require(pluginPath)
+      const pluginData = pluginsData.find(({ name }) => name === plugin.name)
+
       if (!plugin.disabled) {
         plugin.path = path.join(builtinPluginFolder, item, plugin.main)
-        registerPlugin(plugin)
+        registerPlugin({ ...plugin, ...pluginData })
       }
     }
-
   })
 
+  return registeredPlugins
 }
 
-const getRegisteredCompressors = () => {
-  return registeredPlugins.filter(plugin => plugin.type === 'compressor')
+const updateRegisteredPlugins = (plugins) => {
+  registeredPlugins = plugins
 }
 
-const getRegisteredPlugins = () => { 
+const registerPlugins = () => {
 
-  const pluginData = getAPPData('plugins', {})
+  const builtinPlugins = registerBuiltPlugins()
+  const thridPartPlugins = []
 
-  return registeredPlugins.map(item => {
-    return { ...item, ...pluginData[item.name] }
-  })
+  return [ ...builtinPlugins, ...thridPartPlugins ]
+}
+
+const getCompressors = () => {
+  return registeredPlugins.filter(item => !item.disabled && item.type === 'compressor')
 }
 
 const registerPlugin = (plugin) => {
@@ -43,7 +52,6 @@ const registerPlugin = (plugin) => {
   if (plugin && plugin.type) {
     registeredPlugins.push(plugin)
   }
-
 }
 
 const fetchPlugins = async () => {
@@ -58,4 +66,4 @@ const removePlugin = async () => {
   // ...
 }
 
-module.exports = { registerBuiltPlugins, registerPlugin, getRegisteredPlugins, getRegisteredCompressors }
+module.exports = { registerBuiltPlugins, registerPlugin, registerPlugins, getCompressors, updateRegisteredPlugins }

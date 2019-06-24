@@ -5,6 +5,6 @@ module.exports = {
   type: 'compressor',
   accepts: ['image/png', 'image/jpeg'],
   extensions: ['png', 'jpg', 'jpeg'],
-  process: 'renderer',
+  process: 'main',
   main: './lib'
 }

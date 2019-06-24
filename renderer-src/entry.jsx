@@ -10,7 +10,7 @@ import IndexPage from 'pages/index'
 import ComparePage from 'pages/compare'
 
 const { checkRegistrationAPI } = requireRemote('./helpers/registration')
-const { registerBuiltPlugins, getRegisteredPlugins } = requireRemote('./helpers/plugin')
+const { registerPlugins, updateRegisteredPlugins } = requireRemote('./helpers/plugin')
 const { setAPPData, getAPPData } = requireRemote('./helpers/storage')
 const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
 
@@ -108,8 +108,14 @@ export default class extends React.PureComponent {
   }
 
   setPlugins = (plugins) => {
+
     const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
-    this.setState({ plugins, compressors })
+
+    this.setState({ plugins, compressors }, () => {
+      updateRegisteredPlugins(plugins)
+      setAPPData('plugins', plugins.map(({ name, title, type, accepts, extensions, defaultFor, disabled }) => ({ name, title, type, accepts, extensions, defaultFor, disabled })))
+    })
+
   }
 
   async checkRegistration () {
@@ -146,19 +152,21 @@ export default class extends React.PureComponent {
       this.setAppState({ isSticky: true })
     }
 
-    registerBuiltPlugins()
-    this.setPlugins(getRegisteredPlugins())
+    const plugins = registerPlugins()
+    const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
+
+    this.setState({ plugins, compressors })
 
   }
 
   render () {
 
     const { appState, preferences, plugins, compressors } = this.state
-    const { setAppState, getAppState, setPreferences, updateProgress } = this
+    const { setAppState, getAppState, setPreferences, setPlugins, updateProgress } = this
 
     return (
       <HashRouter>
-        <APPContext.Provider value={{ appState, setAppState, getAppState, preferences, setPreferences, updateProgress, plugins, compressors }}>
+        <APPContext.Provider value={{ appState, setAppState, getAppState, preferences, setPreferences, updateProgress, plugins, compressors, setPlugins }}>
           <div className="page-container">
             <Route path="/" exact component={IndexPage} />
             <Route path="/compare" exact component={ComparePage} />
@@ -170,3 +178,6 @@ export default class extends React.PureComponent {
   }
 
 }
+
+// TODO
+// - 抽离与对比预览窗口无关的逻辑，加快对比窗口打开速度，防止逻辑重复执行
