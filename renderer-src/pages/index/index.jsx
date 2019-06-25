@@ -4,7 +4,7 @@ import Start from './components/start'
 import TaskList from './components/tasklist'
 import TaskAnalyzer from './components/analyzer'
 import { playSound } from 'helpers/sound'
-import event from 'helpers/events'
+import events from 'helpers/events'
 import remote, { requireRemote } from 'helpers/remote'
 import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
 import { resolveLocalFiles } from 'utils/base'
@@ -29,7 +29,8 @@ const defaultAppState = {
   taskAllFinished: false,
   showSettingsDropdown: false,
   showAbout: false,
-  showPreferences: false
+  showPreferences: false,
+  installingPlugins: []
 }
 
 let dragEventTriggerCount = 0
@@ -288,6 +289,12 @@ export default class extends React.PureComponent {
     }, this.updateProgress)
   }
 
+  initializePlugins () {
+    const plugins = registerPlugins()
+    const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
+    this.setState({ plugins, compressors })
+  }
+
   componentDidMount () {
 
     if (this.state.preferences.stickyOnLaunch) {
@@ -296,10 +303,11 @@ export default class extends React.PureComponent {
     }
 
     this.checkRegistration()
+    this.initializePlugins()
 
-    const plugins = registerPlugins()
-    const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
-    this.setState({ plugins, compressors })
+    events.on('request-update-plugins', () => {
+      this.initializePlugins()
+    })
 
     if (getAPPData('showPluginInstallTip', false) === false) {
       setTimeout(() => {
@@ -312,7 +320,7 @@ export default class extends React.PureComponent {
         }, (index) => {
           setAPPData('showPluginInstallTip', false)
           if (index === 0) {
-            event.emit('request-open-plugin-settings')
+            events.emit('request-open-plugin-settings')
           }
         })
       }, 1000)

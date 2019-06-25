@@ -51,7 +51,6 @@ export const openCacheFolder = () => {
 }
 
 export const openPluginFolder = () => {
-  console.log(APP_PLUGIN_PATH)
   electron.shell.openItem(APP_PLUGIN_PATH)
 }
 

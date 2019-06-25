@@ -1,12 +1,14 @@
 import React from 'react'
-import remote from 'helpers/remote'
+import remote, { requireRemote } from 'helpers/remote'
 import Switch from 'components/switch'
 import Select from 'components/select'
 import APPContext from 'store/index'
+import events from 'helpers/events'
 import { openPluginFolder } from 'utils/base'
 import './styles.scss'
 
 const similarExtensions = ['jpeg']
+const { fetchPlugins, installPlugin } = requireRemote('./helpers/plugin')
 
 const mapExtensionsAndCompressors = (compressors) => {
 
@@ -88,7 +90,8 @@ export default class extends React.PureComponent {
   static contextType = APPContext
 
   state = {
-    tabIndex: 0
+    tabIndex: 0,
+    thridPartPlugins: []
   }
 
   setTabIndex = (event) => {
@@ -102,7 +105,7 @@ export default class extends React.PureComponent {
   }
 
   handleDefaultCompressorChange = (value, name) => {
-    this.context.ssetPlugins(setDefaultCompressorForExtension(this.context.plugins, name, value))
+    this.context.setPlugins(setDefaultCompressorForExtension(this.context.plugins, name, value))
   }
 
   togglePluginDisabled = (event) => {
@@ -118,12 +121,48 @@ export default class extends React.PureComponent {
     requestPickSaveFolder(this.context.preferences, this.context.setPreferences)
   }
 
+  installPlugin = (event) => {
+
+    const { name, url } = event.currentTarget.dataset
+  
+    this.context.setAppState({
+      installingPlugins: [ ...this.context.appState.installingPlugins, name ]
+    })
+
+    installPlugin(name, url).then(() => {
+      events.emit('request-update-plugins')
+      this.context.setAppState({
+        installingPlugins: this.context.appState.installingPlugins.filter(item => item.name !== name)
+      })
+    }).catch((error) => {
+      console.log(error)
+      this.context.setAppState({
+        installingPlugins: this.context.appState.installingPlugins.filter(item => item.name !== name)
+      })
+    })
+
+  }
+
+  componentDidUpdate (_, prevState) {
+
+    if (prevState.tabIndex !== this.state.tabIndex && this.state.tabIndex === 2) {
+      fetchPlugins().then((res) => {
+        if (res && res.plugins) {
+          this.setState({ thridPartPlugins: res.plugins })
+        }
+      })
+    }
+
+  }
+
   render () {
 
-    const { tabIndex } = this.state
+    const { tabIndex, thridPartPlugins } = this.state
     const { appState, preferences, plugins, compressors } = this.context
     const taskNotEmpty = appState.taskList.length > 0
     const extensionCompressors = mapExtensionsAndCompressors(compressors)
+    const uninstalledPlugins = thridPartPlugins.filter(item => !plugins.find(subItem => subItem.name === item.name))
+    const { installingPlugins } = appState
 
     return (
       <div className="component-preferences">
@@ -265,6 +304,29 @@ export default class extends React.PureComponent {
                                 className="button button-xs button-default button-uninstall"
                                 data-name={plugin.name}
                               >卸载</a>
+                            )}
+                          </div>
+                        </h5>
+                        <p className="description">{plugin.description}</p>
+                      </td>
+                    </tr>
+                  ))}
+                  {uninstalledPlugins.map(plugin => (
+                    <tr key={plugin.name}>
+                      <td>
+                        <h5 className="caption">
+                          <span className="title">{plugin.title}</span>
+                          <div className="operates">
+                            {installingPlugins.includes(plugin.name) ? (
+                              <span>安装中</span>
+                            ) : (
+                              <a
+                                href="javascript:void(0);"
+                                className="button button-xs button-default button-uninstall"
+                                data-name={plugin.name}
+                                data-url={plugin.downloadURL}
+                                onClick={this.installPlugin}
+                              >安装</a>
                             )}
                           </div>
                         </h5>

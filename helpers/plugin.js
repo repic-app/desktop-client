@@ -1,9 +1,13 @@
+const { ipcMain } = require('electron')
 const fs = require('fs')
 const path = require('path')
+const https = require('https')
+const domain = require('domain')
+const unzipper = require('unzipper')
 const { getAPPData, APP_PLUGIN_PATH } = require('./storage')
 const builtinPluginFolder = path.join(__dirname, '../plugins')
 
-const remotePluginsURL = 'https://repic.app/plugins/list.json'
+const thridPartPluginsURL = 'https://repic.app/plugins/list.json'
 
 let registeredPlugins = []
 
@@ -41,7 +45,7 @@ const registerPlugins = () => {
 
     const pluginPath = path.join(APP_PLUGIN_PATH, item)
 
-    if (fs.statSync(pluginPath).isDirectory()) {
+    if (fs.existsSync(path.join(pluginPath, 'index.js'))) {
 
       const plugin = require(pluginPath)
       const pluginData = pluginsData.find(({ name }) => name === plugin.name)
@@ -68,16 +72,54 @@ const getCompressors = () => {
   return registeredPlugins.filter(item => !item.disabled && item.type === 'compressor')
 }
 
-const fetchPlugins = async () => {
+const fetchPlugins = () => new Promise((resolve, reject) => {
+
+  https.get(thridPartPluginsURL, (res) => {
+  
+    let data = ''
+
+    res.on('data', (chunk) => {
+      data += chunk
+    })
+
+    res.on('end', () => {
+      try {
+        resolve(JSON.parse(data))
+      } catch (error) {
+        reject(error)
+      }
+    })
+
+    res.on('error', reject)
+    res.on('abort', reject)
+
+  })
+
+})
+
+const installPlugin = (name, url) => new Promise((resolve, reject) => {
+
+  try {
+
+    https.get(url, response => {
+      domain
+        .create()
+        .on('error', reject)
+        .run(() => {
+          response
+            .pipe(unzipper.Extract({ path: APP_PLUGIN_PATH }))
+            .on('close', resolve)
+        })
+    })
+
+  } catch (error) {
+    reject(error)
+  }
+
+})
+
+const uninstallPlugin = async () => {
   // ...
 }
 
-const installPlugin = async () => {
-  // ...
-}
-
-const removePlugin = async () => {
-  // ...
-}
-
-module.exports = { APP_PLUGIN_PATH, registerPlugins, getCompressors, updateRegisteredPlugins }
+module.exports = { APP_PLUGIN_PATH, registerPlugins, fetchPlugins, installPlugin, uninstallPlugin, getCompressors, updateRegisteredPlugins }
