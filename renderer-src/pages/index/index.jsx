@@ -1,10 +1,10 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React from 'react'
 import TitleBar from './components/titlebar'
 import Start from './components/start'
 import TaskList from './components/tasklist'
 import TaskAnalyzer from './components/analyzer'
 import { playSound } from 'helpers/sound'
-import remote from 'helpers/remote'
+import remote, { requireRemote } from 'helpers/remote'
 import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
 import { resolveLocalFiles } from 'utils/base'
 import { taskStatus } from 'constants/task'
@@ -12,67 +12,166 @@ import { sleep } from 'utils/base'
 import APPContext from 'store/index'
 import './styles.scss'
 
+const { checkRegistrationAPI } = requireRemote('./helpers/registration')
+const { registerPlugins, updateRegisteredPlugins } = requireRemote('./helpers/plugin')
+const { setAPPData, getAPPData } = requireRemote('./helpers/storage')
+
 const defaultPageState = {
   isDraggingOver: false
 }
 
+const defaultAppState = {
+  isSticky: false,
+  taskList: [],
+  taskProgress: -1,
+  jjma: null,
+  taskAllFinished: false,
+  showSettingsDropdown: false,
+  showAbout: false,
+  showPreferences: false
+}
+
 let dragEventTriggerCount = 0
 
-export default () => {
+export default class extends React.PureComponent {
 
-  const [ pageState, _setPageState ] = useState(defaultPageState)
-  const { appState, preferences, setAppState, getAppState, updateProgress, compressors } = useContext(APPContext)
-  const acceptImageExtensions = compressors.map(item => item.extensions).flat()
+  static contextType = APPContext
 
-  const setPageState = (changePageState) => {
-    _setPageState({ ...pageState, ...changePageState })
+  state = {
+    pageState: defaultPageState,
+    appState: defaultAppState,
+    preferences: getAPPData('preferences'),
+    plugins: [],
+    compressors: []
   }
 
-  const handleThumbCreate = (taskId, thumbUrl) => {
-    setAppState({
-      taskList: getAppState('taskList').map(item => {
+  getContextValue = () => ({
+    appState: this.state.appState,
+    preferences: this.state.preferences,
+    plugins: this.state.plugins,
+    compressors: this.state.compressors,
+    setAppState: this.setAppState,
+    setPreferences: this.setPreferences,
+    updateProgress: this.updateProgress,
+    setPlugins: this.setPlugins
+  })
+
+  setAppState = (changedAppState, callback) => {
+
+    this.setState({
+      appState: {
+        ...this.state.appState,
+        ...changedAppState
+      }
+    }, callback)
+
+  }
+
+  setPreferences = (changedPreferences) => {
+
+    const nextPreferences = { ...this.state.preferences, ...changedPreferences }
+
+    this.setState({ preferences: nextPreferences }, () => {
+      setAPPData('preferences', nextPreferences)
+      if (changedPreferences.theme) {
+        this.props.onUpdateAppTheme()
+      }
+    })
+
+  }
+
+  updateProgress = () => {
+
+    const { taskList: currentTask } = this.state.appState
+    const completedTaskCount = currentTask.filter(item => {
+      return [
+        taskStatus.COMPLETE,
+        taskStatus.FAIL,
+        taskStatus.RESTORED,
+      ].includes(item.status)
+    }).length
+
+    let taskProgress = completedTaskCount / currentTask.length
+    const taskAllFinished = taskProgress === 1
+    taskProgress >= 1 && (taskProgress = -1)
+
+    this.setAppState({ taskProgress, taskAllFinished })
+    try {
+      remote.getCurrentWindow().setProgressBar(taskProgress)
+    } catch {
+      // ...
+    }
+
+  }
+
+  setPlugins = (plugins) => {
+
+    const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
+
+    this.setState({ plugins, compressors }, () => {
+      updateRegisteredPlugins(plugins)
+      setAPPData('plugins', plugins.map(({ name, title, type, accepts, extensions, defaultFor, disabled }) => ({ name, title, type, accepts, extensions, defaultFor, disabled })))
+    })
+
+  }
+
+  async checkRegistration () {
+
+    const registration = await checkRegistrationAPI()
+
+    if (registration) {
+      this.setAppState({ jjma: registration.jjma })
+    }
+
+  }
+
+  handleThumbCreate = (taskId, thumbUrl) => {
+
+    this.setAppState({
+      taskList: this.state.appState.taskList.map(item => {
         return item.id === taskId ? { ...item, thumbUrl } : item
       })
     })
+
   }
 
-  const handleTaskUpdate = (task) => {
+  handleTaskUpdate = (task) => {
 
-    const nextTaskList = getAppState('taskList').map(item => {
+    const nextTaskList = this.state.appState.taskList.map(item => {
       return item.id === task.id ? { ...item, ...task } : item
     })
 
-    setAppState({
-      taskList: executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)
-    }, updateProgress)
+    this.setAppState({
+      taskList: executeTasks(nextTaskList, this.handleTaskUpdate, this.handleThumbCreate)
+    }, this.updateProgress)
 
   }
 
-  const handleDragEnter = (event) => {
+  handleDragEnter = (event) => {
 
     if (dragEventTriggerCount === 0) {
       playSound('INSERT_PHOTO')
     }
 
     dragEventTriggerCount ++
-    setPageState({ isDraggingOver: true })
+    this.setState({ isDraggingOver: true })
 
     event.preventDefault()
     event.stopPropagation()
 
   }
 
-  const handleDragOver = (event) => {
+  handleDragOver = (event) => {
     event.preventDefault()
   }
 
-  const handleDragDrop = async (event) => {
+  handleDragDrop = async (event) => {
 
     event.preventDefault()
     event.stopPropagation()
 
     const files = event.dataTransfer.files
-    const currentTaskList = getAppState('taskList')
+    const currentTaskList = this.state.appState.taskList
     const nextTaskList = appendTasks(currentTaskList, [].map.call(files, file => ({ file, path: file.path })))
 
     if (nextTaskList.length === currentTaskList.length) {
@@ -80,32 +179,32 @@ export default () => {
     }
 
     if (!nextTaskList.length) {
-      handleDragCancel()
+      this.handleDragCancel()
       return false
     }
 
     dragEventTriggerCount > 0 && dragEventTriggerCount --
 
-    setAppState({
+    this.setAppState({
       taskList: nextTaskList
     }, async () => {
       if (!currentTaskList.length) {
         await sleep(500)
       }
-      setAppState({
-        taskList: executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)
-      }, updateProgress)
+      this.setAppState({
+        taskList: executeTasks(nextTaskList, this.handleTaskUpdate, this.handleThumbCreate)
+      }, this.updateProgress)
     })
 
   }
 
-  const handleDragCancel = (event) => {
+  handleDragCancel = (event) => {
 
     dragEventTriggerCount > 0 && dragEventTriggerCount --
 
     if (dragEventTriggerCount === 0) {
       playSound('INSERT_PHOTO')
-      setPageState({ isDraggingOver: false })
+      this.setState({ isDraggingOver: false })
     }
 
     if (event) {
@@ -115,9 +214,9 @@ export default () => {
 
   }
 
-  const handlePickedFile = (files) => {
+  handlePickedFile = (files) => {
 
-    const currentTaskList = getAppState('taskList')
+    const currentTaskList = this.state.appState.taskList
     const nextTaskList = appendTasks(currentTaskList, files)
 
     if (nextTaskList.length === currentTaskList.length) {
@@ -128,106 +227,130 @@ export default () => {
       return false
     }
 
-    setAppState({
+    this.setAppState({
       taskList: nextTaskList
     }, async () => {
       if (!currentTaskList.length) {
         await sleep(800)
       }
-      setAppState({
-        taskList: executeTasks(nextTaskList, handleTaskUpdate, handleThumbCreate)
-      }, updateProgress)
+      this.setAppState({
+        taskList: executeTasks(nextTaskList, this.handleTaskUpdate, this.handleThumbCreate)
+      }, this.updateProgress)
     })
 
   }
 
-  const handleRequestPickFile = () => {
+  handleRequestPickFile = () => {
 
     remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
       title: '选择图片文件',
       filters: [
         {
           name: '图片文件',
-          extensions: acceptImageExtensions
+          extensions: this.state.compressors.map(item => item.extensions).flat()
         }
       ],
       properties: ['openFile', 'multiSelections', 'noResolveAliases', 'treatPackageAsDirectory'],
     }, (filePaths) => {
-      filePaths && handlePickedFile(resolveLocalFiles(filePaths))
+      filePaths && this.handlePickedFile(resolveLocalFiles(filePaths))
     })
 
   }
 
-  const handleRestore = (task) => {
-    setAppState({
-      taskList: getAppState('taskList').map(item => {
+  handleRestore = (task) => {
+    this.setAppState({
+      taskList: this.state.appState.taskList.map(item => {
         return item.id === task.id ? { ...item, ...restoreTask(task) } : item
       })
     })
   }
 
-  const handleRecompress = (task) => {
-    setAppState({
-      taskList: executeTasks(getAppState('taskList').map(item => {
+  handleRecompress = (task) => {
+    this.setAppState({
+      taskList: executeTasks(this.state.appState.taskList.map(item => {
         return item.id === task.id ? { ...item, status: taskStatus.PENDING } : item
-      }), handleTaskUpdate, handleThumbCreate)
-    }, updateProgress)
+      }), this.handleTaskUpdate, this.handleThumbCreate)
+    }, this.updateProgress)
   }
 
-  const handleClear = () => {
-    setPageState({ isDraggingOver: false })
+  handleClear = () => {
+    this.setState({ isDraggingOver: false })
   }
 
-  const handleRestoreAll = (taskList) => {
-    setAppState({ taskList })
+  handleRestoreAll = (taskList) => {
+    this.setAppState({ taskList })
   }
 
-  const handleRecompressAll = (taskList) => {
-    setAppState({
-      taskList: executeTasks(taskList, handleTaskUpdate, handleThumbCreate)
-    }, updateProgress)
+  handleRecompressAll = (taskList) => {
+    this.setAppState({
+      taskList: executeTasks(taskList, this.handleTaskUpdate, this.handleThumbCreate)
+    }, this.updateProgress)
   }
 
-  return (
-    <div className="app-page page-index">
-      <TitleBar
-        appState={appState}
-        setAppState={setAppState}
-        preferences={preferences}
-      />
-      <div
-        className="index-content"
-        onDragEnter={handleDragEnter}
-        onDragExit={handleDragCancel}
-        onDragEnd={handleDragCancel}
-        onDragOver={handleDragOver}
-        onDrop={handleDragDrop}
-        onDragLeave={handleDragCancel}
-        data-dragging-over={pageState.isDraggingOver}
-        data-empty={appState.taskList.length === 0}
-      >
-        <Start
-          appState={appState}
-          setAppState={setAppState}
-          onRequestPickFile={handleRequestPickFile}
-          acceptImageExtensions={acceptImageExtensions}
-        />
-        <TaskList
-          appState={appState}
-          preferences={preferences}
-          onRestore={handleRestore}
-          onRecompress={handleRecompress}
-        />
-        <TaskAnalyzer
-          appState={appState}
-          setAppState={setAppState}
-          preferences={preferences}
-          onClear={handleClear}
-          onRestoreAll={handleRestoreAll}
-          onRecompressAll={handleRecompressAll}
-        />
+  componentDidMount () {
+
+    if (this.state.preferences.stickyOnLaunch) {
+      remote.getCurrentWindow().setAlwaysOnTop(true)
+      this.setAppState({ isSticky: true })
+    }
+
+    this.checkRegistration()
+
+    const plugins = registerPlugins()
+    const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
+    this.setState({ plugins, compressors })
+
+  }
+
+  render () {
+
+    const { appState, preferences, compressors } = this.state
+    const acceptImageExtensions = compressors.map(item => item.extensions).flat()
+
+    return (
+      <div className="app-page page-index">
+        <APPContext.Provider value={this.getContextValue()}>
+          <TitleBar
+            appState={appState}
+            preferences={preferences}
+            setAppState={this.setAppState}
+          />
+          <div
+            className="index-content"
+            onDragEnter={this.handleDragEnter}
+            onDragExit={this.handleDragCancel}
+            onDragEnd={this.handleDragCancel}
+            onDragOver={this.handleDragOver}
+            onDrop={this.handleDragDrop}
+            onDragLeave={this.handleDragCancel}
+            data-dragging-over={this.state.isDraggingOver}
+            data-empty={appState.taskList.length === 0}
+          >
+            <Start
+              appState={appState}
+              setAppState={this.setAppState}
+              onRequestPickFile={this.handleRequestPickFile}
+              acceptImageExtensions={acceptImageExtensions}
+            />
+            <TaskList
+              appState={appState}
+              preferences={preferences}
+              onRestore={this.handleRestore}
+              onRecompress={this.handleRecompress}
+            />
+            <TaskAnalyzer
+              appState={appState}
+              preferences={preferences}
+              setAppState={this.setAppState}
+              onClear={this.handleClear}
+              onRestoreAll={this.handleRestoreAll}
+              onRecompressAll={this.handleRecompressAll}
+            />
+          </div>
+        </APPContext.Provider>
       </div>
-    </div>
-  )
+    )
+
+  }
 
 }

@@ -121,7 +121,6 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
     })
 
     const matchedCompressor = compressorsForExtension.find(compressor => {
-      console.log(compressor)
       return compressor.defaultFor && compressor.defaultFor.includes(fileExtension)
     }) || compressorsForExtension[0]
 
