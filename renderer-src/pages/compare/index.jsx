@@ -34,7 +34,6 @@ const calcZoomScale = (currentScale, isZoomOut) => {
   )
 
   return nextScale / 100
-
 }
 
 let mouseDragging = false
@@ -89,7 +88,6 @@ export default React.memo(() => {
       translateY: nextTranslateY,
       scale: nextScale
     })
-
   }
 
   const handleDblClick = () => {

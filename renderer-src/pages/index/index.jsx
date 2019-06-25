@@ -4,6 +4,7 @@ import Start from './components/start'
 import TaskList from './components/tasklist'
 import TaskAnalyzer from './components/analyzer'
 import { playSound } from 'helpers/sound'
+import event from 'helpers/events'
 import remote, { requireRemote } from 'helpers/remote'
 import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
 import { resolveLocalFiles } from 'utils/base'
@@ -300,12 +301,28 @@ export default class extends React.PureComponent {
     const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
     this.setState({ plugins, compressors })
 
+    if (getAPPData('showPluginInstallTip', false) === false) {
+      setTimeout(() => {
+        remote.dialog.showMessageBox({
+          type: 'info',
+          message: '是否安装压缩插件？',
+          detail: '程序仅内置jpg和webp图片压缩功能，安装压缩插件后可压缩更多格式的文件',
+          defaultId: 0,
+          buttons: ['安装插件', '取消'],
+        }, (index) => {
+          setAPPData('showPluginInstallTip', false)
+          if (index === 0) {
+            event.emit('request-open-plugin-settings')
+          }
+        })
+      }, 1000)
+    }
+
   }
 
   render () {
 
     const { appState, preferences, compressors } = this.state
-    const acceptImageExtensions = compressors.map(item => item.extensions).flat()
 
     return (
       <div className="app-page page-index">
@@ -328,9 +345,9 @@ export default class extends React.PureComponent {
           >
             <Start
               appState={appState}
+              compressors={compressors}
               setAppState={this.setAppState}
               onRequestPickFile={this.handleRequestPickFile}
-              acceptImageExtensions={acceptImageExtensions}
             />
             <TaskList
               appState={appState}

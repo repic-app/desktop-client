@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react'
+import React from 'react'
 import remote from 'helpers/remote'
 import Switch from 'components/switch'
 import Select from 'components/select'
 import APPContext from 'store/index'
+import { openPluginFolder } from 'utils/base'
 import './styles.scss'
 
 const similarExtensions = ['jpeg']
@@ -30,7 +31,6 @@ const mapExtensionsAndCompressors = (compressors) => {
       }
 
     })
-
   })
 
   return Object.keys(supportedExtensions).map(key => {
@@ -39,7 +39,6 @@ const mapExtensionsAndCompressors = (compressors) => {
       ...supportedExtensions[key]
     }
   })
-
 }
 
 const requestPickSaveFolder = (preferences, setPreferences) => {
@@ -56,7 +55,6 @@ const requestPickSaveFolder = (preferences, setPreferences) => {
       })
     }
   })
-
 }
 
 const setDefaultCompressorForExtension = (plugins, extension, compressorName) => {
@@ -75,9 +73,7 @@ const setDefaultCompressorForExtension = (plugins, extension, compressorName) =>
       ...item,
       defaultFor: defaultFor.filter((ext, index, array) => index === array.indexOf(ext))
     }
-
   })
-
 }
 
 const setPluginState = (plugins, name, state) => {
@@ -85,191 +81,208 @@ const setPluginState = (plugins, name, state) => {
   return plugins.map(item => {
     return item.name === name ? { ...item, ...state } : item
   })
-
 }
 
-export default React.memo(() => {
+export default class extends React.PureComponent {
 
-  const { appState, preferences, setPreferences, plugins, setPlugins, compressors } = useContext(APPContext)
-  const [ tabIndex, _setTabIndex ] = useState(0)
+  static contextType = APPContext
 
-  const setTabIndex = (event) => {
-    _setTabIndex(event.currentTarget.dataset.index * 1)
+  state = {
+    tabIndex: 0
   }
 
-  const handleChange = (value, name) => {
-    setPreferences({ [name]: value })
+  setTabIndex = (event) => {
+
+    const tabIndex = typeof event === 'number' ? event : event.currentTarget.dataset.index * 1
+    this.setState({ tabIndex })
   }
 
-  const handleDefaultCompressorChange = (value, name) => {
-    setPlugins(setDefaultCompressorForExtension(plugins, name, value))
+  handleChange = (value, name) => {
+    this.context.setPreferences({ [name]: value })
   }
 
-  const togglePluginDisabled = (event) => {
+  handleDefaultCompressorChange = (value, name) => {
+    this.context.ssetPlugins(setDefaultCompressorForExtension(this.context.plugins, name, value))
+  }
+
+  togglePluginDisabled = (event) => {
+
     const { name, disabled } = event.currentTarget.dataset
-    setPlugins(setPluginState(plugins, name, {
+
+    this.context.setPlugins(setPluginState(this.context.plugins, name, {
       disabled: disabled !== 'true'
     }))
   }
 
-  const pickSaveFolder = () => {
-    requestPickSaveFolder(preferences, setPreferences)
+  pickSaveFolder = () => {
+    requestPickSaveFolder(this.context.preferences, this.context.setPreferences)
   }
 
-  const taskNotEmpty = appState.taskList.length > 0
-  const extensionCompressors = mapExtensionsAndCompressors(compressors)
+  render () {
 
-  return (
-    <div className="component-preferences">
-      <div className="tab-header">
-        <a href="javascript:void(0);" data-index="0" data-active={tabIndex === 0} className="tab-button button-common" onClick={setTabIndex}><span>通用设定</span></a>
-        <a href="javascript:void(0);" data-index="1" data-active={tabIndex === 1} className="tab-button button-compress" onClick={setTabIndex}><span>压缩参数</span></a>
-        <a href="javascript:void(0);" data-index="2" data-active={tabIndex === 2} className="tab-button button-plugin" onClick={setTabIndex}><span>插件管理</span></a>
-      </div>
-      <div className="tab-content">
-        <div className="tab-item" data-index="0" data-active={tabIndex === 0}>
-          <div className="option-group">
-            <label className="label">外观</label>
-            <div className="option">
-              <Select value={`${preferences.theme}`} name="theme" onChange={handleChange} >
-                <option value="dark" key={0}>深色主题</option>
-                <option value="light" key={1}>浅色主题</option>
-                <option value="auto" key={2}>跟随系统</option>
-              </Select>
-            </div>
-          </div>
-          <div className="option-group">
-            <label className="label">显示缩略图</label>
-            <div className="option">
-              <Switch checked={preferences.showThumb} name="showThumb" onChange={handleChange} />
-            </div>
-          </div>
-          <div className="option-group">
-            <label className="label">并行压缩数量</label>
-            <div className="option">
-              <Select value={`${preferences.parallelTaskCount}`} name="parallelTaskCount" onChange={handleChange} >
-                <option value="1" key={0}>1</option>
-                <option value="3" key={1}>3</option>
-                <option value="5" key={2}>5</option>
-                <option value="8" key={3}>8</option>
-                <option value="10" key={4}>10</option>
-              </Select>
-            </div>
-          </div>
-          <div className="option-group">
-            <label className="label">启动后置顶</label>
-            <div className="option">
-              <Switch checked={preferences.stickyOnLaunch} name="stickyOnLaunch" onChange={handleChange} />
-            </div>
-          </div>
-          <div className="option-group">
-            <label className="label">操作音效</label>
-            <div className="option">
-              <Switch checked={preferences.soundEffects} name="soundEffects" onChange={handleChange} />
-            </div>
-          </div>
-        </div>
-        <div className="tab-item" data-index="1" data-active={tabIndex === 1}>
-          <div className="option-group">
-            <label className="label"><b>指定各类文件的压缩插件</b></label>
-          </div>
-          <div className="options-table extensions-table">
-            <table>
-              <thead>
-                <tr>
-                  <th width="55%">扩展名</th>
-                  <th width="45%">压缩插件</th>
-                </tr>
-              </thead>
-              <tbody>
-                {extensionCompressors.map(item => (
-                  <tr key={item.extension}>
-                    <td>{item.extension}</td>
-                    <td>
-                      <Select
-                        disabled={item.compressors.length <= 1}
-                        value={item.defaultComprssor || item.compressors[0].name}
-                        name={item.extension}
-                        onChange={handleDefaultCompressorChange}
-                      >
-                        {item.compressors.map(({ name, title }) => (
-                          <option value={name} key={name}>{title}</option>
-                        ))}
-                      </Select>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="option-group">
-            <label className="label text-with-icon">
-              <span>压缩质量</span>
-              <small>仅部分插件支持此选项</small>
-            </label>
-            <div className="option">
-              <Select value={`${preferences.outputQuality}`} name="outputQuality" onChange={handleChange}>
-                <option value="0.3" key={0}>极低</option>
-                <option value="0.5" key={1}>低</option>
-                <option value="0.6" key={2}>中</option>
-                <option value="0.8" key={3}>高</option>
-                <option value="1" key={4}>极高</option>
-              </Select>
-            </div>
-          </div>
-          <div className="option-group" data-disabled={taskNotEmpty}>
-            <label className="label">压缩后覆盖原图</label>
-            <div className="option">
-              <Switch checked={preferences.overrideOrigin} name="overrideOrigin" onChange={handleChange} />
-            </div>
-          </div>
-          <div className="option-group" data-disabled={taskNotEmpty || preferences.overrideOrigin}>
-            <label className="label">
-              <span>压缩后保存到</span>
-              <small title={preferences.autoSavePath}>{preferences.autoSavePath}</small>
-            </label>
-            <div className="option">
-              <button onClick={pickSaveFolder} className="button button-xs button-default">更改</button>
-            </div>
-          </div>
-        </div>
-        <div className="tab-item" data-index="2" data-active={tabIndex === 2}>
-          <div className="option-group">
-            <label className="label"><b>安装插件来扩展程序能力</b></label>
-          </div>
-          <div className="options-table plugins-table">
-            <table>
-              <tbody>
-                {plugins.map(plugin => (
-                  <tr key={plugin.name}>
-                    <td>
-                      <h5 className="caption">
-                        <span className="title">{plugin.title}{plugin.disabled ? <small> [已停用]</small> : null}</span>
-                        <div className="operates">
-                          <a
-                            href="javascript:void(0);"
-                            className="button button-xs button-default button-toggle-disabled"
-                            data-name={plugin.name}
-                            data-disabled={!!plugin.disabled}
-                            onClick={togglePluginDisabled}
-                          >{plugin.disabled ? '启用' : '停用'}</a>
-                          <a
-                            href="javascript:void(0);"
-                            className="button button-xs button-default button-uninstall"
-                            data-name={plugin.name}
-                          >卸载</a>
-                        </div>
-                      </h5>
-                      <p className="description">{plugin.description}</p>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+    const { tabIndex } = this.state
+    const { appState, preferences, plugins, compressors } = this.context
+    const taskNotEmpty = appState.taskList.length > 0
+    const extensionCompressors = mapExtensionsAndCompressors(compressors)
 
-})
+    return (
+      <div className="component-preferences">
+        <div className="tab-header">
+          <a href="javascript:void(0);" data-index="0" data-active={tabIndex === 0} className="tab-button button-common" onClick={this.setTabIndex}><span>通用设定</span></a>
+          <a href="javascript:void(0);" data-index="1" data-active={tabIndex === 1} className="tab-button button-compress" onClick={this.setTabIndex}><span>压缩参数</span></a>
+          <a href="javascript:void(0);" data-index="2" data-active={tabIndex === 2} className="tab-button button-plugin" onClick={this.setTabIndex}><span>插件管理</span></a>
+        </div>
+        <div className="tab-content">
+          <div className="tab-item" data-index="0" data-active={tabIndex === 0}>
+            <div className="option-group">
+              <label className="label">外观</label>
+              <div className="option">
+                <Select value={`${preferences.theme}`} name="theme" onChange={this.handleChange} >
+                  <option value="dark" key={0}>深色主题</option>
+                  <option value="light" key={1}>浅色主题</option>
+                  <option value="auto" key={2}>跟随系统</option>
+                </Select>
+              </div>
+            </div>
+            <div className="option-group">
+              <label className="label">显示缩略图</label>
+              <div className="option">
+                <Switch checked={preferences.showThumb} name="showThumb" onChange={this.handleChange} />
+              </div>
+            </div>
+            <div className="option-group">
+              <label className="label">并行压缩数量</label>
+              <div className="option">
+                <Select value={`${preferences.parallelTaskCount}`} name="parallelTaskCount" onChange={this.handleChange} >
+                  <option value="1" key={0}>1</option>
+                  <option value="3" key={1}>3</option>
+                  <option value="5" key={2}>5</option>
+                  <option value="8" key={3}>8</option>
+                  <option value="10" key={4}>10</option>
+                </Select>
+              </div>
+            </div>
+            <div className="option-group">
+              <label className="label">启动后置顶</label>
+              <div className="option">
+                <Switch checked={preferences.stickyOnLaunch} name="stickyOnLaunch" onChange={this.handleChange} />
+              </div>
+            </div>
+            <div className="option-group">
+              <label className="label">操作音效</label>
+              <div className="option">
+                <Switch checked={preferences.soundEffects} name="soundEffects" onChange={this.handleChange} />
+              </div>
+            </div>
+          </div>
+          <div className="tab-item" data-index="1" data-active={tabIndex === 1}>
+            <div className="option-group">
+              <label className="label"><b>指定各类文件的压缩插件</b></label>
+            </div>
+            <div className="options-table extensions-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th width="55%">扩展名</th>
+                    <th width="45%">压缩插件</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {extensionCompressors.map(item => (
+                    <tr key={item.extension}>
+                      <td>{item.extension}</td>
+                      <td>
+                        <Select
+                          disabled={item.compressors.length <= 1}
+                          value={item.defaultComprssor || item.compressors[0].name}
+                          name={item.extension}
+                          onChange={this.handleDefaultCompressorChange}
+                        >
+                          {item.compressors.map(({ name, title }) => (
+                            <option value={name} key={name}>{title}</option>
+                          ))}
+                        </Select>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="option-group">
+              <label className="label text-with-icon">
+                <span>压缩质量</span>
+                <small>仅部分插件支持此选项</small>
+              </label>
+              <div className="option">
+                <Select value={`${preferences.outputQuality}`} name="outputQuality" onChange={this.handleChange}>
+                  <option value="0.3" key={0}>极低</option>
+                  <option value="0.5" key={1}>低</option>
+                  <option value="0.6" key={2}>中</option>
+                  <option value="0.8" key={3}>高</option>
+                  <option value="1" key={4}>极高</option>
+                </Select>
+              </div>
+            </div>
+            <div className="option-group" data-disabled={taskNotEmpty}>
+              <label className="label">压缩后覆盖原图</label>
+              <div className="option">
+                <Switch checked={preferences.overrideOrigin} name="overrideOrigin" onChange={this.handleChange} />
+              </div>
+            </div>
+            <div className="option-group" data-disabled={taskNotEmpty || preferences.overrideOrigin}>
+              <label className="label">
+                <span>压缩后保存到</span>
+                <small title={preferences.autoSavePath}>{preferences.autoSavePath}</small>
+              </label>
+              <div className="option">
+                <button onClick={this.pickSaveFolder} className="button button-xs button-default">更改</button>
+              </div>
+            </div>
+          </div>
+          <div className="tab-item" data-index="2" data-active={tabIndex === 2}>
+            <div className="option-group">
+              <label className="label"><b>安装插件来扩展程序能力</b></label>
+            </div>
+            <div className="options-table plugins-table">
+              <table>
+                <tbody>
+                  {plugins.map(plugin => (
+                    <tr key={plugin.name}>
+                      <td>
+                        <h5 className="caption">
+                          <span className="title">{plugin.title}{plugin.disabled ? <small> [已停用]</small> : null}</span>
+                          <div className="operates">
+                            <a
+                              href="javascript:void(0);"
+                              className="button button-xs button-default button-toggle-disabled"
+                              data-name={plugin.name}
+                              data-disabled={!!plugin.disabled}
+                              onClick={this.togglePluginDisabled}
+                            >{plugin.disabled ? '启用' : '停用'}</a>
+                            {plugin.isBuiltinPlugin ? null : (
+                              <a
+                                href="javascript:void(0);"
+                                className="button button-xs button-default button-uninstall"
+                                data-name={plugin.name}
+                              >卸载</a>
+                            )}
+                          </div>
+                        </h5>
+                        <p className="description">{plugin.description}</p>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="plugin-entry">
+              <a href="javascript:void(0);" className="button-open-plugin-folder" onClick={openPluginFolder}>打开插件目录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+
+  }
+
+}

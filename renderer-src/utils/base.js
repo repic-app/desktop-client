@@ -1,5 +1,5 @@
 import electron from 'electron'
-import { APP_TEMP_PATH } from 'helpers/compressor'
+import { APP_TEMP_PATH, APP_DOC_PATH, APP_PLUGIN_PATH } from 'helpers/remote'
 
 const fs = electron.remote.require('fs')
 const mimeTypes = electron.remote.require('mime-types')
@@ -50,6 +50,11 @@ export const openCacheFolder = () => {
   electron.shell.openItem(APP_TEMP_PATH)
 }
 
+export const openPluginFolder = () => {
+  console.log(APP_PLUGIN_PATH)
+  electron.shell.openItem(APP_PLUGIN_PATH)
+}
+
 export const openFolder = (path) => {
   electron.shell.openItem(path)
 }
@@ -77,11 +82,5 @@ export const formatJJMa = (stringJJMa) => {
   }
 
   return [stringJJMa.slice(0, 4), stringJJMa.slice(4, 8), '****', '****',stringJJMa.slice(16, 20)].join(' ')
-
-}
-
-export const requireLocal = (path) => {
-
-  
 
 }

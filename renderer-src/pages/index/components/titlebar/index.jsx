@@ -1,7 +1,8 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import Modal from 'components/modal'
 import Switch from 'components/switch'
 import remote from 'helpers/remote'
+import event from 'helpers/events'
 import { openLink, openFolder, openCacheFolder } from 'utils/base'
 import Preferences from '../preferences'
 import About from '../about'
@@ -32,6 +33,7 @@ const copyRightText = (
 export default React.memo(({ preferences, appState, setAppState }) => {
 
   const dropdownRef = useRef(null)
+  const preferencesModalRef = useRef(null)
 
   const toggleSticky = () => {
     remote.getCurrentWindow().setAlwaysOnTop(!appState.isSticky)
@@ -47,7 +49,6 @@ export default React.memo(({ preferences, appState, setAppState }) => {
         showSettingsDropdown: !appState.showSettingsDropdown
       })
     }
-
   }
 
   const hideSettingsDropdown = () => {
@@ -85,6 +86,14 @@ export default React.memo(({ preferences, appState, setAppState }) => {
   const openSavePath = () => {
     openFolder(preferences.autoSavePath)
   }
+
+  useEffect(() => {
+
+    event.on('request-open-plugin-settings', () => {
+      togglePreferencesModal()
+      preferencesModalRef.current.setTabIndex(2)
+    })
+  }, [])
 
   return (
     <div className="component-title-bar">
@@ -134,7 +143,7 @@ export default React.memo(({ preferences, appState, setAppState }) => {
         showConfirm={false}
         cancelText="关闭"
       >
-        <Preferences />
+        <Preferences ref={preferencesModalRef} />
       </Modal>
       <Modal
         title={aboutModalTitle}

@@ -1,18 +1,23 @@
 const fs = require('fs')
 const path = require('path')
-const { getAPPData } = require('./storage')
-
+const { getAPPData, APP_PLUGIN_PATH } = require('./storage')
 const builtinPluginFolder = path.join(__dirname, '../plugins')
+
+const remotePluginsURL = 'https://repic.app/plugins/list.json'
+
 let registeredPlugins = []
 
-const registerBuiltPlugins = () => {
+!fs.existsSync(APP_PLUGIN_PATH) && fs.mkdirSync(APP_PLUGIN_PATH)
 
-  const plugins = fs.readdirSync(builtinPluginFolder)
+const registerPlugins = () => {
+
+  const builtPlugins = fs.readdirSync(builtinPluginFolder)
+  const thridPartPlugins = fs.readdirSync(APP_PLUGIN_PATH)
   const pluginsData = getAPPData('plugins', [])
 
   registeredPlugins = []
 
-  plugins && plugins.forEach((item) => {
+  builtPlugins && builtPlugins.forEach((item) => {
 
     const pluginPath = path.join(builtinPluginFolder, item)
 
@@ -21,9 +26,33 @@ const registerBuiltPlugins = () => {
       const plugin = require(pluginPath)
       const pluginData = pluginsData.find(({ name }) => name === plugin.name)
 
-      if (!plugin.disabled) {
-        plugin.path = path.join(builtinPluginFolder, item, plugin.main)
-        registerPlugin({ ...plugin, ...pluginData })
+      if (plugin && plugin.name && plugin.main) {
+        registeredPlugins.push({
+          ...plugin,
+          ...pluginData,
+          path: path.join(builtinPluginFolder, item, plugin.main),
+          isBuiltinPlugin: true
+        })
+      }
+    }
+  })
+
+  thridPartPlugins && thridPartPlugins.forEach((item) => {
+
+    const pluginPath = path.join(APP_PLUGIN_PATH, item)
+
+    if (fs.statSync(pluginPath).isDirectory()) {
+
+      const plugin = require(pluginPath)
+      const pluginData = pluginsData.find(({ name }) => name === plugin.name)
+
+      if (plugin && plugin.name && plugin.main) {
+        registeredPlugins.push({
+          ...plugin,
+          ...pluginData,
+          path: path.join(APP_PLUGIN_PATH, item, plugin.main),
+          isBuiltinPlugin: false
+        })
       }
     }
   })
@@ -35,23 +64,8 @@ const updateRegisteredPlugins = (plugins) => {
   registeredPlugins = plugins
 }
 
-const registerPlugins = () => {
-
-  const builtinPlugins = registerBuiltPlugins()
-  const thridPartPlugins = []
-
-  return [ ...builtinPlugins, ...thridPartPlugins ]
-}
-
 const getCompressors = () => {
   return registeredPlugins.filter(item => !item.disabled && item.type === 'compressor')
-}
-
-const registerPlugin = (plugin) => {
-
-  if (plugin && plugin.type) {
-    registeredPlugins.push(plugin)
-  }
 }
 
 const fetchPlugins = async () => {
@@ -66,4 +80,4 @@ const removePlugin = async () => {
   // ...
 }
 
-module.exports = { registerBuiltPlugins, registerPlugin, registerPlugins, getCompressors, updateRegisteredPlugins }
+module.exports = { APP_PLUGIN_PATH, registerPlugins, getCompressors, updateRegisteredPlugins }

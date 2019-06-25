@@ -12,7 +12,7 @@ const SYSTEM_DOC_PATH = (electron.app || electron.remote.app).getPath('documents
 const APP_DATA_FILE_NAME = 'app.repic.compressor.profile.dat'
 const APP_TEMP_DIR_NAME = '/app.repic.compressor/'
 const APP_DOC_DIR_NAMEE = '/Repic'
-const APP_PLUGIN_DIR_NAME = '/repic.plugins'
+const APP_PLUGIN_DIR_NAME = '/plugins'
 const APP_DATA_FILE_ENCRYPT_KEY = '6a1ca05160278b771b8a65932977'
 const APP_DATA_FILE_PATH = path.join(SYSTEM_USER_DATA_PATH, APP_DATA_FILE_NAME)
 const APP_TEMP_PATH = path.join(SYSTEM_TEMP_PATH, APP_TEMP_DIR_NAME)
@@ -33,6 +33,7 @@ const defaultAPPData = {
     stickyOnLaunch: false,
     soundEffects: true
   },
+  showPluginInstallTip: true,
   plugins: []
 }
 

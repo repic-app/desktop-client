@@ -1,4 +1,4 @@
-const { app, Menu, BrowserWindow, ipcMain } = require('electron')
+const { app, Menu, BrowserWindow } = require('electron')
 const storage = require('./helpers/storage')
 const path = require('path')
 const isProduction = process.env.NODE_ENV !== 'development'
@@ -58,15 +58,11 @@ function initialize () {
   })
 
   app.on('window-all-closed', () => {
-    !mainWindow && app.quit()
+    app.quit()
   })
 
   app.on('activate', () => {
-
-    if (mainWindow === null) {
-      createMainWindow()
-    }
-
+    mainWindow === null && createMainWindow()
   })
 
 }

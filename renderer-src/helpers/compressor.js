@@ -159,7 +159,11 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
   } catch (error) {
 
     console.log(error)
-    backupPath && fs.renameSync(backupPath, task.path)
+    try {
+      backupPath && fs.renameSync(backupPath, task.path)
+    } catch {
+      // ...
+    }
 
     return {
       id: task.id,
