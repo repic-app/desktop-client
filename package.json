@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@mdi/font": "^3.6.95",
+    "decompress": "^4.2.0",
     "mime-types": "^2.1.24",
-    "node-machine-id": "^1.1.12",
-    "unzipper": "^0.10.1"
+    "node-machine-id": "^1.1.12"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

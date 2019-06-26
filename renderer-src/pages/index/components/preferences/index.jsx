@@ -130,12 +130,11 @@ export default class extends React.PureComponent {
     })
 
     installPlugin(name, url).then(() => {
-      events.emit('request-update-plugins')
       this.context.setAppState({
         installingPlugins: this.context.appState.installingPlugins.filter(item => item.name !== name)
       })
+      events.emit('request-update-plugins')
     }).catch((error) => {
-      console.log(error)
       this.context.setAppState({
         installingPlugins: this.context.appState.installingPlugins.filter(item => item.name !== name)
       })
@@ -146,6 +145,7 @@ export default class extends React.PureComponent {
   componentDidUpdate (_, prevState) {
 
     if (prevState.tabIndex !== this.state.tabIndex && this.state.tabIndex === 2) {
+      events.emit('request-update-plugins')
       fetchPlugins().then((res) => {
         if (res && res.plugins) {
           this.setState({ thridPartPlugins: res.plugins })

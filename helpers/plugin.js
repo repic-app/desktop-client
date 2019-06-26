@@ -1,9 +1,7 @@
-const { ipcMain } = require('electron')
 const fs = require('fs')
 const path = require('path')
 const https = require('https')
-const domain = require('domain')
-const unzipper = require('unzipper')
+const decompress = require('decompress')
 const { getAPPData, APP_PLUGIN_PATH } = require('./storage')
 const builtinPluginFolder = path.join(__dirname, '../plugins')
 
@@ -101,14 +99,17 @@ const installPlugin = (name, url) => new Promise((resolve, reject) => {
 
   try {
 
+    const tempFilePath = path.join(APP_PLUGIN_PATH, `.temp_${name}.zip`)
+
     https.get(url, response => {
-      domain
-        .create()
+      response
+        .pipe(fs.createWriteStream(tempFilePath))
         .on('error', reject)
-        .run(() => {
-          response
-            .pipe(unzipper.Extract({ path: APP_PLUGIN_PATH }))
-            .on('close', resolve)
+        .on('close', () => {
+          decompress(tempFilePath, APP_PLUGIN_PATH).then(() => {
+            resolve()
+            fs.unlinkSync(tempFilePath)
+          }).catch(reject)
         })
     })
 
