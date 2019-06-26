@@ -31,7 +31,7 @@ const defaultAPPData = {
     parallelTaskCount: 3,
     showThumb: true,
     stickyOnLaunch: false,
-    soundEffects: true
+    soundEffects: false
   },
   showPluginInstallTip: true,
   plugins: []

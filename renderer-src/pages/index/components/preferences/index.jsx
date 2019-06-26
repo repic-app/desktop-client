@@ -207,12 +207,12 @@ export default class extends React.PureComponent {
                 <Switch checked={preferences.stickyOnLaunch} name="stickyOnLaunch" onChange={this.handleChange} />
               </div>
             </div>
-            <div className="option-group">
+            {/* <div className="option-group">
               <label className="label">操作音效</label>
               <div className="option">
                 <Switch checked={preferences.soundEffects} name="soundEffects" onChange={this.handleChange} />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="tab-item" data-index="1" data-active={tabIndex === 1}>
             <div className="option-group">
