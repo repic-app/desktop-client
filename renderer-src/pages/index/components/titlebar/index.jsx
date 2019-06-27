@@ -99,7 +99,6 @@ export default React.memo(({ preferences, appState, setAppState }) => {
     <div className="component-title-bar">
       <div className="app-title">
         <span>Repic</span>
-        {appState.jjma ? null : <a onClick={toggleAboutModal} href="javascript:void(0);" className="unlock-entry"><i className="mdi mdi-lock"></i>未激活</a>}
       </div>
       <a href="javascript:void(0);" onClick={toggleDropdownMenu} className="button-toggle-dropdown"><i className="mdi mdi-settings"></i></a>
       <Modal

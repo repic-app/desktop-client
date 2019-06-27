@@ -8,24 +8,53 @@
   bottom: 0;
   left: 0;
   display: flex;
-  flex-direction: column;
+  flex: 1;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: transform .4s, opacity .4s;
   transform: translateX(-50px);
   pointer-events: none;
-  .photos-folder{
+  .drag-tip-area{
+    position: relative;
+    width: 320px;
+    margin-top: -150px;
+    padding-bottom: 40px;
+    border: dashed 2px rgba(#fff, .1);
+    border-radius: 5px;
+  }
+  .drag-shape{
+    width: 100px;
+    height: 100px;
+    margin: 40px auto 0 auto;
+    background-image: url(../../../../assets/images/file-drag.png);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: 66px auto;
+  }
+  .drag-shape-mask{
+    position: absolute;
+    z-index: 2;
+    top: 40px;
+    left: 50%;
     width: 120px;
     height: 120px;
-    margin-top: -100px;
-    background-image: url(../../../../assets/images/icon.png);
-    background-position: 50% 0;
-    background-repeat: no-repeat;
-    background-size: 120px auto;
+    overflow: hidden;
+    transform: translateX(-50%);
+    &::before{
+      position: absolute;
+      z-index: 2;
+      top: -40px;
+      left: -40px;
+      width: 120px;
+      height: 120px;
+      background-clip: content-box;
+      border-radius: 50%;
+      content: '';
+    }
   }
   .drag-tip{
-    margin-top: 10px;
+    margin-top: 0;
     color: #fff;
     text-align: center;
     user-select: none;
@@ -33,44 +62,55 @@
       display: block;
     }
     span{
-      opacity: .8;
+      opacity: .3;
       font-size: 14px;
     }
     small{
-      opacity: .3;
+      opacity: .15;
       font-size: 11px;
       font-weight: 400;
       text-transform: uppercase;
     }
   }
   .pick-enrty{
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    width: 50px;
-    height: 50px;
+    display: block;
+    width: 120px;
+    height: 36px;
+    margin: 15px auto;
     background-color: $COLOR_PRIMARY;
-    border-radius: 50%;
+    border-radius: 18px;
+    color: rgba(#fff, .8);
+    font-size: 14px;
+    line-height: 36px;
     text-align: center;
-    transform: translateX(-50%);
     cursor: pointer;
     &:hover{
       background-color: lighten($COLOR_PRIMARY, 5);
     }
-    i{
+  }
+  .unlock-entry{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    color: rgba(#fff, .4);
+    font-size: 12px;
+    text-align: center;
+    text-transform: uppercase;
+    transform: translateX(-50%);
+    &:active{
+      opacity: .8;
+    }
+    .text-warning{
       display: block;
-      width: 50px;
-      height: 50px;
-      color: #fff;
-      font-size: 24px;
-      line-height: 50px;
+      // padding-left: 5px;
     }
   }
 }
 
 [data-dragging-over="true"] .component-start{
-  .drag-tip{
-    color: $COLOR_PRIMARY;
+  .drag-tip-area{
+    background-color: rgba(#fff, .05);
+    // border-color: $COLOR_PRIMARY;
   }
 }
 

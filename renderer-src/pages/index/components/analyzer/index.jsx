@@ -82,7 +82,7 @@ export default React.memo(({ appState, preferences, setAppState, onClear, onReco
       <div className="content">
         <ProgressCircle className={`total-optimized-rate ${optimizeRateTextColor}`} strokeWidth={6} size={14} progress={totalOptimizedRate} />
         <div className="analyze-text">
-          <b className="count">{taskResult.counts[taskStatus.COMPLETE]}张图片压缩成功</b>
+          {taskAllFinished ? <b className="count">{taskResult.counts[taskStatus.COMPLETE]}个文件压缩成功</b> : <b className="count">已压缩{taskResult.counts[taskStatus.COMPLETE]}个文件</b>}
           <span className="size">体积共减少<span className={`text-${optimizeRateTextColor}`}>{((1 - totalOptimizedRate) * 100).toFixed(2)}%({totalOptimizedSize})</span></span>
         </div>
         <div className="operates">
