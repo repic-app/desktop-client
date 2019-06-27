@@ -45,19 +45,25 @@
   }
   .pick-enrty{
     position: absolute;
-    bottom: 20px;
+    bottom: 15px;
     left: 50%;
-    color: rgba(#fff, .6);
-    font-size: 12px;
+    width: 50px;
+    height: 50px;
+    background-color: $COLOR_PRIMARY;
+    border-radius: 50%;
+    text-align: center;
     transform: translateX(-50%);
     cursor: pointer;
     &:hover{
-      color: rgba(#fff, .8);
+      background-color: lighten($COLOR_PRIMARY, 5);
     }
     i{
-      position: relative;
-      padding-right: 2px;
-      font-size: 14px;
+      display: block;
+      width: 50px;
+      height: 50px;
+      color: #fff;
+      font-size: 24px;
+      line-height: 50px;
     }
   }
 }

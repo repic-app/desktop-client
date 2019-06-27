@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: rgba(darken($COLOR_DARK, 2), 1);
+  background-color: rgba(darken($COLOR_DARK, 2), .8);
   .index-content{
     display: flex;
     position: relative;
@@ -59,7 +59,7 @@
 
 .light-style{
   .page-index{
-    background-color:#ececec;
+    background-color:rgba(#fff, .8);
   }
   .app-copyright,
   .cache-dir-entry{

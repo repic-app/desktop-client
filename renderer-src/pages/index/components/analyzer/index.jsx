@@ -29,7 +29,7 @@ const analyzeTask = (taskList) => {
 
 }
 
-export default React.memo(({ appState, preferences, setAppState, onClear, onRecompressAll, onRestoreAll }) => {
+export default React.memo(({ appState, preferences, setAppState, onClear, onRecompressAll, onRestoreAll, onRequestPickFile }) => {
 
   const [ clearing, setClearing ] = useState(false)
   const [ restoring, setRestoring ] = useState(false)
@@ -92,7 +92,7 @@ export default React.memo(({ appState, preferences, setAppState, onClear, onReco
           ) : (
             <button disabled={restoreDisabled} className="button button-md button-default" onClick={requestRestoreAll}>全部复原</button>
           ) : (
-            <button className="button button-md button-default" onClick={openSavePath}>查看全部</button>
+            <button className="button button-md button-primary" onClick={onRequestPickFile}>添加文件</button>
           )}
         </div>
       </div>

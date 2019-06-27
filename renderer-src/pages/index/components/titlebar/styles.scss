@@ -1,6 +1,6 @@
 @import "~scssinc";
 
-$TITLE_BAR_HEIGHT: 36px;
+$TITLE_BAR_HEIGHT: 23px;
 
 .component-title-bar{
   position: relative;
@@ -8,8 +8,7 @@ $TITLE_BAR_HEIGHT: 36px;
   width: 100%;
   height: $TITLE_BAR_HEIGHT;
   margin: 0 auto;
-  background-color: lighten($COLOR_DARK, 5);
-  // background-image: linear-gradient(rgba(#000, .1), rgba(#000, .2));
+  background-image: linear-gradient(#fff 0,#e5e5e5 5%, #ccc 100%);
   box-shadow: inset 0 -.5px 0 0 rgba(#000, .6);
   text-align: center;
   user-select: none;
@@ -17,28 +16,29 @@ $TITLE_BAR_HEIGHT: 36px;
   .app-title{
     display: block;
     height: $TITLE_BAR_HEIGHT;
-    color: rgba(#fff, .8);
-    font-size: 13px;
+    color: #555;
+    font-size: 12px;
     font-weight: 500;
     line-height: $TITLE_BAR_HEIGHT;
     text-transform: uppercase;
   }
   .unlock-entry{
     padding-left: 5px;
-    color: rgba($COLOR_WARNING, .8);
+    color: #777;
+    font-size: 11px;
     cursor: pointer;
     -webkit-app-region: none;
     &:active{
-      color: rgba($COLOR_WARNING, .7);
+      color: #666;
     }
   }
   .button-toggle-dropdown{
     position: absolute;
-    top: 8px;
-    right: 10px;
+    top: 2px;
+    right: 8px;
     width: 20px;
     height: 20px;
-    color: rgba(#fff, .3);
+    color: #999;
     font-size: 14px;
     line-height: 20px;
     text-align: center;
@@ -57,7 +57,7 @@ $TITLE_BAR_HEIGHT: 36px;
   }
   .modal-content{
     top: $TITLE_BAR_HEIGHT + 10px;
-    right: 7px;
+    right: 5px;
     left: auto;
     border-radius: 3px;
     transform: translate(0, -120%);
@@ -119,17 +119,7 @@ $TITLE_BAR_HEIGHT: 36px;
 .light-style{
   
   .component-title-bar{
-    background-image: linear-gradient(#f3f3f2, #cdcccd);
     box-shadow: inset 0 -.5px 0 0 rgba(#000, .2);
-    .app-title{
-      color: #555;
-    }
-    .button-toggle-dropdown{
-      color: #777;
-      &:hover{
-        color: $COLOR_PRIMARY;
-      }
-    }
   }
 
   .dropdown-modal{

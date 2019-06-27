@@ -10,13 +10,12 @@ export default React.memo((props) => {
     <div className="component-start">
       <div className="photos-folder"></div>
       <div className="drag-tip">
-        {noCompressors ? <span>无可用转换插件</span> : <span>拖拽图片至此窗口以开始压缩</span>}
+        {noCompressors ? <span>无可用转换插件</span> : <span>拖拽图片至此窗口，或点击下方按钮</span>}
         <small>{acceptImageExtensions.filter((ext, index, exts) => index === exts.indexOf(ext)).join('/')}</small>
       </div>
       {noCompressors ? null : (
-        <a onClick={props.onRequestPickFile} className="pick-enrty text-with-icon">
+        <a onClick={props.onRequestPickFile} className="pick-enrty">
           <i className="mdi mdi-plus" />
-          <span>选择图片开始压缩</span>
         </a>
       )}
     </div>

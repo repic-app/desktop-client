@@ -370,6 +370,7 @@ export default class extends React.PureComponent {
               onClear={this.handleClear}
               onRestoreAll={this.handleRestoreAll}
               onRecompressAll={this.handleRecompressAll}
+              onRequestPickFile={this.handleRequestPickFile}
             />
           </div>
         </APPContext.Provider>
