@@ -63,7 +63,7 @@
     }
     span{
       opacity: .3;
-      font-size: 14px;
+      font-size: 18px;
     }
     small{
       opacity: .15;
@@ -73,24 +73,61 @@
     }
   }
   .pick-enrty{
-    display: block;
-    width: 120px;
-    height: 36px;
-    margin: 15px auto;
+    // display: none;
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
     background-color: $COLOR_PRIMARY;
-    border-radius: 18px;
+    border-radius: 50%;
     color: rgba(#fff, .8);
-    font-size: 14px;
-    line-height: 36px;
+    font-size: 32px;
+    line-height: 60px;
     text-align: center;
     cursor: pointer;
     &:hover{
       background-color: lighten($COLOR_PRIMARY, 5);
     }
   }
+  .processing-spinner{
+    display: none;
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    &::before,
+    &::after{
+      position: absolute; 
+      box-sizing: border-box;
+      width: 60px;
+      height: 60px;
+      content: '';
+      border-radius: 50%;
+      opacity: .8;
+      animation: spinning 1s infinite linear;
+    }
+    &::before{
+      top: 1px;
+      left: -1px;
+      border: solid 5px $COLOR_PRIMARY;
+      transform-origin: 31px 29px
+    }
+    &::after{
+      top: -1px;
+      right: -1px;
+      border: solid 5px $COLOR_PRIMARY;
+      transform-origin: 29px 31px
+    }
+  }
   .unlock-entry{
     position: absolute;
-    bottom: 20px;
+    bottom: 10px;
     left: 50%;
     color: rgba(#fff, .4);
     font-size: 12px;

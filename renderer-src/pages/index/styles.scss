@@ -4,7 +4,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: rgba(darken($COLOR_DARK, 2), .8);
+  background-color: rgba(darken($COLOR_DARK, 5), .8);
+  // background-image: linear-gradient(to bottom right, rgba(#000, 0), rgba(#000, .3));
   .index-content{
     display: flex;
     position: relative;

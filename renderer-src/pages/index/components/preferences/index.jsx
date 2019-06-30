@@ -263,7 +263,7 @@ export default class extends React.PureComponent {
               </div>
             </div>
             <div className="option-group" data-disabled={taskNotEmpty}>
-              <label className="label">压缩后覆盖原图</label>
+              <label className="label">压缩后覆盖原文件</label>
               <div className="option">
                 <Switch checked={preferences.overrideOrigin} name="overrideOrigin" onChange={this.handleChange} />
               </div>
@@ -338,7 +338,10 @@ export default class extends React.PureComponent {
               </table>
             </div>
             <div className="plugin-entry">
-              <a href="javascript:void(0);" className="button-open-plugin-folder" onClick={openPluginFolder}>打开插件目录</a>
+              <a href="javascript:void(0);" className="button-open-plugin-folder text-with-icon" onClick={openPluginFolder}>
+                <i className="mdi mdi-folder"></i>
+                <span>打开插件目录</span>
+              </a>
             </div>
           </div>
         </div>

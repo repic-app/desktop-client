@@ -180,10 +180,13 @@
     a{
       margin-right: 10px;
       color: rgba(#fff, .4);
-      font-size: 11px;
+      font-size: 12px;
       cursor: pointer;
       &:hover{
         color: rgba(#fff, .6);
+      }
+      i{
+        font-size: 14px;
       }
     }
   }
