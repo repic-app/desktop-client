@@ -3,9 +3,9 @@
 .component-task-analyzer{
   position: absolute;
   z-index: 10;
-  right: 10px;
-  left: 10px;
-  bottom: 10px;
+  right: 0;
+  left: 0;
+  bottom: 0;
   height: 60px;
   border-radius: 3px;
   // overflow: hidden;
@@ -39,9 +39,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 420px;
+    width: 440px;
     height: 60px;
-    border-radius: 3px;
+    // border-radius: 3px;
     content: '';
   }
   &::before{
@@ -51,7 +51,7 @@
   &::after{
     z-index: 2;
     background-color: rgba(lighten($COLOR_DARK, 5), .5);
-    box-shadow: 0 0 0 .5px rgba(#fff, .15);
+    // box-shadow: 0 0 0 .5px rgba(#000, .15);
   }
   .content{
     position: relative;

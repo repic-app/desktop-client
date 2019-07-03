@@ -173,7 +173,7 @@ export default class extends React.PureComponent {
         </div>
         <div className="tab-content">
           <div className="tab-item" data-index="0" data-active={tabIndex === 0}>
-            <div className="option-group">
+            {/* <div className="option-group">
               <label className="label">外观</label>
               <div className="option">
                 <Select value={`${preferences.theme}`} name="theme" onChange={this.handleChange} >
@@ -182,7 +182,7 @@ export default class extends React.PureComponent {
                   <option value="auto" key={2}>跟随系统</option>
                 </Select>
               </div>
-            </div>
+            </div> */}
             <div className="option-group">
               <label className="label">显示缩略图</label>
               <div className="option">

@@ -309,7 +309,7 @@ export default class extends React.PureComponent {
       this.initializePlugins()
     })
 
-    if (getAPPData('showPluginInstallTip', false) === false) {
+    if (getAPPData('showPluginInstallTip', false)) {
       setTimeout(() => {
         remote.dialog.showMessageBox({
           type: 'info',
@@ -363,6 +363,7 @@ export default class extends React.PureComponent {
               onRestore={this.handleRestore}
               onRecompress={this.handleRecompress}
             />
+            <div className="footer"></div>
             <TaskAnalyzer
               appState={appState}
               preferences={preferences}
