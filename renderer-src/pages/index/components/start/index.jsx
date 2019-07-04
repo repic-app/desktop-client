@@ -18,7 +18,7 @@ export default React.memo((props) => {
         <div className="drag-shape"></div>
         <div className="drag-shape-mask"></div>
         <div className="drag-tip">
-          {noCompressors ? <span>无可用转换插件</span> : <span>拖拽图片至此窗口</span>}
+          {noCompressors ? <span>无可用转换插件</span> : <span>拖拽文件至此窗口</span>}
           <small>{acceptImageExtensions.filter((ext, index, exts) => index === exts.indexOf(ext)).join('/')}</small>
         </div>
       </div>

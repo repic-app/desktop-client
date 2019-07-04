@@ -32,14 +32,11 @@
       left: 0;
       width: 100%;
       height: 100px;
-      // background-color: rgba(#fff, .1);
-      // backdrop-filter: blur(8px);
-      // backdrop-filter: blur(10px);
       .button-pick-files{
         position: absolute;
         width: 60px;
         height: 60px;
-        top: 20px;
+        top: 0;
         right: 0;
         left: 0;
         margin: 0 auto;
@@ -51,7 +48,7 @@
         transition: transform .3s, background-color .3s;
         &:hover{
           background-color: lighten($COLOR_PRIMARY, 5);
-          transform: scale(1.01) rotate(90deg);
+          transform: rotate(90deg);
         }
         &::before,
         &::after{
