@@ -363,7 +363,12 @@ export default class extends React.PureComponent {
               onRestore={this.handleRestore}
               onRecompress={this.handleRecompress}
             />
-            <div className="footer"></div>
+            <div className="footer">
+              {!compressors.length ? null : (
+                <button onClick={this.handleRequestPickFile} className="button-pick-files"></button>
+              )}
+              <div className="processing-spinner"></div>
+            </div>
             <TaskAnalyzer
               appState={appState}
               preferences={preferences}

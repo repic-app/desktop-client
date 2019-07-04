@@ -22,10 +22,6 @@ export default React.memo((props) => {
           <small>{acceptImageExtensions.filter((ext, index, exts) => index === exts.indexOf(ext)).join('/')}</small>
         </div>
       </div>
-      {noCompressors ? null : (
-        <a onClick={props.onRequestPickFile} className="pick-enrty"><i className="mdi mdi-plus"></i></a>
-      )}
-      <div className="processing-spinner"></div>
     </div>
   )
 

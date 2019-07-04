@@ -9,7 +9,7 @@
   height: 60px;
   border-radius: 3px;
   // overflow: hidden;
-  box-shadow: 0 5px 15px rgba(#000, .4);
+  // box-shadow: 0 5px 15px rgba(#000, .4);
   transform: translateY(90px) rotateX(30deg);
   transition: transform .5s;//cubic-bezier(0.68, -0.55, 0.265, 1.55)
   &[data-visible="true"]{
@@ -42,7 +42,7 @@
     width: 440px;
     height: 60px;
     // border-radius: 3px;
-    content: '';
+    // content: '';
   }
   &::before{
     z-index: 1;

@@ -3,16 +3,18 @@
 .component-start{
   position: absolute;
   z-index: 3;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: 10px;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
+  border: 1px dashed rgba(#fff, .2);
+  border-radius: 3px;
   opacity: 0;
-  transition: transform .4s, opacity .4s;
+  transition: transform .4s, opacity .4s, background-color .2s;
   transform: translateX(-50px);
   pointer-events: none;
   .drag-tip-area{
@@ -24,13 +26,39 @@
     border-radius: 5px;
   }
   .drag-shape{
-    width: 100px;
-    height: 100px;
-    margin: 40px auto 0 auto;
-    background-image: url(../../../../assets/images/file-drag.png);
+    position: relative;
+    box-sizing: border-box;
+    width: 60px;
+    height: 80px;
+    margin: 40px auto 15px auto;
+    // background-image: url(../../../../assets/images/file-drag.png);
+    background-color: rgba(#fff, .1);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 66px auto;
+    // border: 1px solid rgba(#fff, .1);
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(#fff, .1);
+    &::before,
+    &::after{
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-sizing: border-box;
+      width: 60px;
+      height: 80px;
+      background-color: rgba(#fff, .1);
+      border: 1px solid rgba(#fff, .1);
+      border-radius: 3px;
+      content: '';
+      transition: transform .3s;
+    }
+    &::before{
+      transform: translate(-5px, -5px);
+    }
+    &::after{
+      transform: translate(5px, 5px);
+    }
   }
   .drag-shape-mask{
     position: absolute;
@@ -72,60 +100,6 @@
       text-transform: uppercase;
     }
   }
-  .pick-enrty{
-    // display: none;
-    position: absolute;
-    z-index: 11;
-    bottom: 20px;
-    right: 0;
-    left: 0;
-    width: 60px;
-    height: 60px;
-    margin: 0 auto;
-    background-color: $COLOR_PRIMARY;
-    border-radius: 50%;
-    color: rgba(#fff, .8);
-    font-size: 32px;
-    line-height: 60px;
-    text-align: center;
-    cursor: pointer;
-    &:hover{
-      background-color: lighten($COLOR_PRIMARY, 5);
-    }
-  }
-  .processing-spinner{
-    display: none;
-    position: absolute;
-    bottom: 40px;
-    right: 0;
-    left: 0;
-    width: 60px;
-    height: 60px;
-    margin: 0 auto;
-    &::before,
-    &::after{
-      position: absolute; 
-      box-sizing: border-box;
-      width: 60px;
-      height: 60px;
-      content: '';
-      border-radius: 50%;
-      opacity: .8;
-      animation: spinning 1s infinite linear;
-    }
-    &::before{
-      top: 1px;
-      left: -1px;
-      border: solid 5px $COLOR_PRIMARY;
-      transform-origin: 31px 29px
-    }
-    &::after{
-      top: -1px;
-      right: -1px;
-      border: solid 5px $COLOR_PRIMARY;
-      transform-origin: 29px 31px
-    }
-  }
 }
 
 [data-dragging-over="true"] .component-start{
@@ -134,6 +108,13 @@
   //   background-color: rgba(#fff, .05);
   //   // border-color: $COLOR_PRIMARY;
   // }
+  .drag-shape{
+    // background-color: $COLOR_PRIMARY;
+    &::before,
+    &::after{
+      transform: translate(0);
+    }
+  }
 }
 
 .light-style .component-start{

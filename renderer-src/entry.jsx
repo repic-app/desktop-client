@@ -14,7 +14,8 @@ export default class extends React.PureComponent {
 
   updateAppTheme = () => {
 
-    const { theme } = getAPPData('preferences')
+    // const { theme } = getAPPData('preferences')
+    const theme = 'dark'
 
     if (theme === 'auto') {
       if (remote.systemPreferences.isDarkMode()) {
