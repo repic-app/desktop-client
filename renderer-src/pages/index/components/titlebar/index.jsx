@@ -100,7 +100,7 @@ export default React.memo(({ preferences, appState, setAppState }) => {
       <div className="app-title">
         <span>Repic</span>
         {appState.jjma ? null : (
-          <a href="javascript:void(0);" onClick={toggleAboutModal} className="unlock-entry text-with-icon"> <i className="mdi mdi-lock"/><span>未激活</span></a>
+          <a href="javascript:void(0);" onClick={toggleAboutModal} className="unlock-entry text-with-icon"><i className="mdi mdi-lock"/><span>未激活</span></a>
         )}
       </div>
       <a href="javascript:void(0);" onClick={toggleDropdownMenu} className="button-toggle-dropdown"><i className="mdi mdi-settings"></i></a>
@@ -138,8 +138,7 @@ export default React.memo(({ preferences, appState, setAppState }) => {
         </ul>
       </Modal>
       <Modal
-        title={null}
-        width={380}
+        width={440}
         active={appState.showPreferences}
         onClose={hidePreferencesModal}
         showConfirm={false}
@@ -148,8 +147,7 @@ export default React.memo(({ preferences, appState, setAppState }) => {
         <Preferences ref={preferencesModalRef} />
       </Modal>
       <Modal
-        title={aboutModalTitle}
-        width={380}
+        width={440}
         active={appState.showAbout}
         onClose={hideAboutModal}
         showConfirm={false}

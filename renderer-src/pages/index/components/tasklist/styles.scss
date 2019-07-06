@@ -4,7 +4,7 @@
   flex: 1;
   box-sizing: border-box;
   margin: 0;
-  padding: 0 0 100px 0;
+  padding: 0 0 80px 0;
   overflow: auto;
   list-style: none;
   background-attachment: local;
@@ -14,4 +14,7 @@
   opacity: 0;
   transition: transform .4s, opacity .4s;
   transform: translateX(50px);
+  &::-webkit-scrollbar-track{
+    margin-bottom: 60px;
+  }  
 }

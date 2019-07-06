@@ -367,17 +367,17 @@ export default class extends React.PureComponent {
               {!compressors.length ? null : (
                 <button onClick={this.handleRequestPickFile} className="button-pick-files"></button>
               )}
+              <TaskAnalyzer
+                appState={appState}
+                preferences={preferences}
+                setAppState={this.setAppState}
+                onClear={this.handleClear}
+                onRestoreAll={this.handleRestoreAll}
+                onRecompressAll={this.handleRecompressAll}
+                onRequestPickFile={this.handleRequestPickFile}
+              />
               <div className="processing-spinner"></div>
             </div>
-            <TaskAnalyzer
-              appState={appState}
-              preferences={preferences}
-              setAppState={this.setAppState}
-              onClear={this.handleClear}
-              onRestoreAll={this.handleRestoreAll}
-              onRecompressAll={this.handleRecompressAll}
-              onRequestPickFile={this.handleRequestPickFile}
-            />
           </div>
         </APPContext.Provider>
       </div>

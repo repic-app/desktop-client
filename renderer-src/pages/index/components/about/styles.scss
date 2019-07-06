@@ -8,7 +8,7 @@
   .app-icon{
     width: 90px;
     height: 90px;
-    margin-top: 40px;
+    margin-top: 100px;
     background-image: url(../../../../assets/images/icon.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -32,7 +32,7 @@
   }
 
   .app-description{
-    margin: 5px 0 20px 0;
+    margin: 5px 0 50px 0;
     padding: 0 50px;
     color: rgba(#fff, .6);
     font-size: 12px;
@@ -40,10 +40,9 @@
   }
 
   .register-info{
-    width: 320px;
+    width: 380px;
     padding: 15px;
-    background-color: $COLOR_DARK;
-    box-shadow: inset 0 0 0 .5px rgba(#000, .3);
+    background-color: rgba(darken($COLOR_DARK, 10), 1);
     border-radius: 3px;
     .caption{
       display: flex;
@@ -90,7 +89,6 @@
         border: none;
         border-radius: 3px;
         outline: none;
-        box-shadow: inset 0 0 0 .5px rgba(#000, .4),inset 0 1px 3px rgba(#000, .2);//, 0 .5px 0 0 rgba(#fff, .1);
         color: rgba(#fff, .8);
         font-size: 14px;
         font-weight: bold;
@@ -120,7 +118,7 @@
           top: 35px;
           width: 10px;
           height: 10px;
-          background-color: $COLOR_DARK;
+          background-color: rgba(darken($COLOR_DARK, 10), 1);
           border-radius: 50%;
           content: '';
         }

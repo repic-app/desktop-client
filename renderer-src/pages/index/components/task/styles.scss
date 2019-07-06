@@ -65,6 +65,11 @@
     overflow: hidden;
     background-color: rgba(#fff, .5);
     border-radius: 2px;
+    cursor: pointer;
+    transition: transform .2s;
+    &:hover{
+      transform: scale(1.1);
+    }
     .thumb-image,
     .optimized-image{
       position: absolute;
@@ -128,16 +133,16 @@
       display: block;
       width: 26px;
       height: 26px;
-      margin-left: 0;
-      // background-color: rgba(#000, .2);
-      // border-radius: 3px;
-      color: rgba(#fff, .7);
+      margin-left: 5px;
+      background-color: rgba(#fff, .1);
+      border-radius: 13px;
+      color: rgba(#fff, .6);
       font-size: 14px;
       line-height: 26px;
       text-align: center;
       cursor: pointer;
       &:hover{
-        background-color: rgba(#000, .2);
+        background-color: rgba(#fff, .2);
       }
       &[data-disabled="true"]{
         opacity: .3;

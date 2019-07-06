@@ -80,20 +80,25 @@ export default React.memo(({ appState, preferences, setAppState, onClear, onReco
       <div className="progress-bar" data-completed={appState.taskAllFinished} data-visible={appState.taskProgress > 0} style={{width: `${appState.taskProgress * 100}%`}} />
       {/* <div className="blur-layer"></div> */}
       <div className="content">
-        <ProgressCircle className={`total-optimized-rate ${optimizeRateTextColor}`} strokeWidth={6} size={14} progress={totalOptimizedRate} />
+        {/* <ProgressCircle className={`total-optimized-rate ${optimizeRateTextColor}`} strokeWidth={6} size={14} progress={totalOptimizedRate} /> */}
         <div className="analyze-text">
           {taskAllFinished ? <b className="count">{taskResult.counts[taskStatus.COMPLETE]}个文件压缩成功</b> : <b className="count">已压缩{taskResult.counts[taskStatus.COMPLETE]}个文件</b>}
           <span className="size">体积共减少<span className={`text-${optimizeRateTextColor}`}>{((1 - totalOptimizedRate) * 100).toFixed(2)}%({totalOptimizedSize})</span></span>
         </div>
         <div className="operates">
-          <button disabled={clearDisabled} className="button button-md button-default" onClick={requestClear}>清空</button>
-          {preferences.overrideOrigin ? taskResult.counts[taskStatus.RESTORED] ? (
-            <button disabled={recompressDisabled} className="button button-md button-default" onClick={requestRecompressAll}>全部重压</button>
-          ) : (
-            <button disabled={restoreDisabled} className="button button-md button-default" onClick={requestRestoreAll}>全部复原</button>
-          ) : (
-            <button className="button button-md button-primary" onClick={onRequestPickFile}>添加文件</button>
-          )}
+          {preferences.overrideOrigin ? (
+            <>
+              <button disabled={restoreDisabled} className="button" onClick={requestRestoreAll}>
+                <i className="mdi mdi-undo-variant"></i>
+              </button>
+              <button disabled={recompressDisabled} className="button" onClick={requestRecompressAll}>
+                <i className="mdi mdi-redo-variant"></i>
+              </button>
+            </>
+          ) : null}
+          <button disabled={clearDisabled} className="button" onClick={requestClear}>
+            <i className="mdi mdi-notification-clear-all"></i>
+          </button>
         </div>
       </div>
     </div>

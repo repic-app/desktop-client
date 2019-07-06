@@ -29,10 +29,6 @@ const handleThumbClick = (event) => {
 
 export default React.memo((props) => {
 
-  const requestCompareView = () => {
-    openCompareView(`${location.href}compare`, props.task)
-  }
-
   const requestLocationImage = () => {
     locateFile(props.task.optimizedPath)
   }
@@ -42,12 +38,16 @@ export default React.memo((props) => {
   const recompressDisabled = props.task.status !== taskStatus.RESTORED
   const compareDisabled = !taskFileIsImage || props.task.status !== taskStatus.COMPLETE
 
+  const requestCompareView = () => {
+    !compareDisabled && openCompareView(`${location.href}compare`, props.task)
+  }
+
   return (
     <li className="component-task-item" data-status={props.task.status}>
       <span className="status-icon"><i data-status={props.task.status} /></span>
       {props.preferences.showThumb ? (
         props.task.thumbUrl ? (
-          <div className="thumb">
+          <div className="thumb" onClick={requestCompareView}>
             {props.task.status === taskStatus.COMPLETE ? <img src={`file://${props.task.optimizedPath || props.task.path}`} className="optimized-image"/> : null}
             <img className="thumb-image" src={props.task.thumbUrl} />
           </div>
@@ -72,17 +72,11 @@ export default React.memo((props) => {
           <a href="javascript:void(0);" data-disabled={recompressDisabled} className="button button-recompress" onClick={props.onRecompress}>
             <i className="mdi mdi-redo-variant"></i>
           </a>
-          <a href="javascript:void(0);" data-disabled={compareDisabled} className="button button-compare" onClick={requestCompareView}>
-            <i className="mdi mdi-compare"></i>
-          </a>
         </div>
       ) : (
         <div className="operates">
           <a href="javascript:void(0);" data-disabled={restoreDisabled} className="button button-restore" onClick={requestLocationImage}>
             <i className="mdi mdi-folder-open"></i>
-          </a>
-          <a href="javascript:void(0);" data-disabled={compareDisabled}  className="button button-compare" onClick={requestCompareView}>
-            <i className="mdi mdi-compare"></i>
           </a>
         </div>
       )}

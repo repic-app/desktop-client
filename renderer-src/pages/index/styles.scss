@@ -34,9 +34,10 @@
       height: 100px;
       .button-pick-files{
         position: absolute;
-        width: 60px;
-        height: 60px;
-        top: 0;
+        width: 56px;
+        height: 56px;
+        z-index: 3;
+        top: 20px;
         right: 0;
         left: 0;
         margin: 0 auto;
@@ -53,8 +54,8 @@
         &::before,
         &::after{
           position: absolute;
-          top: 29px;
-          left: 20px;
+          top: 27px;
+          left: 18px;
           width: 20px;
           height: 2px;
           background-color: #fff;
@@ -120,7 +121,7 @@
   color: rgba(#fff, .5);
   font-size: 12px;
   height: 24px;
-  line-height: 26px;
+  line-height: 30px;
   text-transform: uppercase;
   a {
     padding-left: 5px;
