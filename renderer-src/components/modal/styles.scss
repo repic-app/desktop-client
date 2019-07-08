@@ -64,7 +64,8 @@
     left: 50%;
     display: flex;
     flex-direction: column;
-    background-color: rgba(darken($COLOR_DARK, 5), 1);
+    background-color: lighten($COLOR_DARK, 10);
+    // background-image: linear-gradient(lighten($COLOR_DARK, 10), lighten($COLOR_DARK, 10));
     opacity: 0;
     transform: translate(-50%, 50px);
     transition: transform .3s, opacity .3s;

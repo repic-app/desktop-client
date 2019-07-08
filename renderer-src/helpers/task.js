@@ -18,7 +18,8 @@ export const appendTasks = (currentTaskItems, newTaskFiles) => {
     originalSize: file.size,
     optimizedSize: null,
     file: file,
-    path: path
+    path: path,
+    ext: file.name.split('.').slice(-1)[0]
   }))
 
   return [ ...currentTaskItems, ...newTaskItems ]

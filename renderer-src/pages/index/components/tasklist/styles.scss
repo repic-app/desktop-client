@@ -7,10 +7,7 @@
   padding: 0 0 80px 0;
   overflow: auto;
   list-style: none;
-  background-attachment: local;
-  background-position: 0 $TITLE_BAR_HEIGHT - 2;
-  background-repeat: repeat-y;
-  background-size: 100% 100px;
+  background-image: linear-gradient(lighten($COLOR_DARK, 10), lighten($COLOR_DARK, 0));
   opacity: 0;
   transition: transform .4s, opacity .4s;
   transform: translateX(50px);

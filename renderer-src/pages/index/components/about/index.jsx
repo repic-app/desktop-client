@@ -63,7 +63,7 @@ export default React.memo(({ appState, setAppState }) => {
       ) : (
         <div className="register-info">
           <h6 className="caption">
-            <span className="text-warning">激活以解除功能限制</span>
+            <span>激活以解除功能限制</span>
             <a href="javascript:void(0);" className="button-get-key"><i className="mdi mdi-key"></i> 获取激活码</a>
           </h6>
           <div className="register-form">

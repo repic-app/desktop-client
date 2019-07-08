@@ -5,7 +5,6 @@
   flex-direction: column;
   overflow: hidden;
   background-color: rgba(darken($COLOR_DARK, 5), .8);
-  // background-image: linear-gradient(to bottom right, rgba(#000, 0), rgba(#000, .3));
   .index-content{
     display: flex;
     position: relative;
@@ -15,7 +14,7 @@
     &[data-empty="true"]{
       .component-start{
         opacity: 1;
-        transform: translateX(0);
+        transform: scale(1);
         pointer-events: all;
       }
     }

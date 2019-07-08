@@ -16,7 +16,7 @@
   }
 
   .app-name{
-    margin: 20px 0 0 0;
+    margin: 10px 0 0 0;
     color: #fff;
     text-align: center;
     span{
@@ -42,7 +42,7 @@
   .register-info{
     width: 380px;
     padding: 15px;
-    background-color: rgba(darken($COLOR_DARK, 10), 1);
+    background-color: $COLOR_DARK;
     border-radius: 3px;
     .caption{
       display: flex;
@@ -82,7 +82,7 @@
       margin-top: 10px;
       input{
         display: block;
-        width: 320px;
+        width: 380px;
         height: 36px;
         margin: 0;
         background-color: rgba(#fff, .1);
@@ -97,7 +97,7 @@
       }
       button{
         display: block;
-        width: 320px;
+        width: 380px;
         height: 36px;
         margin-top: 12px;
       }
@@ -118,7 +118,7 @@
           top: 35px;
           width: 10px;
           height: 10px;
-          background-color: rgba(darken($COLOR_DARK, 10), 1);
+          background-color: $COLOR_DARK;
           border-radius: 50%;
           content: '';
         }

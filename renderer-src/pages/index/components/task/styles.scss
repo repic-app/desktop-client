@@ -9,9 +9,7 @@
   height: 60px;
   margin: 0 0 0 0;
   padding: 0 0 0 15px;
-  // background-color: rgba(#fff, .08);
   border-radius: 3px;
-  // box-shadow: 0 2px 5px rgba(#000, .1);
   &::after{
     position: absolute;
     right: 0;
@@ -58,32 +56,30 @@
   }
   .thumb{
     position: relative;
-    box-sizing: border-box;
-    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
     height: 32px;
     margin-right: 12px;
-    overflow: hidden;
-    background-color: rgba(#fff, .5);
-    border-radius: 2px;
-    cursor: pointer;
-    transition: transform .2s;
-    &:hover{
-      transform: scale(1.1);
-    }
-    .thumb-image,
-    .optimized-image{
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 32px;
-      height: 32px;
-    }
+    overflow: hidden;    
     .thumb-image{
-      object-fit: cover;
+      box-sizing: border-box;
+      width: auto;
+      height: auto;
+      max-width: 40px;
+      max-height: 32px;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 3px rgba(#000, .3);
       -webkit-user-drag: none;
     }
     .optimized-image{
+      position: absolute;
       z-index: 2;
+      top: 0;
+      left: 0;
+      width: 40px;
+      height: 32px;
       opacity: 0;
     }
     & + .meta .name{
@@ -96,6 +92,21 @@
     font-size: 12px;
     line-height: 32px;
     text-align: center;
+  }
+  .fake-thumb{
+    box-sizing: border-box;
+    width: 40px;
+    height: 32px;
+    margin-right: 12px;
+    background-color: #ccc;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(#000, .3);
+    color: #666;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 28px;
+    text-transform: uppercase;
   }
   .meta{
     flex: 1;
@@ -131,18 +142,18 @@
     margin-right: 10px;
     .button{
       display: block;
-      width: 26px;
-      height: 26px;
+      width: 22px;
+      height: 22px;
       margin-left: 5px;
-      background-color: rgba(#fff, .1);
+      background-color: rgba(#000, .2);
       border-radius: 13px;
-      color: rgba(#fff, .6);
-      font-size: 14px;
-      line-height: 26px;
+      color: rgba(#fff, .5);
+      font-size: 12px;
+      line-height: 22px;
       text-align: center;
       cursor: pointer;
       &:hover{
-        background-color: rgba(#fff, .2);
+        background-color: rgba(#000, .3);
       }
       &[data-disabled="true"]{
         opacity: .3;

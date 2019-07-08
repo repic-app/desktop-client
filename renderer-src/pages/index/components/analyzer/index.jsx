@@ -96,9 +96,14 @@ export default React.memo(({ appState, preferences, setAppState, onClear, onReco
               </button>
             </>
           ) : null}
-          <button disabled={clearDisabled} className="button" onClick={requestClear}>
-            <i className="mdi mdi-notification-clear-all"></i>
-          </button>
+          <>
+            <button className="button" onClick={openSavePath}>
+              <i className="mdi mdi-folder-open"></i>
+            </button>
+            <button disabled={clearDisabled} className="button" onClick={requestClear}>
+              <i className="mdi mdi-notification-clear-all"></i>
+            </button>
+          </>
         </div>
       </div>
     </div>

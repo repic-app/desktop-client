@@ -136,7 +136,7 @@ export default React.memo(() => {
 
   const imageStyle = getImageStyle(viewState)
 
-  const originalImagePath = taskData.optimizedPath ? taskData.path : taskData.backupPath
+  const originalImagePath = taskData.backupPath ? taskData.backupPath : taskData.path
   const optimizedImagePath = taskData.optimizedPath ? taskData.optimizedPath : taskData.path
 
   return (

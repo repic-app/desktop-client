@@ -55,7 +55,8 @@ $TITLE_BAR_HEIGHT: 23px;
     right: 5px;
     bottom: auto;
     left: auto;
-    background-color: lighten($COLOR_DARK, 4);
+    background-color: lighten($COLOR_DARK, 15);
+    background-image: none;
     border-radius: 3px;
     transform: translate(0, 20px);
     &::before{
@@ -64,7 +65,7 @@ $TITLE_BAR_HEIGHT: 23px;
       right: 10px;
       width: 6px;
       height: 6px;
-      background-color: lighten($COLOR_DARK, 4);
+      background-color: lighten($COLOR_DARK, 15);
       box-shadow: -.5px -.5px 0 0 rgba(#000, .3);
       transform: rotate(45deg);
       content: '';

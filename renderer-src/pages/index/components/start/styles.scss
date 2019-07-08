@@ -16,14 +16,13 @@
   border-radius: 3px;
   opacity: 0;
   transition: transform .4s, opacity .4s, background-color .2s;
-  transform: translateX(-50px);
+  transform: scale(0.9);
   pointer-events: none;
   .drag-tip-area{
     position: relative;
     width: 320px;
     margin-top: -150px;
     padding-bottom: 40px;
-    // border: dashed 2px rgba(#fff, .1);
     border-radius: 5px;
   }
   .drag-shape{
@@ -60,7 +59,7 @@
       transform: translate(-10px, -10px);
     }
     &::after{
-      background-color: rgba(lighten($COLOR_DARK, 10), .2);
+      background-color: rgba(lighten($COLOR_DARK, 10), .1);
       transform: translate(10px, 10px);
     }
   }
@@ -108,7 +107,6 @@
 }
 
 [data-dragging-over="true"] .component-start{
-  // background-color: rgba(#fff, .05);
   .drag-shape{
     &::before,
     &::after{

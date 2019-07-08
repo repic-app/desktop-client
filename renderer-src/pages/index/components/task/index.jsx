@@ -47,12 +47,12 @@ export default React.memo((props) => {
       <span className="status-icon"><i data-status={props.task.status} /></span>
       {props.preferences.showThumb ? (
         props.task.thumbUrl ? (
-          <div className="thumb" onClick={requestCompareView}>
+          <div className="thumb" onClick={handleThumbClick}>
             {props.task.status === taskStatus.COMPLETE ? <img src={`file://${props.task.optimizedPath || props.task.path}`} className="optimized-image"/> : null}
             <img className="thumb-image" src={props.task.thumbUrl} />
           </div>
         ) : (
-          <i className="thumb thumb-holder mdi mdi-image" />
+          <span className="fake-thumb">{props.task.ext}</span>
         )
       ) : null}
       <div className="meta">
@@ -72,11 +72,17 @@ export default React.memo((props) => {
           <a href="javascript:void(0);" data-disabled={recompressDisabled} className="button button-recompress" onClick={props.onRecompress}>
             <i className="mdi mdi-redo-variant"></i>
           </a>
+          <a href="javascript:void(0);" data-disabled={compareDisabled} className="button button-compare" onClick={requestCompareView}>
+            <i className="mdi mdi-eye"></i>
+          </a>
         </div>
       ) : (
         <div className="operates">
           <a href="javascript:void(0);" data-disabled={restoreDisabled} className="button button-restore" onClick={requestLocationImage}>
-            <i className="mdi mdi-folder-open"></i>
+            <i className="mdi mdi-magnify"></i>
+          </a>
+          <a href="javascript:void(0);" data-disabled={compareDisabled} className="button button-compare" onClick={requestCompareView}>
+            <i className="mdi mdi-eye"></i>
           </a>
         </div>
       )}
