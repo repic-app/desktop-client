@@ -26,6 +26,10 @@ $TITLE_BAR_HEIGHT: 23px;
     padding-left: 3px;
     color: #888;
     font-size: 12px;
+    -webkit-app-region: no-drag;
+    &:active{
+      color: #666;
+    }
   }
   .button-toggle-dropdown{
     position: absolute;

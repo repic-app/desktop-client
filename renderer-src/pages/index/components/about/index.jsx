@@ -50,14 +50,11 @@ export default React.memo(({ appState, setAppState }) => {
       {appState.jjma ? (
         <div className="register-info">
           <h6 className="caption">
-            <span className="text-success">已使用下列序列号激活</span>
+            <span>已使用下列序列号激活</span>
             <a href="javascript:void(0);" onClick={handleRevokeJJMa} className="button-revoke"><i className="mdi mdi-alert"></i> 撤销激活</a>
           </h6>
           <div className="registration-code">
-            <div className="code-note">
-              <b>感谢使用！</b>
-              <span>{formatJJMa(appState.jjma)}</span>
-            </div>
+            <span>{formatJJMa(appState.jjma)}</span>
           </div>
         </div>
       ) : (

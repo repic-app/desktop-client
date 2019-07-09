@@ -244,6 +244,21 @@ export default class extends React.PureComponent {
 
   handleRequestPickFile = () => {
 
+    if (!this.state.compressors.length) {
+      remote.dialog.showMessageBox({
+        type: 'info',
+        message: '未启用任何转换插件',
+        detail: '是否前往插件管理页来启用转换插件？',
+        defaultId: 0,
+        buttons: ['是', '否'],
+      }, (index) => {
+        if (index === 0) {
+          events.emit('request-open-plugin-settings')
+        }
+      })
+      return false
+    }
+
     remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
       title: '选择图片文件',
       filters: [
@@ -364,9 +379,8 @@ export default class extends React.PureComponent {
               onRecompress={this.handleRecompress}
             />
             <div className="footer">
-              {!compressors.length ? null : (
-                <button onClick={this.handleRequestPickFile} className="button-pick-files"></button>
-              )}
+              <button onClick={this.handleRequestPickFile} className="button-pick-files"></button>
+              <div data-active={appState.taskList.length && !appState.taskAllFinished} className="processing-spinner" />
               <TaskAnalyzer
                 appState={appState}
                 preferences={preferences}
@@ -376,7 +390,6 @@ export default class extends React.PureComponent {
                 onRecompressAll={this.handleRecompressAll}
                 onRequestPickFile={this.handleRequestPickFile}
               />
-              <div className="processing-spinner"></div>
             </div>
           </div>
         </APPContext.Provider>
