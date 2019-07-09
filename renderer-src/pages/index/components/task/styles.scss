@@ -102,7 +102,7 @@
     border: 2px solid #fff;
     box-shadow: 0 1px 3px rgba(#000, .3);
     color: #666;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
     text-align: center;
     line-height: 28px;
@@ -118,10 +118,10 @@
       max-width: 18em;
       overflow: hidden;
       color: rgba(#fff, .8);
-      font-size: 11px;
+      font-size: 12px;
       line-height: 14px;
       text-overflow: ellipsis;
-      text-transform: uppercase;
+      // text-transform: uppercase;
       white-space: nowrap;
     }
     .description-text{

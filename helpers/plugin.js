@@ -30,8 +30,8 @@ const registerPlugins = () => {
 
       if (plugin && plugin.name && plugin.main) {
         registeredPlugins.push({
-          ...plugin,
           ...pluginData,
+          ...plugin,
           path: path.join(builtinPluginFolder, item, plugin.main),
           isBuiltinPlugin: true
         })
@@ -50,8 +50,8 @@ const registerPlugins = () => {
 
       if (plugin && plugin.name && plugin.main) {
         registeredPlugins.push({
-          ...plugin,
           ...pluginData,
+          ...plugin,
           path: path.join(APP_PLUGIN_PATH, item, plugin.main),
           isBuiltinPlugin: false
         })
@@ -73,7 +73,7 @@ const getCompressors = () => {
 const fetchPlugins = () => new Promise((resolve, reject) => {
 
   https.get(thridPartPluginsURL, (res) => {
-  
+
     let data = ''
 
     res.on('data', (chunk) => {
