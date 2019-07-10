@@ -112,7 +112,7 @@ export default class extends React.PureComponent {
 
     this.setState({ plugins, compressors }, () => {
       updateRegisteredPlugins(plugins)
-      setAPPData('plugins', plugins.map(({ name, title, type, accepts, extensions, defaultFor, disabled }) => ({ name, title, type, accepts, extensions, defaultFor, disabled })))
+      setAPPData('plugins', plugins.map(({ name, title, type, accepts, extensions, defaultFor, disabled, options }) => ({ name, title, type, accepts, extensions, defaultFor, disabled, options })))
     })
 
   }

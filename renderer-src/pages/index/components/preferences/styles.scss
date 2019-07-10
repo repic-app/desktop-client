@@ -192,6 +192,10 @@
   }
 }
 
+.plugin-options-modal{
+  z-index: 99999 + 1;
+}
+
 .light-style .component-preferences{
   .tab-header{
     background-color: rgba(#000, .05);

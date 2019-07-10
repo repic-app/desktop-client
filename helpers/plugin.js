@@ -32,6 +32,7 @@ const registerPlugins = () => {
         registeredPlugins.push({
           ...pluginData,
           ...plugin,
+          options: pluginData.options,
           path: path.join(builtinPluginFolder, item, plugin.main),
           isBuiltinPlugin: true
         })
@@ -52,6 +53,7 @@ const registerPlugins = () => {
         registeredPlugins.push({
           ...pluginData,
           ...plugin,
+          options: pluginData.options,
           path: path.join(APP_PLUGIN_PATH, item, plugin.main),
           isBuiltinPlugin: false
         })

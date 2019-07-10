@@ -2,6 +2,8 @@ import React from 'react'
 import remote, { requireRemote } from 'helpers/remote'
 import Switch from 'components/switch'
 import Select from 'components/select'
+import Modal from 'components/modal'
+import PluginOptions from '../pluginoptions'
 import APPContext from 'store/index'
 import events from 'helpers/events'
 import { openPluginFolder } from 'utils/base'
@@ -85,13 +87,24 @@ const setPluginState = (plugins, name, state) => {
   })
 }
 
+const setPluginOption = (plugins, name, optionName, optionValue) => {
+
+  return plugins.map(item => {
+    return item.name === name ? { ...item, options: item.options.map(subItem => {
+      return subItem.name === optionName ? { ...subItem, value: optionValue } : subItem
+    }) } : item
+  })
+}
+
 export default class extends React.PureComponent {
 
   static contextType = APPContext
 
   state = {
     tabIndex: 0,
-    thridPartPlugins: []
+    thridPartPlugins: [],
+    showPluginOptionsModal: false,
+    selectedPlugin: null
   }
 
   setTabIndex = (event) => {
@@ -109,12 +122,15 @@ export default class extends React.PureComponent {
   }
 
   togglePluginDisabled = (event) => {
-
     const { name, disabled } = event.currentTarget.dataset
 
     this.context.setPlugins(setPluginState(this.context.plugins, name, {
       disabled: disabled !== 'true'
     }))
+  }
+
+  handlePluginOptionChange = ({ name, optionName, optionValue }) => {
+    this.context.setPlugins(setPluginOption(this.context.plugins, name, optionName, optionValue))
   }
 
   pickSaveFolder = () => {
@@ -139,7 +155,18 @@ export default class extends React.PureComponent {
         installingPlugins: this.context.appState.installingPlugins.filter(item => item.name !== name)
       })
     })
+  }
 
+  showPluginOptionsModal = (event) => {
+    const { name } = event.currentTarget.dataset
+    const selectedPlugin = this.context.plugins.find(item => item.name === name)
+    if (selectedPlugin) {
+      this.setState({ showPluginOptionsModal: true, selectedPlugin })
+    }
+  }
+
+  hidePluginOptionsModal = () => {
+    this.setState({ showPluginOptionsModal: false })
   }
 
   componentDidUpdate (_, prevState) {
@@ -157,7 +184,7 @@ export default class extends React.PureComponent {
 
   render () {
 
-    const { tabIndex, thridPartPlugins } = this.state
+    const { tabIndex, thridPartPlugins, showPluginOptionsModal, selectedPlugin } = this.state
     const { appState, preferences, plugins, compressors } = this.context
     const taskNotEmpty = appState.taskList.length > 0
     const extensionCompressors = mapExtensionsAndCompressors(compressors)
@@ -291,6 +318,14 @@ export default class extends React.PureComponent {
                         <h5 className="caption">
                           <span className="title">{plugin.title}{plugin.disabled ? <small> [已停用]</small> : null}</span>
                           <div className="operates">
+                            {plugin.options ? (
+                              <a
+                                href="javascript:void(0);"
+                                className="button button-xs button-default button-options"
+                                data-name={plugin.name}
+                                onClick={this.showPluginOptionsModal}
+                              >设置</a>
+                            ) : null}
                             <a
                               href="javascript:void(0);"
                               className="button button-xs button-default button-toggle-disabled"
@@ -305,6 +340,7 @@ export default class extends React.PureComponent {
                                 data-name={plugin.name}
                               >卸载</a>
                             )}
+
                           </div>
                         </h5>
                         <p className="description">{plugin.description}</p>
@@ -345,6 +381,19 @@ export default class extends React.PureComponent {
             </div>
           </div>
         </div>
+        <Modal
+          className="plugin-options-modal"
+          width={440}
+          active={showPluginOptionsModal}
+          onClose={this.hidePluginOptionsModal}
+          showConfirm={false}
+          cancelText="关闭"
+        >
+          <PluginOptions
+            plugin={selectedPlugin}
+            onChange={this.handlePluginOptionChange}
+          />
+        </Modal>
       </div>
     )
 

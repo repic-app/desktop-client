@@ -132,7 +132,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
       cachedCompressors[matchedCompressor.name] = matchedCompressor.process === 'main' ? requireRemote(matchedCompressor.path) : global.require(matchedCompressor.path)
     }
 
-    optimizeResule = await cachedCompressors[matchedCompressor.name](task, preferences)
+    optimizeResule = await cachedCompressors[matchedCompressor.name](task, preferences, matchedCompressor.options)
 
     if (optimizeResule && optimizeResule.path) {
       optimizedSize = optimizeResule.size
