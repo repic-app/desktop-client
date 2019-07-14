@@ -95,11 +95,12 @@ export default React.memo(({ appState, preferences, setAppState, onClear, onReco
                 <i className="mdi mdi-redo-variant"></i>
               </button>
             </>
-          ) : null}
-          <>
+          ) : (
             <button className="button" onClick={openSavePath}>
               <i className="mdi mdi-folder-open"></i>
             </button>
+          )}
+          <>
             <button disabled={clearDisabled} className="button" onClick={requestClear}>
               <i className="mdi mdi-notification-clear-all"></i>
             </button>
