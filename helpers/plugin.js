@@ -1,4 +1,5 @@
 const fs = require('fs')
+const rimraf = require('rimraf')
 const path = require('path')
 const https = require('https')
 const decompress = require('decompress')
@@ -121,8 +122,15 @@ const installPlugin = (name, url) => new Promise((resolve, reject) => {
 
 })
 
-const uninstallPlugin = async () => {
-  // ...
+const uninstallPlugin = async (name) => {
+
+  try {
+    rimraf.sync(path.join(APP_PLUGIN_PATH, name))
+    return true
+  } catch (error) {
+    return true
+  }
+
 }
 
 module.exports = { APP_PLUGIN_PATH, registerPlugins, fetchPlugins, installPlugin, uninstallPlugin, getCompressors, updateRegisteredPlugins }

@@ -44,7 +44,8 @@ export default class extends React.PureComponent {
     appState: defaultAppState,
     preferences: getAPPData('preferences'),
     plugins: [],
-    compressors: []
+    compressors: [],
+    foo: 1
   }
 
   getContextValue = () => ({

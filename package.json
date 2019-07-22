@@ -1,6 +1,6 @@
 {
   "name": "repic-compressor",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "main": "./index.js",
   "author": "Margox",
   "license": "MIT",
@@ -17,7 +17,8 @@
     "@mdi/font": "^3.6.95",
     "decompress": "^4.2.0",
     "mime-types": "^2.1.24",
-    "node-machine-id": "^1.1.12"
+    "node-machine-id": "^1.1.12",
+    "rimraf": "^2.6.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

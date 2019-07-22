@@ -10,7 +10,7 @@ import { openPluginFolder } from 'utils/base'
 import './styles.scss'
 
 const similarExtensions = ['jpeg']
-const { fetchPlugins, installPlugin } = requireRemote('./helpers/plugin')
+const { fetchPlugins, installPlugin, uninstallPlugin } = requireRemote('./helpers/plugin')
 
 const mapExtensionsAndCompressors = (compressors) => {
 
@@ -155,6 +155,26 @@ export default class extends React.PureComponent {
         installingPlugins: this.context.appState.installingPlugins.filter(item => item.name !== name)
       })
     })
+  }
+
+  uninstallPlugin = (event) => {
+
+    const { name } = event.currentTarget.dataset
+
+    remote.dialog.showMessageBox({
+      type: 'warning',
+      message: '确定要卸载此插件吗？',
+      detail: '你可以在任何时候重新安装此插件',
+      defaultId: 1,
+      buttons: ['确定', '取消'],
+    }, (index) => {
+      if (index === 0) {
+        uninstallPlugin(name).then(() => {
+          events.emit('request-update-plugins')
+        })
+      }
+    })
+
   }
 
   showPluginOptionsModal = (event) => {
@@ -338,9 +358,9 @@ export default class extends React.PureComponent {
                                 href="javascript:void(0);"
                                 className="button button-xs button-default button-uninstall"
                                 data-name={plugin.name}
+                                onClick={this.uninstallPlugin}
                               >卸载</a>
                             )}
-
                           </div>
                         </h5>
                         <p className="description">{plugin.description}</p>

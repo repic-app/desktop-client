@@ -36,7 +36,7 @@
       rgba(#000, .3) 0%,
       rgba(#000, .3) 100%
     );
-    background-color: rgba(lighten($COLOR_DARK, 10), .4);//rgba(#fff, .1);
+    background-color: rgba(lighten($COLOR_DARK, 10), .6);//rgba(#fff, .1);
     background-position: 0 -80px;
     background-repeat: no-repeat;
     border-radius: 3px;
@@ -59,7 +59,7 @@
       transform: translate(-10px, -10px);
     }
     &::after{
-      background-color: rgba(lighten($COLOR_DARK, 10), .1);
+      background-color: rgba(lighten($COLOR_DARK, 10), .2);
       transform: translate(10px, 10px);
     }
   }
