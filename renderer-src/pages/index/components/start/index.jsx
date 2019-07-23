@@ -6,12 +6,6 @@ export default React.memo((props) => {
   const acceptImageExtensions = props.compressors.map(item => item.extensions).flat()
   const noCompressors = !props.compressors.length
 
-  const toggleAboutModal = () => {
-    props.setAppState({
-      showAbout: true
-    })
-  }
-
   return (
     <div className="component-start">
       <div className="drag-tip-area">

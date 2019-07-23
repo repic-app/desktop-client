@@ -30,7 +30,7 @@ function initialize () {
       icon: path.join(__dirname, 'assets/icon.png'),
       titleBarStyle: 'hidden',//'customButtonsOnHover',
       webPreferences: {
-        devTools: !isProduction,
+        devTools: true,//!isProduction,
         webSecurity: false,
         nodeIntegration: true,
         experimentalFeatures: true
@@ -48,7 +48,7 @@ function initialize () {
       mainWindow = null
     })
 
-    !isProduction && mainWindow.webContents.openDevTools({
+    mainWindow.webContents.openDevTools({
       mode: 'detach'
     })
 
