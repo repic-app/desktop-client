@@ -3,7 +3,6 @@ import Task from '../task'
 import './styles.scss'
 
 export default React.memo((props) => {
-
   return (
     <ul className="component-task-list">
       {props.appState.taskList.map(item => (
@@ -11,5 +10,4 @@ export default React.memo((props) => {
       ))}
     </ul>
   )
-
 })

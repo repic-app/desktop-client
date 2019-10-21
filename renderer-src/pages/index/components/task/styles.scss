@@ -162,34 +162,3 @@
     }
   }
 }
-
-.light-style .component-task-item{
-  background-color: rgba(#fff, 1);
-  &::after{
-    box-shadow: inset 0 -.5px 0 0 rgba(#000, .15);
-  }
-  .status-icon{
-    i[data-status="1"]{
-      background-color: rgba(#000, .1);
-    }
-  }
-  .thumb{
-    background-color: #eee;
-  }
-  .thumb-holder{
-    color: #ccc;
-  }
-  .meta{
-    .name{
-      color: #333;
-    }
-    .description-text{
-      color: #666;
-    }
-  }
-  .operates{
-    .button{
-      color: rgba(#000, .35);
-    }
-  }
-}

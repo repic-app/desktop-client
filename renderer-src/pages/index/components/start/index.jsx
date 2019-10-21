@@ -18,5 +18,4 @@ export default React.memo((props) => {
       </div>
     </div>
   )
-
 })

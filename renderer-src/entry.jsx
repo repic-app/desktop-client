@@ -7,7 +7,7 @@ import { getCompareViewWindow } from 'helpers/compare'
 import IndexPage from 'pages/index'
 import ComparePage from 'pages/compare'
 
-const { getAPPData } = requireRemote('./helpers/storage')
+// const { getAPPData } = requireRemote('./helpers/storage')
 const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
 
 export default class extends React.PureComponent {
@@ -31,7 +31,6 @@ export default class extends React.PureComponent {
 
     const compareViewWindow = getCompareViewWindow()
     compareViewWindow && compareViewWindow.webContents.send('user-change-app-theme', theme)
-
   }
 
   componentDidMount () {
@@ -50,11 +49,9 @@ export default class extends React.PureComponent {
     electron.ipcRenderer.on('user-change-app-theme', () => {
       this.updateAppTheme()
     })
-
   }
 
   render () {
-
     return (
       <HashRouter>
         <div className="page-container">
@@ -63,7 +60,5 @@ export default class extends React.PureComponent {
         </div>
       </HashRouter>
     )
-
   }
-
 }

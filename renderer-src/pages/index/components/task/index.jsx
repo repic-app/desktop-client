@@ -20,7 +20,6 @@ const DescriptionText = React.memo((task) => {
   }
 
   return <span className="description-text">{taskStatusTexts[task.status]}</span>
-
 })
 
 const handleThumbClick = (event) => {
@@ -88,5 +87,4 @@ export default React.memo((props) => {
       )}
     </li>
   )
-
 })

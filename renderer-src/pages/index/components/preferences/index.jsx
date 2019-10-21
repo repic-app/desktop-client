@@ -220,16 +220,6 @@ export default class extends React.PureComponent {
         </div>
         <div className="tab-content">
           <div className="tab-item" data-index="0" data-active={tabIndex === 0}>
-            {/* <div className="option-group">
-              <label className="label">外观</label>
-              <div className="option">
-                <Select value={`${preferences.theme}`} name="theme" onChange={this.handleChange} >
-                  <option value="dark" key={0}>深色主题</option>
-                  <option value="light" key={1}>浅色主题</option>
-                  <option value="auto" key={2}>跟随系统</option>
-                </Select>
-              </div>
-            </div> */}
             <div className="option-group">
               <label className="label">显示缩略图</label>
               <div className="option">
@@ -254,12 +244,6 @@ export default class extends React.PureComponent {
                 <Switch checked={preferences.stickyOnLaunch} name="stickyOnLaunch" onChange={this.handleChange} />
               </div>
             </div>
-            {/* <div className="option-group">
-              <label className="label">操作音效</label>
-              <div className="option">
-                <Switch checked={preferences.soundEffects} name="soundEffects" onChange={this.handleChange} />
-              </div>
-            </div> */}
           </div>
           <div className="tab-item" data-index="1" data-active={tabIndex === 1}>
             <div className="option-group">
