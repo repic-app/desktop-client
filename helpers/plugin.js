@@ -27,13 +27,13 @@ const registerPlugins = () => {
     if (fs.statSync(pluginPath).isDirectory()) {
 
       const plugin = require(pluginPath)
-      const pluginData = pluginsData.find(({ name }) => name === plugin.name)
+      const pluginData = pluginsData.find(({ name }) => name === plugin.name) || {}
 
       if (plugin && plugin.name && plugin.main) {
         registeredPlugins.push({
           ...pluginData,
           ...plugin,
-          options: pluginData.options,
+          options: pluginData.options || plugin.options,
           path: path.join(builtinPluginFolder, item, plugin.main),
           isBuiltinPlugin: true
         })
@@ -48,13 +48,13 @@ const registerPlugins = () => {
     if (fs.existsSync(path.join(pluginPath, 'index.js'))) {
 
       const plugin = require(pluginPath)
-      const pluginData = pluginsData.find(({ name }) => name === plugin.name)
+      const pluginData = pluginsData.find(({ name }) => name === plugin.name) || {}
 
       if (plugin && plugin.name && plugin.main) {
         registeredPlugins.push({
           ...pluginData,
           ...plugin,
-          options: pluginData.options,
+          options: pluginData.options || plugin.options,
           path: path.join(APP_PLUGIN_PATH, item, plugin.main),
           isBuiltinPlugin: false
         })
