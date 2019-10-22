@@ -30,7 +30,7 @@ function initialize () {
       icon: path.join(__dirname, 'assets/icon.png'),
       titleBarStyle: 'hidden',//'customButtonsOnHover',
       webPreferences: {
-        devTools: true,//!isProduction,
+        devTools: !isProduction,
         webSecurity: false,
         nodeIntegration: true,
         experimentalFeatures: true
