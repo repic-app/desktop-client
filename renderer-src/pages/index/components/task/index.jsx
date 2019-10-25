@@ -4,6 +4,8 @@ import { taskStatus, taskStatusTexts } from 'constants/task'
 import { openCompareView } from 'helpers/compare'
 import './styles.scss'
 
+const imageTypePattern = /image\/(jpg|png|webp|jpeg)/
+
 const DescriptionText = React.memo((task) => {
 
   const optimizeRateTextColor = formateOptimizedRate(task.optimizedRate)
@@ -32,7 +34,7 @@ export default React.memo((props) => {
     locateFile(props.task.optimizedPath)
   }
 
-  const taskFileIsImage = props.task.file.type.indexOf('image/') === 0
+  const taskFileIsImage = imageTypePattern.test(props.task.file.type)
   const restoreDisabled = props.task.status !== taskStatus.COMPLETE
   const recompressDisabled = props.task.status !== taskStatus.RESTORED
   const compareDisabled = !taskFileIsImage || props.task.status !== taskStatus.COMPLETE

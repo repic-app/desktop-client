@@ -1,12 +1,13 @@
 const fs = require('fs')
 const rimraf = require('rimraf')
 const path = require('path')
+const http = require('http')
 const https = require('https')
 const decompress = require('decompress')
 const { getAPPData, APP_PLUGIN_PATH } = require('./storage')
 const builtinPluginFolder = path.join(__dirname, '../plugins')
 
-const thridPartPluginsURL = 'https://repic.app/plugins/list.json'
+const thridPartPluginsURL = 'https://raw.githubusercontent.com/repic-app/plugins-manifest/master/plugins.json?r=' + Date.now()
 
 let registeredPlugins = []
 
@@ -100,18 +101,19 @@ const fetchPlugins = () => new Promise((resolve, reject) => {
 
 const installPlugin = (name, url) => new Promise((resolve, reject) => {
 
+  const httpClient = url.indexOf('https:') === 0 ? https : http
+
   try {
-
     const tempFilePath = path.join(APP_PLUGIN_PATH, `.temp_${name}.zip`)
-
-    https.get(url, response => {
+    httpClient.get(url, response => {
       response
         .pipe(fs.createWriteStream(tempFilePath))
         .on('error', reject)
         .on('close', () => {
-          decompress(tempFilePath, APP_PLUGIN_PATH).then(() => {
-            resolve()
+          decompress(tempFilePath, APP_PLUGIN_PATH).then((res) => {
+            fs.renameSync(path.join(APP_PLUGIN_PATH, res[0].path), path.join(APP_PLUGIN_PATH, name))
             fs.unlinkSync(tempFilePath)
+            resolve()
           }).catch(reject)
         })
     })
@@ -119,18 +121,16 @@ const installPlugin = (name, url) => new Promise((resolve, reject) => {
   } catch (error) {
     reject(error)
   }
-
 })
 
-const uninstallPlugin = async (name) => {
+const uninstallPlugin = async (pluginPath) => {
 
   try {
-    rimraf.sync(path.join(APP_PLUGIN_PATH, name))
+    rimraf.sync(path.join(APP_PLUGIN_PATH, pluginPath))
     return true
   } catch (error) {
     return true
   }
-
 }
 
 module.exports = { APP_PLUGIN_PATH, registerPlugins, fetchPlugins, installPlugin, uninstallPlugin, getCompressors, updateRegisteredPlugins }

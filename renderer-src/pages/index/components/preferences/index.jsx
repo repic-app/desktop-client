@@ -147,12 +147,12 @@ export default class extends React.PureComponent {
 
     installPlugin(name, url).then(() => {
       this.context.setAppState({
-        installingPlugins: this.context.appState.installingPlugins.filter(item => item.name !== name)
+        installingPlugins: this.context.appState.installingPlugins.filter(item => item !== name)
       })
       events.emit('request-update-plugins')
-    }).catch((error) => {
+    }).catch(() => {
       this.context.setAppState({
-        installingPlugins: this.context.appState.installingPlugins.filter(item => item.name !== name)
+        installingPlugins: this.context.appState.installingPlugins.filter(item => item !== name)
       })
     })
   }
