@@ -1,5 +1,5 @@
 import electron from 'electron'
-import { APP_TEMP_PATH, APP_DOC_PATH, APP_PLUGIN_PATH } from 'helpers/remote'
+import { APP_TEMP_PATH, APP_PLUGIN_PATH } from 'helpers/remote'
 
 const fs = electron.remote.require('fs')
 const mimeTypes = electron.remote.require('mime-types')

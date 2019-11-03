@@ -151,6 +151,9 @@
           font-weight: normal;
         }
       }
+      .button{
+        font-weight: normal;
+      }
     }
     .description{
       margin: 5px 0 5px 0;
@@ -176,8 +179,11 @@
     }
   }
   .plugin-entry{
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
     a{
-      margin-right: 10px;
       color: rgba(#fff, .4);
       font-size: 12px;
       cursor: pointer;

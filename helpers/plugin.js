@@ -7,7 +7,7 @@ const decompress = require('decompress')
 const { getAPPData, APP_PLUGIN_PATH } = require('./storage')
 const builtinPluginFolder = path.join(__dirname, '../plugins')
 
-const thridPartPluginsURL = 'https://raw.githubusercontent.com/repic-app/plugins-manifest/master/plugins.json?r=' + Date.now()
+const thridPartPluginsURL = 'https://repic.app/plugins.json?r=' + Date.now()
 
 let registeredPlugins = []
 
@@ -76,27 +76,29 @@ const getCompressors = () => {
 
 const fetchPlugins = () => new Promise((resolve, reject) => {
 
-  https.get(thridPartPluginsURL, (res) => {
+  try {
+    https.get(thridPartPluginsURL, (res) => {
+      let data = ''
 
-    let data = ''
+      res.on('data', (chunk) => {
+        data += chunk
+      })
 
-    res.on('data', (chunk) => {
-      data += chunk
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data))
+        } catch (error) {
+          reject(error)
+        }
+      })
+
+      res.on('error', reject)
+      res.on('abort', reject)
+
     })
-
-    res.on('end', () => {
-      try {
-        resolve(JSON.parse(data))
-      } catch (error) {
-        reject(error)
-      }
-    })
-
-    res.on('error', reject)
-    res.on('abort', reject)
-
-  })
-
+  } catch (error) {
+    reject(error)
+  }
 })
 
 const installPlugin = (name, url) => new Promise((resolve, reject) => {
@@ -113,7 +115,9 @@ const installPlugin = (name, url) => new Promise((resolve, reject) => {
           decompress(tempFilePath, APP_PLUGIN_PATH).then((res) => {
             fs.renameSync(path.join(APP_PLUGIN_PATH, res[0].path), path.join(APP_PLUGIN_PATH, name))
             fs.unlinkSync(tempFilePath)
-            resolve()
+            const pluginData = require(path.join(APP_PLUGIN_PATH, name))
+            pluginData.postinstallFn = pluginData.postinstall ? pluginData.postinstall.toString() : null
+            resolve(pluginData)
           }).catch(reject)
         })
     })

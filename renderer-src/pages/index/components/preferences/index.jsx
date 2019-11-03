@@ -6,7 +6,7 @@ import Modal from 'components/modal'
 import PluginOptions from '../pluginoptions'
 import APPContext from 'store/index'
 import events from 'helpers/events'
-import { openPluginFolder } from 'utils/base'
+import { openPluginFolder, openLink } from 'utils/base'
 import './styles.scss'
 
 const similarExtensions = ['jpeg']
@@ -145,12 +145,27 @@ export default class extends React.PureComponent {
       installingPlugins: [ ...this.context.appState.installingPlugins, name ]
     })
 
-    installPlugin(name, url).then(() => {
+    installPlugin(name, url).then((pluginData,) => {
+      if (pluginData.postinstallFn) {
+        try {
+          const wrappedPostinstallFn = new Function(`return ${pluginData.postinstallFn}`)
+          wrappedPostinstallFn()({
+            pluginData,
+            openLink,
+            showMessageBox: remote.dialog.showMessageBox,
+            showPluginOptions: () => this.showPluginOptionsModal(name)
+          })
+        } catch (error) {
+          console.warn(`插件${name}的postinstall执行失败`)
+          console.warn(error)
+        }
+      }
       this.context.setAppState({
         installingPlugins: this.context.appState.installingPlugins.filter(item => item !== name)
       })
       events.emit('request-update-plugins')
-    }).catch(() => {
+    }).catch((error) => {
+      console.log(error)
       this.context.setAppState({
         installingPlugins: this.context.appState.installingPlugins.filter(item => item !== name)
       })
@@ -178,7 +193,7 @@ export default class extends React.PureComponent {
   }
 
   showPluginOptionsModal = (event) => {
-    const { name } = event.currentTarget.dataset
+    const name = typeof event === 'string' ? event : event.currentTarget.dataset.name
     const selectedPlugin = this.context.plugins.find(item => item.name === name)
     if (selectedPlugin) {
       this.setState({ showPluginOptionsModal: true, selectedPlugin })
@@ -197,6 +212,8 @@ export default class extends React.PureComponent {
         if (res && res.plugins) {
           this.setState({ thridPartPlugins: res.plugins })
         }
+      }).catch(() => {
+        console.log('插件获取失败')
       })
     }
 
@@ -378,7 +395,7 @@ export default class extends React.PureComponent {
               </table>
             </div>
             <div className="plugin-entry">
-              <a href="javascript:void(0);" className="button-open-plugin-folder text-with-icon" onClick={openPluginFolder}>
+              <a href="javascript:void(0);" className="text-with-icon" onClick={openPluginFolder}>
                 <i className="mdi mdi-folder"></i>
                 <span>打开插件目录</span>
               </a>
