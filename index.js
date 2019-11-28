@@ -3,17 +3,17 @@ const storage = require('./helpers/storage')
 const path = require('path')
 const isProduction = process.env.NODE_ENV !== 'development'
 
-const rendererPageBaseURL = !isProduction ? 'http://localhost:8188' : 'file://' + path.join(__dirname, './renderer/index.html')
+const rendererPageBaseURL = !isProduction
+  ? 'http://localhost:8188'
+  : 'file://' + path.join(__dirname, './renderer/index.html')
 let mainWindow = null
 
 app.commandLine.appendSwitch('--autoplay-policy', 'no-user-gesture-required')
 
-function initialize () {
-
+function initialize() {
   makeSingleInstance()
 
-  function createMainWindow () {
-
+  function createMainWindow() {
     const windowOptions = {
       show: false,
       width: 440,
@@ -26,15 +26,15 @@ function initialize () {
       fullscreenable: false,
       // frame: false,
       // hasShadow: false,
-      vibrancy: 'dark',
+      vibrancy: 'light',
       icon: path.join(__dirname, 'assets/icon.png'),
-      titleBarStyle: 'hidden',//'customButtonsOnHover',
+      titleBarStyle: 'hiddenInset', //'customButtonsOnHover',
       webPreferences: {
         devTools: !isProduction,
         webSecurity: false,
         nodeIntegration: true,
-        experimentalFeatures: true
-      }
+        experimentalFeatures: true,
+      },
     }
 
     mainWindow = new BrowserWindow(windowOptions)
@@ -49,9 +49,8 @@ function initialize () {
     })
 
     mainWindow.webContents.openDevTools({
-      mode: 'detach'
+      mode: 'detach',
     })
-
   }
 
   app.on('ready', () => {
@@ -65,7 +64,6 @@ function initialize () {
   app.on('activate', () => {
     mainWindow === null && createMainWindow()
   })
-
 }
 
 // Make this app a single instance app.
@@ -75,20 +73,17 @@ function initialize () {
 //
 // Returns true if the current version of the app should quit instead of
 // launching.
-function makeSingleInstance () {
+function makeSingleInstance() {
   if (process.mas) return
 
   app.requestSingleInstanceLock()
 
   app.on('second-instance', () => {
-
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
     }
-
   })
-
 }
 
 initialize()

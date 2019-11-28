@@ -1,6 +1,6 @@
-@import "~scssinc";
+@import '~scssinc';
 
-.component-task-analyzer{
+.component-task-analyzer {
   position: absolute;
   z-index: 2;
   right: 0;
@@ -9,11 +9,11 @@
   height: 60px;
   border-radius: 3px;
   transform: translateY(90px) rotateX(30deg);
-  transition: transform .5s;
-  &[data-visible="true"]{
+  transition: transform 0.5s;
+  &[data-visible='true'] {
     transform: translateY(0) rotateX(0);
   }
-  .progress-bar{
+  .progress-bar {
     position: absolute;
     z-index: 4;
     bottom: 0;
@@ -24,16 +24,16 @@
     background-size: 420px 2px;
     border-radius: 2px 0 0 0;
     opacity: 0;
-    transition: opacity .3s;
-    &[data-completed="true"]{
+    transition: opacity 0.3s;
+    &[data-completed='true'] {
       width: 420px !important;
     }
-    &[data-visible="true"]{
+    &[data-visible='true'] {
       opacity: 1;
     }
   }
   &::before,
-  &::after{
+  &::after {
     position: absolute;
     top: 0;
     left: 0;
@@ -41,91 +41,87 @@
     height: 60px;
     content: '';
   }
-  &::before{
+  &::before {
     z-index: 1;
     backdrop-filter: blur(15px);
   }
-  &::after{
+  &::after {
     z-index: 2;
-    background-color: rgba(darken($COLOR_DARK, 5), .8);
-    // background-image: linear-gradient(rgba(darken($COLOR_DARK, 0), .8), rgba(darken($COLOR_DARK, 5), .8));
-    box-shadow: inset 0 .5px 0 0 rgba(#000, .2);
+    background-color: rgba(#fff, 0.8); //rgba(darken($COLOR_DARK, 5), .8);
+    box-shadow: inset 0 0.5px 0 0 rgba(#000, 0.2);
   }
-  .content{
+  .content {
     position: relative;
     z-index: 3;
     display: flex;
     align-items: center;
     height: 60px;
   }
-  .total-optimized-rate{
+  .total-optimized-rate {
     width: 36px;
     height: 36px;
     margin-left: 15px;
     transform: rotateY(180deg) rotate(-90deg);
     pointer-events: none;
-    circle{
-      transition: fill .3s, stroke-dasharray .3s;
-      .circle{
-        stroke: rgba(#000, .1);
+    circle {
+      transition: fill 0.3s, stroke-dasharray 0.3s;
+      .circle {
+        stroke: rgba(#000, 0.1);
       }
     }
-    &.success circle{
-      &.played{
+    &.success circle {
+      &.played {
         stroke: $COLOR_SUCCESS;
       }
     }
-    &.warning circle{
-      &.played{
+    &.warning circle {
+      &.played {
         stroke: $COLOR_WARNING;
       }
     }
-    &.danger circle{
-      &.played{
+    &.danger circle {
+      &.played {
         stroke: $COLOR_DANGER;
       }
     }
   }
-  .analyze-text{
+  .analyze-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 0 0 0 15px;
-    .count{
-      color: rgba(#fff, .8);
+    .count {
+      color: lighten($COLOR_CAPTION, 8);
       font-size: 12px;
     }
-    .size{
-      color: rgba(#fff, .4);
+    .size {
+      color: lighten($COLOR_CAPTION, 20);
       font-size: 11px;
     }
   }
-  .operates{
+  .operates {
     position: absolute;
     right: 15px;
     top: 14px;
     height: 32px;
     margin-top: 1px;
-    .button{
+    .button {
       width: 32px;
       height: 32px;
       margin-left: 10px;
       padding: 0;
-      background-color: rgba(#fff, .1);
+      background-color: #eee;
       border-radius: 50%;
-      color: rgba(#fff, .6);
+      color: lighten($COLOR_CAPTION, 20);
       font-size: 16px;
       cursor: pointer;
-      &:disabled{
-        background-color: rgba(#fff, .05);
-        color: rgba(#fff, .1);
+      &:disabled {
+        background-color: rgba(#fff, 0.05);
+        color: lighten($COLOR_CAPTION, 40);
         pointer-events: none;
       }
-      &:hover{
-        background-color: rgba(#fff, .2);
-      }
-      &:active{
-        background-color: rgba(#fff, .3);
+      &:hover {
+        background-color: #ddd;
       }
     }
   }

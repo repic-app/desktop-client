@@ -3,18 +3,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 class Modal extends React.PureComponent {
-
-  constructor (props) {
-
+  constructor(props) {
     super(props)
 
     this.state = { visible: false }
     this.hostNode = document.createElement('div')
-
   }
 
-  componentDidMount () {
-
+  componentDidMount() {
     document.body.appendChild(this.hostNode)
 
     if (this.props.active) {
@@ -22,21 +18,18 @@ class Modal extends React.PureComponent {
         this.setState({ visible: true })
       }, 10)
     }
-
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.body.removeChild(this.hostNode)
   }
 
-  componentDidUpdate (prevProps) {
-
+  componentDidUpdate(prevProps) {
     if (!prevProps.active && this.props.active) {
       setTimeout(() => {
         this.setState({ visible: true })
       }, 0)
     }
-
   }
 
   close = () => {
@@ -66,31 +59,38 @@ class Modal extends React.PureComponent {
   }
 
   handleTransitionEnd = () => {
-
     if (!this.state.visible) {
       this.props.onClose && this.props.onClose()
     } else {
       this.props.onOpen && this.props.onOpen()
     }
-
   }
 
-  render () {
-
+  render() {
     if (!this.props.active) {
       return null
     }
 
     const { width, height, footerAddon } = this.props
 
-    return ReactDOM.createPortal((
-      <div className={`component-modal ${this.props.className} ${this.state.visible ? 'visible' : ''}`}>
+    return ReactDOM.createPortal(
+      <div
+        className={`component-modal ${this.props.className} ${
+          this.state.visible ? 'visible' : ''
+        }`}>
         <div className="modal-mask" onClick={this.handleMaskClick}></div>
-        <div className="modal-content" onTransitionEnd={this.handleTransitionEnd} style={{ width, height }}>
+        <div
+          className="modal-content"
+          onTransitionEnd={this.handleTransitionEnd}
+          style={{ width, height }}>
           {this.props.title ? (
             <header className="header">
               <h5 className="caption">{this.props.title}</h5>
-              {this.props.showClose ? <button onClick={this.handleCloseButtonClick} className="button-close">{this.props.closeText}</button> : null}
+              {this.props.showClose ? (
+                <button onClick={this.handleCloseButtonClick} className="button-close">
+                  {this.props.closeText}
+                </button>
+              ) : null}
             </header>
           ) : null}
           <div className="body">{this.props.children}</div>
@@ -98,17 +98,28 @@ class Modal extends React.PureComponent {
             <footer className="footer">
               <div className="left-content">{footerAddon}</div>
               <div className="buttons">
-                {this.props.showConfirm ? <button onClick={this.hanleConfirmButtonClick} className="button button-md button-primary button-confirm">{this.props.confirmText}</button> : null}
-                {this.props.showCancel ? <button onClick={this.hanleCancelButtonClick} className="button button-md button-default button-cancel">{this.props.cancelText}</button> : null}
+                {this.props.showConfirm ? (
+                  <button
+                    onClick={this.hanleConfirmButtonClick}
+                    className="button button-md button-primary button-confirm">
+                    {this.props.confirmText}
+                  </button>
+                ) : null}
+                {this.props.showCancel ? (
+                  <button
+                    onClick={this.hanleCancelButtonClick}
+                    className="button button-md button-default button-cancel">
+                    {this.props.cancelText}
+                  </button>
+                ) : null}
               </div>
             </footer>
           ) : null}
         </div>
-      </div>
-    ), this.hostNode)
-
+      </div>,
+      this.hostNode
+    )
   }
-
 }
 
 Modal.defaultProps = {
@@ -125,16 +136,14 @@ Modal.defaultProps = {
   cancelText: '取消',
   confirmText: '确认',
   footerAddon: null,
-  closeOnBlur: false
+  closeOnBlur: false,
 }
 
 export const showModal = ({ onClose, ...props }) => {
-
   const hostNode = document.createElement('div')
   document.body.appendChild(hostNode)
 
-  const handleClose = (source) => {
-
+  const handleClose = source => {
     const result = onClose ? onClose(source) : true
 
     if (result !== false) {
@@ -143,36 +152,30 @@ export const showModal = ({ onClose, ...props }) => {
     }
 
     return result
-
   }
 
-  return ReactDOM.render(<Modal onClose={handleClose} {...props} active={true}/>, hostNode)
-
+  ReactDOM.render(<Modal onClose={handleClose} {...props} active={true} />, hostNode)
 }
 
-export const confirm = (props) => {
-
+export const confirm = props => {
   return showModal({
     width: 400,
     showClose: false,
     ...props,
     className: 'confirm-modal',
-    children: <div className="modal-confirm-content">{props.content}</div>
+    children: <div className="modal-confirm-content">{props.content}</div>,
   })
-
 }
 
-export const alert = (props) => {
-
+export const alert = props => {
   return showModal({
     width: 400,
     showClose: false,
     ...props,
     className: 'alert-modal',
     showCancel: false,
-    children: <div className="modal-alert-content">{props.content}</div>
+    children: <div className="modal-alert-content">{props.content}</div>,
   })
-
 }
 
 export default Modal

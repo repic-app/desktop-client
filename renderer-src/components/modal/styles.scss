@@ -1,62 +1,60 @@
-@import "~scssinc";
+@import '~scssinc';
 
-.component-modal{
+.component-modal {
   position: fixed;
   z-index: 99999;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  button{
+  button {
     outline: none;
   }
 
-  &.visible{
-    .modal-mask{
+  &.visible {
+    .modal-mask {
       opacity: 1;
-      // backdrop-filter: blur(40px);
     }
-    .modal-content{
+    .modal-content {
       opacity: 1;
       transform: translate(-50%, 0);
     }
   }
 
   &.confirm-modal,
-  &.alert-modal{
-    .modal-content{
-      > .header{
+  &.alert-modal {
+    .modal-content {
+      > .header {
         border-bottom: none;
-        .caption{
+        .caption {
           font-size: 13px;
         }
       }
-      > .footer{
+      > .footer {
         margin-top: 30px;
         border-top: none;
       }
     }
     .modal-confirm-content,
-    .modal-alert-content{
+    .modal-alert-content {
       padding: 0 20px;
       color: #666;
       font-size: 13px;
     }
   }
 
-  .modal-mask{
+  .modal-mask {
     position: absolute;
     z-index: 1;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(#000, .3);
     opacity: 0;
-    transition: .3s;
+    transition: 0.3s;
   }
 
-  .modal-content{
+  .modal-content {
     position: absolute;
     z-index: 2;
     top: $TITLE_BAR_HEIGHT - 2;
@@ -64,27 +62,27 @@
     left: 50%;
     display: flex;
     flex-direction: column;
-    // background-color: lighten($COLOR_DARK, 0);
-    background-image: linear-gradient(lighten($COLOR_DARK, 5), lighten($COLOR_DARK, 5));
+    background-color: #fff;
+    box-shadow: 0 20px 55px rgba(#000, 0.15);
     opacity: 0;
     transform: translate(-50%, 50px);
-    transition: transform .3s, opacity .3s;
-    > .header{
+    transition: transform 0.3s, opacity 0.3s;
+    > .header {
       position: relative;
       z-index: 3;
       height: 46px;
-      margin-bottom: .5px;
-      > .caption{
+      margin-bottom: 0.5px;
+      > .caption {
         margin: 0;
-        color: rgba(#fff, .8);
+        color: rgba(#fff, 0.8);
         font-weight: 500;
         line-height: 46px;
-        .text-with-icon{
+        .text-with-icon {
           height: 46px;
           line-height: initial;
         }
       }
-      .button-close{
+      .button-close {
         position: absolute;
         top: 0;
         right: 0;
@@ -95,18 +93,18 @@
         color: #ccc;
         font-size: 18px;
         cursor: pointer;
-        &:hover{
+        &:hover {
           color: $COLOR_DANGER;
         }
       }
     }
-    > .body{
+    > .body {
       flex: 1;
       position: relative;
       z-index: 3;
       overflow: auto;
     }
-    > .footer{
+    > .footer {
       box-sizing: border-box;
       position: relative;
       z-index: 3;
@@ -115,21 +113,21 @@
       overflow: hidden;
       // background-color: rgba(#000, .2);
       // box-shadow: inset 0 .5px 0 0 rgba(#000, .6);
-      .left-content{
+      .left-content {
         float: left;
       }
-      .buttons{
+      .buttons {
         float: right;
       }
-      .button{
+      .button {
         min-width: 60px;
-        margin:  0 0 0 10px;
+        margin: 0 0 0 10px;
         padding: 0 20px;
         font-size: 12px;
       }
     }
   }
-
 }
 
-.light-style .component-modal{}
+.light-style .component-modal {
+}

@@ -1,6 +1,6 @@
-@import "~scssinc";
+@import '~scssinc';
 
-.component-start{
+.component-start {
   position: absolute;
   z-index: 3;
   top: 10px;
@@ -11,59 +11,30 @@
   flex: 1;
   align-items: center;
   justify-content: center;
-  background-color: rgba(#000, .1);
-  border: 1px dashed rgba(#fff, .1);
-  border-radius: 3px;
+  background-color: rgba(#000, 0.05);
+  border: 1px dashed rgba(#000, 0.1);
   opacity: 0;
-  transition: transform .4s, opacity .4s, background-color .2s;
+  transition: transform 0.4s, opacity 0.4s, background-color 0.2s;
   transform: scale(0.9);
   pointer-events: none;
-  .drag-tip-area{
+  .drag-tip-area {
     position: relative;
     width: 320px;
     margin-top: -150px;
     padding-bottom: 40px;
     border-radius: 5px;
   }
-  .drag-shape{
+  .drag-shape {
     position: relative;
     box-sizing: border-box;
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 58px;
     margin: 40px auto 15px auto;
-    background-image: linear-gradient(
-      rgba(#000, 0) 0%,
-      rgba(#000, .3) 0%,
-      rgba(#000, .3) 100%
-    );
-    background-color: rgba(#fff, .2);//rgba(#fff, .1);
-    background-position: 0 -80px;
-    background-repeat: no-repeat;
-    border-radius: 3px;
-    transition: background .2s linear .2s;
-    transform: scaleY(.6) rotate(45deg);
-    &::before,
-    &::after{
-      position: absolute;
-      top: 0;
-      left: 0;
-      box-sizing: border-box;
-      width: 60px;
-      height: 60px;
-      border-radius: 3px;
-      content: '';
-      transition: transform .3s;
-    }
-    &::before{
-      background-color: rgba(#fff, .3);
-      transform: translate(-10px, -10px);
-    }
-    &::after{
-      background-color: rgba(#fff, .1);
-      transform: translate(10px, 10px);
-    }
+    background-image: url(../../../../assets/images/start_icon.png);
+    background-size: 48px 58px;
+    background-position: 0 0;
   }
-  .drag-shape-mask{
+  .drag-shape-mask {
     position: absolute;
     z-index: 2;
     top: 40px;
@@ -72,7 +43,7 @@
     height: 120px;
     overflow: hidden;
     transform: translateX(-50%);
-    &::before{
+    &::before {
       position: absolute;
       z-index: 2;
       top: -40px;
@@ -84,21 +55,22 @@
       content: '';
     }
   }
-  .drag-tip{
+  .drag-tip {
     margin-top: 0;
-    color: #fff;
+    color: $COLOR_CAPTION;
     text-align: center;
     user-select: none;
-    span, small{
+    span,
+    small {
       display: block;
     }
-    span{
-      opacity: .3;
+    span {
+      opacity: 0.8;
       font-size: 14px;
       font-weight: bold;
     }
-    small{
-      opacity: .15;
+    small {
+      opacity: 0.4;
       font-size: 11px;
       font-weight: 400;
       text-transform: uppercase;
@@ -106,11 +78,6 @@
   }
 }
 
-[data-dragging-over="true"] .component-start{
-  .drag-shape{
-    &::before,
-    &::after{
-      transform: translate(0);
-    }
-  }
+[data-dragging-over='true'] .component-start {
+  background-color: rgba($COLOR_PRIMARY, 0.1);
 }

@@ -1,6 +1,6 @@
-@import "~scssinc";
+@import '~scssinc';
 
-.component-task-item{
+.component-task-item {
   position: relative;
   display: flex;
   box-sizing: border-box;
@@ -10,31 +10,32 @@
   margin: 0 0 0 0;
   padding: 0 0 0 15px;
   border-radius: 3px;
-  &::after{
+  &::after {
     position: absolute;
     right: 0;
     bottom: 0;
     left: 33px;
     height: 1px;
-    box-shadow: inset 0 -.5px 0 0 rgba(#000, .3);
+    box-shadow: inset 0 -0.5px 0 0 rgba(#000, 0.1);
     content: '';
   }
-  &:last-child::after{
+  &:last-child::after {
     content: none;
   }
-  .status-icon{
+  .status-icon {
     width: 6px;
     height: 40px;
     margin: 0 12px 0 0;
-    i{
+    i {
       display: block;
       box-sizing: border-box;
       width: 6px;
       height: 6px;
       margin: 17px 0;
-      background-color: rgba(#fff, .2);
+      background-color: rgba(#fff, 0.2);
       border-radius: 50%;
-      &[data-status="2"]{ //PROCESSING
+      &[data-status='2'] {
+        //PROCESSING
         width: 8px;
         height: 8px;
         margin: 16px 0 0 -1px;
@@ -43,18 +44,21 @@
         border-bottom-color: transparent;
         animation: spinning infinite 1s;
       }
-      &[data-status="3"]{ //COMPLETE
+      &[data-status='3'] {
+        //COMPLETE
         background-color: $COLOR_SUCCESS;
       }
-      &[data-status="4"]{ //FAIL
+      &[data-status='4'] {
+        //FAIL
         background-color: $COLOR_DANGER;
       }
-      &[data-status="5"]{ //RESTORED
+      &[data-status='5'] {
+        //RESTORED
         background-color: $COLOR_WARNING;
       }
     }
   }
-  .thumb{
+  .thumb {
     position: relative;
     display: flex;
     align-items: center;
@@ -62,18 +66,17 @@
     width: 40px;
     height: 32px;
     margin-right: 12px;
-    overflow: hidden;    
-    .thumb-image{
+    overflow: hidden;
+    .thumb-image {
       box-sizing: border-box;
       width: auto;
       height: auto;
       max-width: 40px;
       max-height: 32px;
-      border: 2px solid #fff;
-      box-shadow: 0 1px 3px rgba(#000, .3);
+      border: 2px solid #ccc;
       -webkit-user-drag: none;
     }
-    .optimized-image{
+    .optimized-image {
       position: absolute;
       z-index: 2;
       top: 0;
@@ -82,25 +85,25 @@
       height: 32px;
       opacity: 0;
     }
-    & + .meta .name{
+    & + .meta .name {
       max-width: 12rem;
     }
   }
-  .thumb-holder{
+  .thumb-holder {
     display: block;
-    color: rgba(#fff, .5);
+    color: rgba(#fff, 0.5);
     font-size: 12px;
     line-height: 32px;
     text-align: center;
   }
-  .fake-thumb{
+  .fake-thumb {
     box-sizing: border-box;
     width: 40px;
     height: 32px;
     margin-right: 12px;
     background-color: #ccc;
-    border: 2px solid #fff;
-    box-shadow: 0 1px 3px rgba(#000, .3);
+    border: 2px solid #ccc;
+    box-shadow: 0 1px 3px rgba(#000, 0.3);
     color: #666;
     font-size: 10px;
     font-weight: bold;
@@ -108,55 +111,54 @@
     line-height: 28px;
     text-transform: uppercase;
   }
-  .meta{
+  .meta {
     flex: 1;
     margin-top: -1px;
     overflow: hidden;
     user-select: none;
-    .name{
+    .name {
       display: block;
       max-width: 18em;
       overflow: hidden;
-      color: rgba(#fff, .8);
+      color: $COLOR_CAPTION;
       font-size: 12px;
       line-height: 14px;
       text-overflow: ellipsis;
-      // text-transform: uppercase;
       white-space: nowrap;
     }
-    .description-text{
+    .description-text {
       display: flex;
-      color: rgba(#fff, .4);
+      color: lighten($COLOR_CAPTION, 20);
       font-size: 10px;
-      i{
+      i {
         padding: 0 3px;
       }
-      .optimize-rate{
+      .optimize-rate {
         padding-left: 5px;
       }
     }
   }
-  .operates{
+  .operates {
     display: flex;
     flex-direction: row;
     margin-right: 10px;
-    .button{
+    .button {
       display: block;
       width: 22px;
       height: 22px;
       margin-left: 5px;
-      background-color: rgba(#000, .2);
+      background-color: #eee; //rgba(#000, 0.2);
       border-radius: 13px;
-      color: rgba(#fff, .5);
+      color: lighten($COLOR_CAPTION, 10);
       font-size: 12px;
       line-height: 22px;
       text-align: center;
       cursor: pointer;
-      &:hover{
-        background-color: rgba(#000, .3);
+      &:hover {
+        background-color: #ddd;
       }
-      &[data-disabled="true"]{
-        opacity: .3;
+      &[data-disabled='true'] {
+        opacity: 0.3;
         pointer-events: none;
       }
     }

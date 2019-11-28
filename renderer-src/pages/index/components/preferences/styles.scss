@@ -1,176 +1,184 @@
-@import "~scssinc";
+@import '~scssinc';
 
-.component-preferences{
+.component-preferences {
   overflow: hidden;
-  .tab-header{
+  .tab-header {
     display: flex;
-    height: 70px;
+    height: 60px;
     margin-bottom: 25px;
-    padding: 15px 15px 0 15px;
-    background-color: rgba(#000, .2);
-    box-shadow: 0 .5px 0 0 rgba(#000, .6);
-    .tab-button{
+    padding: 10px 15px 0 15px;
+    background-color: #f8f9fa;
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.2);
+    .tab-button {
       display: block;
       box-sizing: border-box;
       width: 60px;
-      height: 70px;
+      height: 60px;
       margin-right: 5px;
-      padding-top: 50px;
-      background-position: 50% 9px;
+      padding-top: 40px;
       background-repeat: no-repeat;
       background-size: 40px 40px;
       border-radius: 5px 5px 0 0;
-      color: rgba(#fff, .5);
+      color: $COLOR_CAPTION;
       font-size: 11px;
       line-height: 16px;
       text-align: center;
-      &[data-active="true"]{
-        background-color: rgba(#fff, .1);
+      &[data-active='true'] {
+        background-color: rgba(#000, 0.1);
       }
-      &.button-common{
-        background-image: url(../../../../assets/images/icon_common.png);
+      &.button-common {
+        background-image: url(../../../../assets/images/icon_gears.png);
+        background-size: 25px auto;
+        background-position: 50% 10px;
       }
-      &.button-compress{
-        background-image: url(../../../../assets/images/icon_image.png);
+      &.button-compress {
+        background-image: url(../../../../assets/images/icon_compress.png);
+        background-size: 22px auto;
+        background-position: 50% 12px;
       }
-      &.button-plugin{
+      &.button-plugin {
         background-image: url(../../../../assets/images/icon_plugin.png);
+        background-size: 22px auto;
+        background-position: 50% 10px;
       }
     }
   }
-  .tab-content{
-    .tab-item{
+  .tab-content {
+    .tab-item {
       display: none;
       min-height: 240px;
       padding: 0 15px 30px 15px;
-      &[data-active="true"]{
+      &[data-active='true'] {
         display: block;
       }
     }
   }
-  .divider{
+  .divider {
     display: block;
     height: 1px;
     margin: 15px 0;
     overflow: hidden;
-    box-shadow: 0 .5px 0 0 rgba(#000, .3);
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.3);
   }
-  .option-group{
+  .option-group {
     height: 20px;
     margin: 15px 0 0 0;
-    &[data-disabled="true"] {
-      filter: grayscale(.7);
-      opacity: .3;
+    &[data-disabled='true'] {
+      filter: grayscale(0.7);
+      opacity: 0.3;
       cursor: not-allowed;
       .label,
-      .option{
+      .option {
         pointer-events: none;
       }
     }
-    .label{
+    .label {
       float: left;
       max-width: 24em;
       overflow: hidden;
-      color: rgba(#fff, .6);
+      color: $COLOR_CAPTION;
       font-size: 12px;
       line-height: 20px;
       white-space: nowrap;
       text-overflow: ellipsis;
-      span{
+      span {
         padding-right: 3px;
       }
-      small{
+      small {
         font-size: 10px;
-        color: rgba(#fff, .3);
+        color: $COLOR_CAPTION;
       }
-      i{
-        color: rgba(#fff, .3);
+      i {
+        color: $COLOR_CAPTION;
       }
     }
-    .option{
+    .option {
       float: right;
       height: 20px;
-      .button{
+      .button {
         display: block;
         font-size: 12px;
       }
     }
   }
-  .options-table{
+  .options-table {
     margin: 6px 0 20px 0;
     overflow: hidden;
-    background-color: rgba(0,0,0,.1);
-    box-shadow: inset 0 0 0 .5px rgba(#000, .4);
-    table{
+    background-color: #f8f9fa;
+    box-shadow: 0 0 0 0.5px rgba(#000, 0.2);
+    table {
       width: 100%;
       border-collapse: collapse;
     }
-    th,td{
+    th,
+    td {
       font-size: 12px;
       text-align: left;
     }
-    th{
+    th {
       height: 26px;
       padding: 0 10px;
-      color: rgba(#fff, .5);
-      background-color: rgba(#000, .2);
+      color: $COLOR_CAPTION;
+      background-color: rgba(#000, 0.1);
     }
-    tr{
-      &:nth-child(even){
-        background-color: rgba(#000, .1);
+    tr {
+      &:nth-child(even) {
+        background-color: #fff;
       }
-      td{
+      td {
         padding: 10px;
-        color: rgba(#fff, .7);
+        color: $COLOR_CAPTION;
       }
     }
   }
-  .extensions-table{
+  .extensions-table {
     max-height: 300px;
     overflow: auto;
-    .component-select select{
+    .component-select select {
       width: 100%;
     }
   }
-  .plugins-table{
-    max-height: 300px;
+  .plugins-table {
     margin-bottom: 5px;
-    overflow: auto;
-    .caption{
+    .table-wrapper {
+      max-height: 300px;
+      overflow: auto;
+    }
+    .caption {
       position: relative;
       height: 24px;
       margin: 0;
-      color: rgba(#fff, .8);
+      color: $COLOR_CAPTION;
       font-size: 13px;
       font-weight: bold;
-      .title{
+      .title {
         line-height: 24px;
-        small{
+        small {
           color: $COLOR_DANGER;
           font-size: 11px;
           font-weight: normal;
         }
       }
-      .button{
+      .button {
         font-weight: normal;
       }
     }
-    .description{
+    .description {
       margin: 5px 0 5px 0;
       padding: 0;
-      color: rgba(#fff, .4);
+      color: lighten($COLOR_CAPTION, 10);
       font-size: 11px;
     }
-    .operates{
+    .operates {
       position: absolute;
       top: 2px;
       right: 0;
       margin-top: 0;
-      span{
-        color: rgba(#fff, .3);
+      span {
+        color: lighten($COLOR_CAPTION, 15);
         font-size: 11px;
       }
-      a{
+      a {
         display: inline-block;
         margin-left: 5px;
         padding: 0 5px;
@@ -178,25 +186,25 @@
       }
     }
   }
-  .plugin-entry{
+  .plugin-entry {
     width: 100%;
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
-    a{
-      color: rgba(#fff, .4);
+    a {
+      color: rgba(#fff, 0.4);
       font-size: 12px;
       cursor: pointer;
-      &:hover{
-        color: rgba(#fff, .6);
+      &:hover {
+        color: rgba(#fff, 0.6);
       }
-      i{
+      i {
         font-size: 14px;
       }
     }
   }
 }
 
-.plugin-options-modal{
+.plugin-options-modal {
   z-index: 99999 + 1;
 }

@@ -1,6 +1,6 @@
-@import "~scssinc";
+@import '~scssinc';
 
-.component-task-list{
+.component-task-list {
   flex: 1;
   box-sizing: border-box;
   margin: 0;
@@ -8,9 +8,10 @@
   overflow: auto;
   list-style: none;
   opacity: 0;
-  transition: transform .4s, opacity .4s;
+  background-color: #fff;
+  transition: transform 0.4s, opacity 0.4s;
   transform: translateX(50px);
-  &::-webkit-scrollbar-track{
+  &::-webkit-scrollbar-track {
     margin-bottom: 60px;
-  }  
+  }
 }

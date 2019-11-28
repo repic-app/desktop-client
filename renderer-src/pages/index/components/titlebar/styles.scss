@@ -1,115 +1,102 @@
-@import "~scssinc";
+@import '~scssinc';
 
-$TITLE_BAR_HEIGHT: 23px;
-
-.component-title-bar{
+.component-title-bar {
   position: relative;
   z-index: 999999;
   width: 100%;
   height: $TITLE_BAR_HEIGHT;
   margin: 0 auto;
-  background-image: linear-gradient(#fff 0,#e5e5e5 5%, #ccc 100%);
-  box-shadow: inset 0 -.5px 0 0 rgba(#000, .6);
+  background-color: #fff;
+  background-image: linear-gradient(#fbfbfb, #ececec);
+  box-shadow: inset 0 -0.5px 0 0 rgba(#000, 0.2);
   text-align: center;
   user-select: none;
   -webkit-app-region: drag;
-  .app-title{
+  .app-title {
     display: block;
     height: $TITLE_BAR_HEIGHT;
-    color: #555;
+    color: lighten($COLOR_CAPTION, 10);
     font-size: 12px;
-    font-weight: 500;
-    line-height: $TITLE_BAR_HEIGHT;
+    font-weight: 700;
+    line-height: $TITLE_BAR_HEIGHT + 2;
+    text-transform: uppercase;
   }
-  .unlock-entry{
-    padding-left: 3px;
-    color: #888;
-    font-size: 12px;
-    -webkit-app-region: no-drag;
-    &:active{
-      color: #666;
-    }
-  }
-  .button-toggle-dropdown{
+  .button-toggle-dropdown {
     position: absolute;
-    top: 2px;
-    right: 8px;
+    top: 9px;
+    right: 10px;
     width: 20px;
     height: 20px;
-    color: #666;
+    color: lighten($COLOR_CAPTION, 20);
     font-size: 14px;
     line-height: 20px;
     text-align: center;
+    transition: transform 0.5s;
     -webkit-app-region: none;
-    &:hover{
-      color: $COLOR_PRIMARY;
+    &:hover {
+      transform: rotate(180deg);
     }
   }
 }
 
-.dropdown-modal{
-  &.visible{
-    .modal-content{
+.dropdown-modal {
+  &.visible {
+    .modal-content {
       transform: translate(0);
     }
   }
-  .modal-content{
-    top: $TITLE_BAR_HEIGHT + 7px;
-    right: 5px;
+  .modal-content {
+    top: $TITLE_BAR_HEIGHT + 8px;
+    right: 6px;
     bottom: auto;
     left: auto;
-    background-color: lighten($COLOR_DARK, 15);
+    background-color: #fff;
     background-image: none;
+    box-shadow: 0 0 0 0.5px rgba(#000, 0.15), 0 20px 55px rgba(#000, 0.1);
     border-radius: 3px;
     transform: translate(0, 20px);
-    &::before{
+    &::before {
       position: absolute;
       top: -3px;
       right: 10px;
       width: 6px;
       height: 6px;
-      background-color: lighten($COLOR_DARK, 15);
-      box-shadow: -.5px -.5px 0 0 rgba(#000, .3);
+      background-color: #fff;
+      box-shadow: -0.5px -0.5px 0 0 rgba(#000, 0.15);
       transform: rotate(45deg);
       content: '';
     }
-    .dropdown-menu{
+    .dropdown-menu {
       list-style: none;
       margin: 0;
       padding: 5px 0;
       overflow: hidden;
       border-radius: 3px;
-      li{
+      li {
         height: 20px;
         padding: 5px 10px;
-        &:last-child{
+        &:last-child {
           box-shadow: none;
         }
-        &:hover{
-          background-color: rgba(#000, .15);
+        &:hover {
+          background-color: #f8f8f8;
         }
         .switch-label,
-        .label{
+        .label {
           float: left;
-          color: rgba(#fff, .8);
+          color: rgba($COLOR_CAPTION, 0.8);
           font-size: 12px;
           line-height: 20px;
         }
-        .component-switch{
+        .component-switch {
           justify-content: space-between;
         }
-        .switch-core{
+        .switch-core {
           width: 26px;
-          height: 12px;
-          &::before{
-            width: 14px;
-            height: 14px;
-            background-color: lighten($COLOR_DARK, 70);
-          }
         }
-        .mdi{
+        .mdi {
           float: right;
-          color: rgba(#fff, .3);
+          color: rgba($COLOR_CAPTION, 0.5);
           font-size: 14px;
         }
       }

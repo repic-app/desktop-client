@@ -6,36 +6,42 @@ const mimeTypes = electron.remote.require('mime-types')
 
 Object.defineProperty(File, 'path', {
   configurable: true,
-  writable: true
+  writable: true,
 })
 
-export const resolveLocalFiles = (filePaths) => {
-
+export const resolveLocalFiles = filePaths => {
   return filePaths.map(filePath => {
     return {
       file: new File([fs.readFileSync(filePath)], filePath.split('/').slice(-1)[0], {
-        type: mimeTypes.lookup(filePath)
+        type: mimeTypes.lookup(filePath),
       }),
-      path: filePath
+      path: filePath,
     }
   })
-
 }
 
 export const generateId = (prefix = '') => {
-  return prefix + Math.random().toString(13).split('.')[1] + new Date().getTime()
+  return (
+    prefix +
+    Math.random()
+      .toString(13)
+      .split('.')[1] +
+    new Date().getTime()
+  )
 }
 
-export const sleep = (ms) => new Promise((resolve) => {
-  setTimeout(resolve, ms)
-})
+export const sleep = ms =>
+  new Promise(resolve => {
+    setTimeout(resolve, ms)
+  })
 
-export const formatSize = (size) => {
-  return size > 1000 * 1000 ? (size / 1000 / 1000).toFixed(2) + 'MB' : (size / 1000).toFixed(2) + 'KB'
+export const formatSize = size => {
+  return size > 1000 * 1000
+    ? (size / 1000 / 1000).toFixed(2) + 'MB'
+    : (size / 1000).toFixed(2) + 'KB'
 }
 
-export const formateOptimizedRate = (optimizedRate) => {
-
+export const formateOptimizedRate = optimizedRate => {
   if (optimizedRate >= 30) {
     return 'success'
   } else if (optimizedRate >= 5) {
@@ -43,7 +49,6 @@ export const formateOptimizedRate = (optimizedRate) => {
   } else {
     return 'danger'
   }
-
 }
 
 export const openCacheFolder = () => {
@@ -54,16 +59,15 @@ export const openPluginFolder = () => {
   electron.shell.openItem(APP_PLUGIN_PATH)
 }
 
-export const openFolder = (path) => {
+export const openFolder = path => {
   electron.shell.openItem(path)
 }
 
-export const locateFile = (path) => {
+export const locateFile = path => {
   electron.shell.showItemInFolder(path)
 }
 
-export const openLink = (event) => {
-
+export const openLink = event => {
   if (typeof event === 'string') {
     electron.shell.openExternal(event)
     return false
@@ -71,15 +75,18 @@ export const openLink = (event) => {
 
   electron.shell.openExternal(event.currentTarget.href)
   event.preventDefault()
-
 }
 
-export const formatJJMa = (stringJJMa) => {
-
+export const formatJJMa = stringJJMa => {
   if (stringJJMa.length !== 20) {
     return 'INVAILD SN NUMBER'
   }
 
-  return [stringJJMa.slice(0, 4), stringJJMa.slice(4, 8), '****', '****',stringJJMa.slice(16, 20)].join(' ')
-
+  return [
+    stringJJMa.slice(0, 4),
+    stringJJMa.slice(4, 8),
+    '****',
+    '****',
+    stringJJMa.slice(16, 20),
+  ].join(' ')
 }

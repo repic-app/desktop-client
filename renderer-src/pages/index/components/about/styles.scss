@@ -1,11 +1,11 @@
-@import "~scssinc";
+@import '~scssinc';
 
-.component-about{
+.component-about {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  .app-icon{
+  .app-icon {
     width: 90px;
     height: 90px;
     margin-top: 100px;
@@ -15,26 +15,26 @@
     background-size: 90px auto;
   }
 
-  .app-name{
+  .app-name {
     margin: 10px 0 0 0;
     color: #fff;
     text-align: center;
-    span{
-      opacity: .8;
+    span {
+      opacity: 0.8;
       font-size: 20px;
       font-weight: 500;
     }
-    small{
-      opacity: .8;
+    small {
+      opacity: 0.8;
       font-size: 20px;
       font-weight: 400;
     }
   }
 
-  .app-description{
+  .app-description {
     margin: 5px 0 50px 0;
     padding: 0 50px;
-    color: rgba(#fff, .6);
+    color: rgba(#fff, 0.6);
     font-size: 12px;
     font-weight: normal;
   }

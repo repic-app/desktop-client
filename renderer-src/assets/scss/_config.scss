@@ -1,37 +1,37 @@
-$COLOR_PRIMARY: darken(#4A90E2, 5);
+$COLOR_PRIMARY: #68adff;
 $COLOR_SUCCESS: #27ae60;
 $COLOR_WARNING: #f39c12;
 $COLOR_DANGER: #e74c3c;
-$COLOR_DARK: #32353B;//#;//#313132;
-$COLOR_CAPTION: #59667D;
+$COLOR_DARK: #32353b; //#;//#313132;
+$COLOR_CAPTION: #555; //#59667d;
 
-$TITLE_BAR_HEIGHT: 23px;
+$TITLE_BAR_HEIGHT: 38px;
 
-@mixin primary_gradient{
+@mixin primary_gradient {
   background-image: linear-gradient(darken($COLOR_PRIMARY, 10), darken($COLOR_PRIMARY, 25));
 }
 
-@mixin dark_gradient{
+@mixin dark_gradient {
   background-image: linear-gradient(lighten($COLOR_DARK, 10), lighten($COLOR_DARK, 5));
 }
 
-@mixin darker_gradient{
+@mixin darker_gradient {
   background-image: linear-gradient(lighten($COLOR_DARK, 5), lighten($COLOR_DARK, 0));
 }
 
-@mixin danger_gradient{
+@mixin danger_gradient {
   background-image: linear-gradient(lighten($COLOR_DANGER, 5), lighten($COLOR_DANGER, 0));
 }
 
-@mixin primary_shadow{
-  box-shadow: 4px 7px 10px 0px rgba($COLOR_PRIMARY, .3)
+@mixin primary_shadow {
+  box-shadow: 4px 7px 10px 0px rgba($COLOR_PRIMARY, 0.3);
 }
 
-@mixin linear_spinning{
-  animation: spinning .5s linear infinite;
+@mixin linear_spinning {
+  animation: spinning 0.5s linear infinite;
 }
 
-@keyframes spinning{
+@keyframes spinning {
   0% {
     transform: rotate(0deg);
   }
@@ -40,7 +40,7 @@ $TITLE_BAR_HEIGHT: 23px;
   }
 }
 
-@keyframes background_translate{
+@keyframes background_translate {
   0% {
     background-position-x: 0%;
   }
