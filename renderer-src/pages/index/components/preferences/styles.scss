@@ -104,7 +104,7 @@
   .options-table {
     margin: 6px 0 20px 0;
     overflow: hidden;
-    background-color: #f8f9fa;
+    background-color: #fff;
     box-shadow: 0 0 0 0.5px rgba(#000, 0.2);
     table {
       width: 100%;
@@ -119,11 +119,11 @@
       height: 26px;
       padding: 0 10px;
       color: $COLOR_CAPTION;
-      background-color: rgba(#000, 0.1);
+      background-color: #f0f0f0;
     }
     tr {
       &:nth-child(even) {
-        background-color: #fff;
+        background-color: #f7f7f7;
       }
       td {
         padding: 10px;
