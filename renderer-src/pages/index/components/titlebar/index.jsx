@@ -99,7 +99,7 @@ export default React.memo(({ preferences, appState, setAppState }) => {
       <div className="app-title">
         <span>Repic App</span>
       </div>
-      <a href="javascript:void(0);" onClick={toggleDropdownMenu} className="button-toggle-dropdown"><i className="mdi mdi-settings"></i></a>
+      <a href="javascript:void(0);" data-disabled={appState.showPreferences} onClick={toggleDropdownMenu} className="button-toggle-dropdown"><i className="mdi mdi-settings"></i></a>
       <Modal
         className="dropdown-modal"
         width={150}

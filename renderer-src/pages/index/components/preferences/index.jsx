@@ -89,11 +89,11 @@ const setPluginOption = (plugins, name, optionName, optionValue) => {
   return plugins.map(item => {
     return item.name === name
       ? {
-          ...item,
-          options: item.options.map(subItem => {
-            return subItem.name === optionName ? { ...subItem, value: optionValue } : subItem
-          }),
-        }
+        ...item,
+        options: item.options.map(subItem => {
+          return subItem.name === optionName ? { ...subItem, value: optionValue } : subItem
+        }),
+      }
       : item
   })
 }
@@ -457,15 +457,15 @@ export default class extends React.PureComponent {
                               {installingPlugins.includes(plugin.name) ? (
                                 <span>安装中</span>
                               ) : (
-                                <a
-                                  href="javascript:void(0);"
-                                  className="button button-xs button-default button-uninstall"
-                                  data-name={plugin.name}
-                                  data-url={plugin.downloadURL}
-                                  onClick={this.installPlugin}>
-                                  安装
+                                  <a
+                                    href="javascript:void(0);"
+                                    className="button button-xs button-default button-uninstall"
+                                    data-name={plugin.name}
+                                    data-url={plugin.downloadURL}
+                                    onClick={this.installPlugin}>
+                                    安装
                                 </a>
-                              )}
+                                )}
                             </div>
                           </h5>
                           <p className="description">{plugin.description}</p>

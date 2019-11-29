@@ -1,11 +1,12 @@
 import React from 'react'
+import remote from 'helpers/remote'
 import './styles.scss'
 
 export default class extends React.PureComponent {
 
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     const inputInitialValues = {}
 
     this.props.plugin.options.forEach(item => {
@@ -27,25 +28,34 @@ export default class extends React.PureComponent {
       optionName: name,
       optionValue: value
     })
+    remote.dialog.showMessageBox(
+      {
+        type: 'info',
+        message: '操作成功',
+        detail: '配置项已经更新',
+        defaultId: 1,
+        buttons: ['确定'],
+      },
+    )
   }
 
   renderOptionField = (optionItem) => {
 
     switch (optionItem.type) {
-    case 'input':
-      return (
-        <div className="field input-group">
-          <input {...optionItem.props} type="text" name={optionItem.name} value={this.state[`input-${optionItem.name}`] || ''} onChange={this.handleInput} />
-          <button name={optionItem.name} onClick={this.handleConfirmInput} className="button button-sm button-default">确定</button>
-        </div>
-      )
-    default:
-      return null
+      case 'input':
+        return (
+          <div className="field input-group">
+            <input {...optionItem.props} type="text" name={optionItem.name} value={this.state[`input-${optionItem.name}`] || ''} onChange={this.handleInput} />
+            <button name={optionItem.name} onClick={this.handleConfirmInput} className="button button-sm button-default">确定</button>
+          </div>
+        )
+      default:
+        return null
     }
 
   }
- 
-  render () {
+
+  render() {
 
     const { title, options } = this.props.plugin
 
