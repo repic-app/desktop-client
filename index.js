@@ -24,11 +24,11 @@ function initialize() {
       resizable: false,
       maximizable: false,
       fullscreenable: false,
-      // frame: false,
+      frame: false,
       // hasShadow: false,
       vibrancy: 'light',
       icon: path.join(__dirname, 'assets/icon.png'),
-      titleBarStyle: 'hiddenInset', //'customButtonsOnHover',
+      titleBarStyle: 'hiddenInset',
       webPreferences: {
         devTools: !isProduction,
         webSecurity: false,

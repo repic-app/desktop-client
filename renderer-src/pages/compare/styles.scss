@@ -9,7 +9,7 @@
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  background-color: $COLOR_DARK;
+  background-color: #fff;
   background-image: url(../../assets/images/grid.png);
   background-size: 12px 12px;
   border-radius: 5px;
@@ -23,7 +23,6 @@
     position: relative;
     display: flex;
     flex: 1;
-    box-shadow: 0 3px 10px rgba(#000, .2);
   }
 
   .original-image,
@@ -48,7 +47,6 @@
       width: auto;
       height: auto;
       transform-origin: 0% 0%;
-      box-shadow: 0 5px 15px rgba(#000, .1);
       -webkit-user-drag: none;
     }
   }

@@ -26,7 +26,6 @@ const copyRightText = (
   <div className="app-copyright">
     <span>&copy;2019</span>
     <a onClick={openLink} href="https://repic.app">Repic.app</a>
-    <span> 版权所有</span>
   </div>
 )
 

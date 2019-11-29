@@ -5,6 +5,7 @@
   flex-direction: column;
   overflow: hidden;
   background-color: rgba(#fff, 0.7);
+  border-radius: 5px;
   .index-content {
     display: flex;
     position: relative;
@@ -119,11 +120,11 @@
 }
 
 .app-copyright {
-  color: rgba(#fff, 0.5);
+  color: $COLOR_CAPTION;
   font-size: 12px;
   height: 24px;
-  line-height: 30px;
-  text-transform: uppercase;
+  line-height: 32px;
+  // text-transform: uppercase;
   a {
     padding-left: 5px;
     color: inherit;

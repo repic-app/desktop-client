@@ -84,7 +84,7 @@
         .switch-label,
         .label {
           float: left;
-          color: rgba($COLOR_CAPTION, 0.8);
+          color: lighten($COLOR_CAPTION, 5);
           font-size: 12px;
           line-height: 20px;
         }
@@ -96,7 +96,7 @@
         }
         .mdi {
           float: right;
-          color: rgba($COLOR_CAPTION, 0.5);
+          color: #ccc;
           font-size: 14px;
         }
       }

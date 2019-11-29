@@ -17,7 +17,7 @@
 
   .app-name {
     margin: 10px 0 0 0;
-    color: #fff;
+    color: $COLOR_CAPTION;
     text-align: center;
     span {
       opacity: 0.8;
@@ -34,7 +34,7 @@
   .app-description {
     margin: 5px 0 50px 0;
     padding: 0 50px;
-    color: rgba(#fff, 0.6);
+    color: lighten($COLOR_CAPTION, 20);
     font-size: 12px;
     font-weight: normal;
   }
