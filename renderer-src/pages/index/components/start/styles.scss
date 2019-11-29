@@ -34,27 +34,6 @@
     background-size: 48px 58px;
     background-position: 0 0;
   }
-  .drag-shape-mask {
-    position: absolute;
-    z-index: 2;
-    top: 40px;
-    left: 50%;
-    width: 120px;
-    height: 120px;
-    overflow: hidden;
-    transform: translateX(-50%);
-    &::before {
-      position: absolute;
-      z-index: 2;
-      top: -40px;
-      left: -40px;
-      width: 120px;
-      height: 120px;
-      background-clip: content-box;
-      border-radius: 50%;
-      content: '';
-    }
-  }
   .drag-tip {
     margin-top: 0;
     color: $COLOR_CAPTION;
