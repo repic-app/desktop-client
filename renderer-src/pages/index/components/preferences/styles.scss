@@ -7,8 +7,8 @@
     height: 60px;
     margin-bottom: 25px;
     padding: 10px 15px 0 15px;
-    background-color: #f8f9fa;
-    box-shadow: 0 0.5px 0 0 rgba(#000, 0.2);
+    background-color: lighten($COLOR_DARK, 6);
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.4);
     .tab-button {
       display: block;
       box-sizing: border-box;
@@ -19,12 +19,12 @@
       background-repeat: no-repeat;
       background-size: 40px 40px;
       border-radius: 5px 5px 0 0;
-      color: $COLOR_CAPTION;
+      color: rgba(#fff, 0.5);
       font-size: 11px;
       line-height: 16px;
       text-align: center;
       &[data-active='true'] {
-        background-color: rgba(#000, 0.1);
+        background-color: rgba(#fff, 0.05);
       }
       &.button-common {
         background-image: url(../../../../assets/images/icon_gears.png);
@@ -76,7 +76,7 @@
       float: left;
       max-width: 24em;
       overflow: hidden;
-      color: $COLOR_CAPTION;
+      color: rgba(#fff, 0.5);
       font-size: 12px;
       line-height: 20px;
       white-space: nowrap;
@@ -86,10 +86,10 @@
       }
       small {
         font-size: 10px;
-        color: $COLOR_CAPTION;
+        color: rgba(#fff, 0.3);
       }
       i {
-        color: $COLOR_CAPTION;
+        color: rgba(#fff, 0.5);
       }
     }
     .option {
@@ -104,8 +104,8 @@
   .options-table {
     margin: 6px 0 20px 0;
     overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 0 0 0.5px rgba(#000, 0.2);
+    background-color: lighten($COLOR_DARK, 10);
+    box-shadow: 0 0 0 0.5px rgba(#000, 0.4);
     table {
       width: 100%;
       border-collapse: collapse;
@@ -118,16 +118,16 @@
     th {
       height: 26px;
       padding: 0 10px;
-      color: $COLOR_CAPTION;
-      background-color: #f0f0f0;
+      color: rgba(#fff, 0.5);
+      background-color: lighten($COLOR_DARK, 15);
     }
     tr {
       &:nth-child(even) {
-        background-color: #f7f7f7;
+        background-color: lighten($COLOR_DARK, 12);
       }
       td {
         padding: 10px;
-        color: $COLOR_CAPTION;
+        color: rgba(#fff, 0.5);
       }
     }
   }
@@ -148,7 +148,7 @@
       position: relative;
       height: 24px;
       margin: 0;
-      color: $COLOR_CAPTION;
+      color: rgba(#fff, 0.5);
       font-size: 13px;
       font-weight: bold;
       .title {
@@ -166,7 +166,7 @@
     .description {
       margin: 5px 0 5px 0;
       padding: 0;
-      color: lighten($COLOR_CAPTION, 10);
+      color: rgba(#fff, 0.3);
       font-size: 11px;
     }
     .operates {
@@ -175,7 +175,7 @@
       right: 0;
       margin-top: 0;
       span {
-        color: lighten($COLOR_CAPTION, 15);
+        color: rgba(#fff, 0.3);
         font-size: 11px;
       }
       a {

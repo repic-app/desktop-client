@@ -26,7 +26,7 @@ function initialize() {
       fullscreenable: false,
       frame: false,
       // hasShadow: false,
-      vibrancy: 'light',
+      vibrancy: 'dark',
       icon: path.join(__dirname, 'assets/icon.png'),
       titleBarStyle: 'hiddenInset',
       webPreferences: {

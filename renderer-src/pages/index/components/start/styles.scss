@@ -11,8 +11,8 @@
   flex: 1;
   align-items: center;
   justify-content: center;
-  background-color: rgba(#000, 0.05);
-  border: 1px dashed rgba(#000, 0.1);
+  background-color: rgba(#fff, 0.05);
+  border: 1px dashed rgba(#fff, 0.15);
   opacity: 0;
   transition: transform 0.4s, opacity 0.4s, background-color 0.2s;
   transform: scale(0.9);
@@ -36,7 +36,7 @@
   }
   .drag-tip {
     margin-top: 0;
-    color: $COLOR_CAPTION;
+    color: #fff;
     text-align: center;
     user-select: none;
     span,

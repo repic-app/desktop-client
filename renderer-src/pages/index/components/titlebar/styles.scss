@@ -6,16 +6,15 @@
   width: 100%;
   height: $TITLE_BAR_HEIGHT;
   margin: 0 auto;
-  background-color: #fff;
-  background-image: linear-gradient(#fbfbfb, #ececec);
-  box-shadow: inset 0 -0.5px 0 0 rgba(#000, 0.2), 0 1px 3px rgba(#000, .1);
+  background-color: $COLOR_DARK;
+  box-shadow: inset 0 -0.5px 0 0 rgba(#000, 0.8), 0 1px 3px rgba(#000, 0.1);
   text-align: center;
   user-select: none;
   -webkit-app-region: drag;
   .app-title {
     display: block;
     height: $TITLE_BAR_HEIGHT;
-    color: lighten($COLOR_CAPTION, 10);
+    color: lighten($COLOR_CAPTION, 15);
     font-size: 12px;
     font-weight: 700;
     line-height: $TITLE_BAR_HEIGHT;
@@ -27,14 +26,14 @@
     right: 10px;
     width: 20px;
     height: 20px;
-    color: lighten($COLOR_CAPTION, 20);
+    color: lighten($COLOR_CAPTION, 15);
     font-size: 14px;
     line-height: 20px;
     text-align: center;
-    transition: transform 0.5s, opacity .3s;
+    transition: transform 0.5s, opacity 0.3s;
     -webkit-app-region: none;
-    &[data-disabled="true"]{
-      opacity: .3;
+    &[data-disabled='true'] {
+      opacity: 0.3;
       pointer-events: none;
     }
     &:hover {
@@ -54,9 +53,9 @@
     right: 6px;
     bottom: auto;
     left: auto;
-    background-color: #fff;
+    background-color: lighten($COLOR_DARK, 10);
     background-image: none;
-    box-shadow: 0 0 0 0.5px rgba(#000, 0.15), 0 20px 55px rgba(#000, 0.1);
+    box-shadow: 0 0 0 0.5px rgba(#000, 0.3), 0 20px 55px rgba(#000, 0.1);
     border-radius: 3px;
     transform: translate(0, 20px);
     &::before {
@@ -65,8 +64,8 @@
       right: 10px;
       width: 6px;
       height: 6px;
-      background-color: #fff;
-      box-shadow: -0.5px -0.5px 0 0 rgba(#000, 0.15);
+      background-color: lighten($COLOR_DARK, 10);
+      box-shadow: -0.5px -0.5px 0 0 rgba(#000, 0.3);
       transform: rotate(45deg);
       content: '';
     }
@@ -83,12 +82,12 @@
           box-shadow: none;
         }
         &:hover {
-          background-color: #f1f2f3;
+          background-color: rgba(#fff, 0.05);
         }
         .switch-label,
         .label {
           float: left;
-          color: lighten($COLOR_CAPTION, 5);
+          color: rgba(#fff, 0.5);
           font-size: 12px;
           line-height: 20px;
         }
@@ -100,7 +99,7 @@
         }
         .mdi {
           float: right;
-          color: #ccc;
+          color: rgba(#fff, 0.3);
           font-size: 14px;
         }
       }

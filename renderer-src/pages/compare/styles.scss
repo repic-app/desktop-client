@@ -1,45 +1,45 @@
-@import "~scssinc";
+@import '~scssinc';
 
-.app-container{
+.app-container {
   overflow: hidden;
 }
 
-.page-compare{
+.page-compare {
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  background-color: #fff;
+  background-color: lighten($COLOR_DARK, 10);
   background-image: url(../../assets/images/grid.png);
   background-size: 12px 12px;
   border-radius: 5px;
 
-  .view-container{
+  .view-container {
     display: flex;
     flex: 1;
   }
 
-  .view-core{
+  .view-core {
     position: relative;
     display: flex;
     flex: 1;
   }
 
   .original-image,
-  .compressed-image{
+  .compressed-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    .image-wrapper{
+    .image-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100vw;
       height: 100%;
     }
-    .image{
+    .image {
       display: block;
       position: relative;
       max-width: 100vw;
@@ -50,38 +50,37 @@
       -webkit-user-drag: none;
     }
   }
-  .original-image{
+  .original-image {
     z-index: 2;
-    background-color: rgba(#000, .1);
+    background-color: rgba(#000, 0.1);
     box-shadow: 1px 0 0 0 rgba(#000, 1);
-    .image-out-wrapper{
+    .image-out-wrapper {
       width: 100%;
       height: 100%;
       overflow: hidden;
     }
     .label-before,
-    .label-after{
+    .label-after {
       position: absolute;
       bottom: 0;
       width: 90px;
       padding: 5px 10px;
-      background-color: rgba(#000, .8);
+      background-color: rgba(#000, 0.8);
       color: #fff;
       font-size: 11px;
       text-align: center;
     }
-    .label-before{
+    .label-before {
       right: 0;
       border-radius: 5px 0 0 0;
     }
-    .label-after{
+    .label-after {
       left: 100%;
       border-radius: 0 5px 0 0;
     }
   }
-  .compressed-image{
+  .compressed-image {
     z-index: 1;
     overflow: hidden;
   }
-
 }
