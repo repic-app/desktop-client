@@ -17,17 +17,16 @@
   .progress-bar {
     position: absolute;
     z-index: 4;
-    top: 0;
+    top: 1px;
     left: 0;
-    height: 2px;
+    height: 1px;
     overflow: hidden;
     background-image: linear-gradient(to right, $COLOR_PRIMARY, $COLOR_SUCCESS);
-    background-size: 420px 2px;
-    border-radius: 2px 0 0 0;
+    background-size: 100vw 1px;
     opacity: 0;
     transition: opacity 0.3s;
     &[data-completed='true'] {
-      width: 420px !important;
+      width: 100vw !important;
     }
     &[data-visible='true'] {
       opacity: 1;

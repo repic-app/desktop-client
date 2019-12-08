@@ -89,11 +89,11 @@ const setPluginOption = (plugins, name, optionName, optionValue) => {
   return plugins.map(item => {
     return item.name === name
       ? {
-        ...item,
-        options: item.options.map(subItem => {
-          return subItem.name === optionName ? { ...subItem, value: optionValue } : subItem
-        }),
-      }
+          ...item,
+          options: item.options.map(subItem => {
+            return subItem.name === optionName ? { ...subItem, value: optionValue } : subItem
+          }),
+        }
       : item
   })
 }
@@ -240,7 +240,7 @@ export default class extends React.PureComponent {
             href="javascript:void(0);"
             data-index="0"
             data-active={tabIndex === 0}
-            className="tab-button button-common"
+            className="button button-default tab-button button-common"
             onClick={this.setTabIndex}>
             <span>通用设定</span>
           </a>
@@ -248,7 +248,7 @@ export default class extends React.PureComponent {
             href="javascript:void(0);"
             data-index="1"
             data-active={tabIndex === 1}
-            className="tab-button button-compress"
+            className="button button-default tab-button button-compress"
             onClick={this.setTabIndex}>
             <span>压缩参数</span>
           </a>
@@ -256,7 +256,7 @@ export default class extends React.PureComponent {
             href="javascript:void(0);"
             data-index="2"
             data-active={tabIndex === 2}
-            className="tab-button button-plugin"
+            className="button button-default tab-button button-plugin"
             onClick={this.setTabIndex}>
             <span>插件管理</span>
           </a>
@@ -457,15 +457,15 @@ export default class extends React.PureComponent {
                               {installingPlugins.includes(plugin.name) ? (
                                 <span>安装中</span>
                               ) : (
-                                  <a
-                                    href="javascript:void(0);"
-                                    className="button button-xs button-default button-uninstall"
-                                    data-name={plugin.name}
-                                    data-url={plugin.downloadURL}
-                                    onClick={this.installPlugin}>
-                                    安装
+                                <a
+                                  href="javascript:void(0);"
+                                  className="button button-xs button-default button-uninstall"
+                                  data-name={plugin.name}
+                                  data-url={plugin.downloadURL}
+                                  onClick={this.installPlugin}>
+                                  安装
                                 </a>
-                                )}
+                              )}
                             </div>
                           </h5>
                           <p className="description">{plugin.description}</p>
