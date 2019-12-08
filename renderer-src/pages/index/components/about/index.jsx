@@ -7,7 +7,7 @@ export default React.memo(() => {
       <div className="app-icon" />
       <h2 className="app-name">
         <span>
-          Repic <small>v0.0.3</small>
+          Repic <small>v0.1.0</small>
         </span>
       </h2>
       <h3 className="app-description">一个好用的图片压缩工具</h3>
