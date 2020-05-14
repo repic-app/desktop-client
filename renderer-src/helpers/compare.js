@@ -3,9 +3,9 @@ import electron from 'electron'
 const compareViewWindowOptions = {
   show: false,
   width: 800,
-  height: 600,
+  height: 680,
   minWidth: 600,
-  minHeight: 400,
+  minHeight: 680,
   resizable: false,
   maximizable: false,
   fullscreenable: false,
@@ -18,8 +18,8 @@ const compareViewWindowOptions = {
     devTools: true,
     webSecurity: false,
     nodeIntegration: true,
-    experimentalFeatures: true
-  }
+    experimentalFeatures: true,
+  },
 }
 
 let compareViewWindow = null
@@ -29,9 +29,7 @@ export const getCompareViewWindow = () => {
 }
 
 export const openCompareView = (url, task) => {
-
   if (!compareViewWindow) {
-
     compareViewWindow = new electron.remote.BrowserWindow(compareViewWindowOptions)
     compareViewWindow.loadURL(url)
 
@@ -43,10 +41,8 @@ export const openCompareView = (url, task) => {
     compareViewWindow.on('closed', () => {
       compareViewWindow = null
     })
-
   } else {
     compareViewWindow.webContents.send('load-task-data', task)
     compareViewWindow.focus()
   }
-
 }
