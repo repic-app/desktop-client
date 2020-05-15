@@ -8,7 +8,7 @@
   overflow: auto;
   list-style: none;
   opacity: 0;
-  background-color: transparent;
+  background-color: #f8f9fa;
   transition: transform 0.4s, opacity 0.4s;
   transform: translateX(50px);
   &::-webkit-scrollbar-track {
