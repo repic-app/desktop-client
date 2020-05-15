@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="198px" height="166px" viewBox="0 0 198 166" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Box_11</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="71.8798043%" y1="83.6946001%" x2="70.3320685%" y2="14.1014599%" id="linearGradient-1">
+            <stop stop-color="#D3D3D3" offset="0%"></stop>
+            <stop stop-color="#BDBDBD" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.9930119%" y1="86.6651759%" x2="49.9930119%" y2="13.3296064%" id="linearGradient-2">
+            <stop stop-color="#B6B5B5" offset="0%"></stop>
+            <stop stop-color="#949494" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="32.0561033%" y1="59.3753811%" x2="80.9818071%" y2="24.3490821%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#E1E1E1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-16.3532879%" y1="89.3585843%" x2="60.936274%" y2="38.2334463%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#E1E1E1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50.0069881%" y1="86.6653115%" x2="50.0069881%" y2="13.3341803%" id="linearGradient-5">
+            <stop stop-color="#B6B5B5" offset="0%"></stop>
+            <stop stop-color="#949494" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="52.6020227%" y1="80.0284582%" x2="52.6847197%" y2="16.294847%" id="linearGradient-6">
+            <stop stop-color="#D3D3D3" offset="0%"></stop>
+            <stop stop-color="#BDBDBD" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="29.0171765%" y1="29.3399414%" x2="66.3202561%" y2="57.506508%" id="linearGradient-7">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#E1E1E1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="68.1776603%" y1="55.3752187%" x2="8.75210895%" y2="22.230539%" id="linearGradient-8">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#E1E1E1" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="UNBOXING--ILLUSTRATION-KIT-02" transform="translate(-633.000000, -2082.000000)">
+            <g id="Box_11" transform="translate(577.890000, 2080.110000)">
+                <g id="Group" transform="translate(54.528000, 0.563500)">
+                    <g transform="translate(28.000000, 32.665600)" fill="url(#linearGradient-1)" id="Shape">
+                        <polygon points="143.24 35.9 143.24 98.51 71.69 134.28 0.14 98.51 0.14 35.9 71.69 0.12"></polygon>
+                    </g>
+                    <g transform="translate(28.000000, 32.665600)" fill="url(#linearGradient-2)" id="Shape">
+                        <polygon points="71.69 0.12 71.69 134.28 0.14 98.51 0.14 35.9"></polygon>
+                    </g>
+                    <polygon id="Shape" fill="url(#linearGradient-3)" points="198.08 37.26 171.24 68.56 99.69 32.79 126.52 1.48"></polygon>
+                    <g transform="translate(50.420000, 34.979167) scale(-1, 1) translate(-50.420000, -34.979167) translate(0.420000, 0.979167)" fill="url(#linearGradient-4)" id="Shape">
+                        <polygon points="99.08 36.26 72.24 67.56 0.69 31.79 27.52 0.48"></polygon>
+                    </g>
+                    <g transform="translate(99.000000, 68.000000)" fill="url(#linearGradient-5)" id="Shape">
+                        <polygon points="72.24 63.17 0.69 98.95 0.69 36.34 72.24 0.56"></polygon>
+                    </g>
+                    <g transform="translate(63.930000, 117.500000) scale(-1, 1) translate(-63.930000, -117.500000) translate(27.930000, 68.000000)" fill="url(#linearGradient-6)" id="Shape">
+                        <polygon points="71.8 63.17 0.24 98.95 0.24 36.34 71.8 0.56"></polygon>
+                    </g>
+                    <polygon id="Shape" fill="url(#linearGradient-7)" points="171.24 68.56 198.08 90.92 126.52 126.7 99.69 104.34"></polygon>
+                    <g transform="translate(50.420000, 97.479167) scale(-1, 1) translate(-50.420000, -97.479167) translate(0.420000, 67.979167)" fill="url(#linearGradient-8)" id="Shape">
+                        <polygon points="72.24 0.56 99.08 22.92 27.52 58.7 0.69 36.34"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

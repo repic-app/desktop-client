@@ -4,7 +4,7 @@ import { openFolder, formatSize, formateOptimizedRate } from 'utils/base'
 import { cleanTempFiles, restoreTasks, reexecuteTasks } from 'helpers/task'
 import './styles.scss'
 
-const analyzeTask = taskList => {
+const analyzeTask = (taskList) => {
   return taskList.reduce(
     (result, task) => {
       if (task.status === taskStatus.COMPLETE) {
@@ -112,11 +112,11 @@ export default React.memo(
             {taskAllFinished ? (
               <b className="count">{taskResult.counts[taskStatus.COMPLETE]}个文件压缩成功</b>
             ) : (
-                <b className="count">已压缩{taskResult.counts[taskStatus.COMPLETE]}个文件</b>
-              )}
+              <b className="count">已压缩{taskResult.counts[taskStatus.COMPLETE]}个文件</b>
+            )}
             <span className="size">
               体积共减少
-              <span className={`text-${optimizeRateTextColor}`}>
+              <span>
                 {((1 - totalOptimizedRate) * 100).toFixed(2)}%({totalOptimizedSize})
               </span>
             </span>
@@ -124,23 +124,23 @@ export default React.memo(
           <div className="operates">
             {preferences.overrideOrigin ? (
               <>
-                <button disabled={restoreDisabled} className="button button-default" onClick={requestRestoreAll}>
+                <button disabled={restoreDisabled} className="button" onClick={requestRestoreAll}>
                   <i className="mdi mdi-undo-variant"></i>
                 </button>
                 <button
                   disabled={recompressDisabled}
-                  className="button button-default"
+                  className="button"
                   onClick={requestRecompressAll}>
                   <i className="mdi mdi-redo-variant"></i>
                 </button>
               </>
             ) : (
-                <button className="button button-default" onClick={openSavePath}>
-                  <i className="mdi mdi-folder-open"></i>
-                </button>
-              )}
+              <button className="button" onClick={openSavePath}>
+                <i className="mdi mdi-folder-open"></i>
+              </button>
+            )}
             <>
-              <button disabled={clearDisabled} className="button button-default" onClick={requestClear}>
+              <button disabled={clearDisabled} className="button" onClick={requestClear}>
                 <i className="mdi mdi-notification-clear-all"></i>
               </button>
             </>

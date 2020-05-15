@@ -70,7 +70,7 @@ export default class extends React.PureComponent {
     )
   }
 
-  setPreferences = changedPreferences => {
+  setPreferences = (changedPreferences) => {
     const nextPreferences = { ...this.state.preferences, ...changedPreferences }
 
     this.setState({ preferences: nextPreferences }, () => {
@@ -83,7 +83,7 @@ export default class extends React.PureComponent {
 
   updateProgress = () => {
     const { taskList: currentTask } = this.state.appState
-    const completedTaskCount = currentTask.filter(item => {
+    const completedTaskCount = currentTask.filter((item) => {
       return [taskStatus.COMPLETE, taskStatus.FAIL, taskStatus.RESTORED].includes(item.status)
     }).length
 
@@ -99,8 +99,8 @@ export default class extends React.PureComponent {
     }
   }
 
-  setPlugins = plugins => {
-    const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
+  setPlugins = (plugins) => {
+    const compressors = plugins.filter((item) => !item.disabled && item.type === 'compressor')
 
     this.setState({ plugins, compressors }, () => {
       updateRegisteredPlugins(plugins)
@@ -132,14 +132,14 @@ export default class extends React.PureComponent {
 
   handleThumbCreate = (taskId, thumbUrl) => {
     this.setAppState({
-      taskList: this.state.appState.taskList.map(item => {
+      taskList: this.state.appState.taskList.map((item) => {
         return item.id === taskId ? { ...item, thumbUrl } : item
       }),
     })
   }
 
-  handleTaskUpdate = task => {
-    const nextTaskList = this.state.appState.taskList.map(item => {
+  handleTaskUpdate = (task) => {
+    const nextTaskList = this.state.appState.taskList.map((item) => {
       return item.id === task.id ? { ...item, ...task } : item
     })
 
@@ -151,7 +151,7 @@ export default class extends React.PureComponent {
     )
   }
 
-  handleDragEnter = event => {
+  handleDragEnter = (event) => {
     if (dragEventTriggerCount === 0) {
       playSound('INSERT_PHOTO')
     }
@@ -163,11 +163,11 @@ export default class extends React.PureComponent {
     event.stopPropagation()
   }
 
-  handleDragOver = event => {
+  handleDragOver = (event) => {
     event.preventDefault()
   }
 
-  handleDragDrop = async event => {
+  handleDragDrop = async (event) => {
     event.preventDefault()
     event.stopPropagation()
 
@@ -175,7 +175,7 @@ export default class extends React.PureComponent {
     const currentTaskList = this.state.appState.taskList
     const nextTaskList = appendTasks(
       currentTaskList,
-      [].map.call(files, file => ({ file, path: file.path }))
+      [].map.call(files, (file) => ({ file, path: file.path }))
     )
 
     if (nextTaskList.length === currentTaskList.length) {
@@ -207,7 +207,7 @@ export default class extends React.PureComponent {
     )
   }
 
-  handleDragCancel = event => {
+  handleDragCancel = (event) => {
     dragEventTriggerCount > 0 && (dragEventTriggerCount -= 1)
 
     if (dragEventTriggerCount === 0) {
@@ -221,7 +221,7 @@ export default class extends React.PureComponent {
     }
   }
 
-  handlePickedFile = files => {
+  handlePickedFile = (files) => {
     const currentTaskList = this.state.appState.taskList
     const nextTaskList = appendTasks(currentTaskList, files)
 
@@ -261,7 +261,7 @@ export default class extends React.PureComponent {
           defaultId: 0,
           buttons: ['是', '否'],
         },
-        index => {
+        (index) => {
           if (index === 0) {
             events.emit('request-open-plugin-settings')
           }
@@ -277,30 +277,30 @@ export default class extends React.PureComponent {
         filters: [
           {
             name: '图片文件',
-            extensions: this.state.compressors.map(item => item.extensions).flat(),
+            extensions: this.state.compressors.map((item) => item.extensions).flat(),
           },
         ],
         properties: ['openFile', 'multiSelections', 'noResolveAliases', 'treatPackageAsDirectory'],
       },
-      filePaths => {
+      (filePaths) => {
         filePaths && this.handlePickedFile(resolveLocalFiles(filePaths))
       }
     )
   }
 
-  handleRestore = task => {
+  handleRestore = (task) => {
     this.setAppState({
-      taskList: this.state.appState.taskList.map(item => {
+      taskList: this.state.appState.taskList.map((item) => {
         return item.id === task.id ? { ...item, ...restoreTask(task) } : item
       }),
     })
   }
 
-  handleRecompress = task => {
+  handleRecompress = (task) => {
     this.setAppState(
       {
         taskList: executeTasks(
-          this.state.appState.taskList.map(item => {
+          this.state.appState.taskList.map((item) => {
             return item.id === task.id ? { ...item, status: taskStatus.PENDING } : item
           }),
           this.handleTaskUpdate,
@@ -315,11 +315,11 @@ export default class extends React.PureComponent {
     this.setState({ isDraggingOver: false })
   }
 
-  handleRestoreAll = taskList => {
+  handleRestoreAll = (taskList) => {
     this.setAppState({ taskList })
   }
 
-  handleRecompressAll = taskList => {
+  handleRecompressAll = (taskList) => {
     this.setAppState(
       {
         taskList: executeTasks(taskList, this.handleTaskUpdate, this.handleThumbCreate),
@@ -330,7 +330,7 @@ export default class extends React.PureComponent {
 
   initializePlugins() {
     const plugins = registerPlugins()
-    const compressors = plugins.filter(item => !item.disabled && item.type === 'compressor')
+    const compressors = plugins.filter((item) => !item.disabled && item.type === 'compressor')
     this.setState({ plugins, compressors })
   }
 
@@ -357,7 +357,7 @@ export default class extends React.PureComponent {
             defaultId: 0,
             buttons: ['安装插件', '取消'],
           },
-          index => {
+          (index) => {
             setAPPData('showPluginInstallTip', false)
             if (index === 0) {
               events.emit('request-open-plugin-settings')
@@ -398,11 +398,10 @@ export default class extends React.PureComponent {
               onRecompress={this.handleRecompress}
             />
             <div className="footer">
-              <button onClick={this.handleRequestPickFile} className="button-pick-files"></button>
-              <div
-                data-active={appState.taskList.length && !appState.taskAllFinished}
-                className="processing-spinner"
-              />
+              <button onClick={this.handleRequestPickFile} className="button-pick-files">
+                <span>选取文件</span>
+                <i className="mdi mdi-arrow-right"></i>
+              </button>
               <TaskAnalyzer
                 appState={appState}
                 preferences={preferences}

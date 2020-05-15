@@ -19,7 +19,7 @@ function initialize() {
       width: 440,
       height: 680,
       title: app.getName(),
-      backgroundColor: '#ff242526',
+      backgroundColor: '#fff',
       transparent: false,
       resizable: false,
       maximizable: false,

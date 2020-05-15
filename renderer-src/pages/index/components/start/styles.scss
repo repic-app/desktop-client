@@ -11,8 +11,7 @@
   flex: 1;
   align-items: center;
   justify-content: center;
-  background-color: rgba(#fff, 0.05);
-  border: 1px dashed rgba(#fff, 0.15);
+  border-radius: 3px;
   opacity: 0;
   transition: transform 0.4s, opacity 0.4s, background-color 0.2s;
   transform: scale(0.9);
@@ -27,16 +26,16 @@
   .drag-shape {
     position: relative;
     box-sizing: border-box;
-    width: 48px;
-    height: 58px;
-    margin: 40px auto 15px auto;
-    background-image: url(../../../../assets/images/start_icon.png);
-    background-size: 48px 58px;
-    background-position: 0 0;
+    width: 120px;
+    height: 120px;
+    margin: 40px auto 0 auto;
+    background-image: url(../../../../assets/images/start.svg);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: 80px auto;
   }
   .drag-tip {
     margin-top: 0;
-    color: #fff;
     text-align: center;
     user-select: none;
     span,
@@ -44,12 +43,12 @@
       display: block;
     }
     span {
-      opacity: 0.8;
+      color: #666;
       font-size: 14px;
       font-weight: bold;
     }
     small {
-      opacity: 0.4;
+      color: #aaa;
       font-size: 11px;
       font-weight: 400;
       text-transform: uppercase;
