@@ -131,17 +131,16 @@ a {
     font-size: 18px;
   }
   &-default {
-    background-color: lighten($COLOR_DARK, 15);
-    box-shadow: 0 0 0 0.5px rgba(#000, 0.2), inset 0 0.5px 0 0 rgba(#fff, 0.1),
-      0 0.5px 0 0 rgba(#000, 0.2), 0 1px 3px rgba(#000, 0.1);
-    color: rgba(#fff, 0.6);
+    background-color: #fff;
+    box-shadow: 0 0 0 0.5px rgba(#000, 0.1), 0 1px 1px rgba(#000, 0.15);
+    color: #666;
     &:active {
-      background-color: lighten($COLOR_DARK, 13);
-      box-shadow: inset 0 0 0 0.5px rgba(#000, 0.4), 0 0.5px 0 0 rgba(#fff, 0.1);
+      box-shadow: 0 0 0 0.5px rgba(#000, 0.1), 0 0 1px rgba(#000, 0.15);
     }
     &:disabled {
-      opacity: 0.4;
-      pointer-events: none;
+      background-color: #fff;
+      opacity: 1;
+      color: #ccc;
     }
   }
   &-primary {
@@ -196,26 +195,6 @@ a {
     &:hover {
       background-color: #999;
     }
-  }
-}
-
-.light-style .button,
-.light-style.button {
-  &.button-default {
-    background-color: #fff;
-    box-shadow: 0 0 0 0.5px rgba(#000, 0.1), 0 1px 1px rgba(#000, 0.15);
-    color: #666;
-    &:disabled {
-      background-color: #fff;
-      opacity: 1;
-      color: #ccc;
-    }
-    &:active {
-      background-color: #f2f2f2;
-    }
-  }
-  &.button-primary {
-    box-shadow: inset 0 1px 0 0 rgba(#fff, 0.5), inset 0 0 0 0.5px rgba(#000, 0.2);
   }
 }
 

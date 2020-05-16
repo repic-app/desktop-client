@@ -12,13 +12,13 @@ import './styles.scss'
 const similarExtensions = ['jpeg']
 const { fetchPlugins, installPlugin, uninstallPlugin } = requireRemote('./helpers/plugin')
 
-const mapExtensionsAndCompressors = compressors => {
+const mapExtensionsAndCompressors = (compressors) => {
   const supportedExtensions = {}
 
-  compressors.forEach(item => {
+  compressors.forEach((item) => {
     item.extensions
-      .filter(ext => !similarExtensions.includes(ext))
-      .forEach(ext => {
+      .filter((ext) => !similarExtensions.includes(ext))
+      .forEach((ext) => {
         supportedExtensions[ext] = supportedExtensions[ext] || {
           compressors: [],
           defaultComprssor: null,
@@ -35,7 +35,7 @@ const mapExtensionsAndCompressors = compressors => {
       })
   })
 
-  return Object.keys(supportedExtensions).map(key => {
+  return Object.keys(supportedExtensions).map((key) => {
     return {
       extension: key,
       ...supportedExtensions[key],
@@ -52,7 +52,7 @@ const requestPickSaveFolder = (preferences, setPreferences) => {
       defaultPath: preferences.autoSavePath,
       properties: ['openDirectory', 'createDirectory'],
     },
-    filePaths => {
+    (filePaths) => {
       if (filePaths && filePaths[0]) {
         setPreferences({
           autoSavePath: filePaths[0],
@@ -63,13 +63,13 @@ const requestPickSaveFolder = (preferences, setPreferences) => {
 }
 
 const setDefaultCompressorForExtension = (plugins, extension, compressorName) => {
-  return plugins.map(item => {
+  return plugins.map((item) => {
     let { defaultFor = [] } = item
 
     if (item.name === compressorName) {
       defaultFor.push(extension)
     } else {
-      defaultFor = defaultFor.filter(ext => ext !== extension)
+      defaultFor = defaultFor.filter((ext) => ext !== extension)
     }
 
     return {
@@ -80,17 +80,17 @@ const setDefaultCompressorForExtension = (plugins, extension, compressorName) =>
 }
 
 const setPluginState = (plugins, name, state) => {
-  return plugins.map(item => {
+  return plugins.map((item) => {
     return item.name === name ? { ...item, ...state } : item
   })
 }
 
 const setPluginOption = (plugins, name, optionName, optionValue) => {
-  return plugins.map(item => {
+  return plugins.map((item) => {
     return item.name === name
       ? {
           ...item,
-          options: item.options.map(subItem => {
+          options: item.options.map((subItem) => {
             return subItem.name === optionName ? { ...subItem, value: optionValue } : subItem
           }),
         }
@@ -108,7 +108,7 @@ export default class extends React.PureComponent {
     selectedPlugin: null,
   }
 
-  setTabIndex = event => {
+  setTabIndex = (event) => {
     const tabIndex = typeof event === 'number' ? event : event.currentTarget.dataset.index * 1
     this.setState({ tabIndex })
   }
@@ -121,7 +121,7 @@ export default class extends React.PureComponent {
     this.context.setPlugins(setDefaultCompressorForExtension(this.context.plugins, name, value))
   }
 
-  togglePluginDisabled = event => {
+  togglePluginDisabled = (event) => {
     const { name, disabled } = event.currentTarget.dataset
 
     this.context.setPlugins(
@@ -139,7 +139,7 @@ export default class extends React.PureComponent {
     requestPickSaveFolder(this.context.preferences, this.context.setPreferences)
   }
 
-  installPlugin = event => {
+  installPlugin = (event) => {
     const { name, url } = event.currentTarget.dataset
 
     this.context.setAppState({
@@ -147,7 +147,7 @@ export default class extends React.PureComponent {
     })
 
     installPlugin(name, url)
-      .then(pluginData => {
+      .then((pluginData) => {
         if (pluginData.postinstallFn) {
           try {
             const wrappedPostinstallFn = new Function(`return ${pluginData.postinstallFn}`)
@@ -163,19 +163,23 @@ export default class extends React.PureComponent {
           }
         }
         this.context.setAppState({
-          installingPlugins: this.context.appState.installingPlugins.filter(item => item !== name),
+          installingPlugins: this.context.appState.installingPlugins.filter(
+            (item) => item !== name
+          ),
         })
         events.emit('request-update-plugins')
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         this.context.setAppState({
-          installingPlugins: this.context.appState.installingPlugins.filter(item => item !== name),
+          installingPlugins: this.context.appState.installingPlugins.filter(
+            (item) => item !== name
+          ),
         })
       })
   }
 
-  uninstallPlugin = event => {
+  uninstallPlugin = (event) => {
     const { name } = event.currentTarget.dataset
 
     remote.dialog.showMessageBox(
@@ -186,7 +190,7 @@ export default class extends React.PureComponent {
         defaultId: 1,
         buttons: ['确定', '取消'],
       },
-      index => {
+      (index) => {
         if (index === 0) {
           uninstallPlugin(name).then(() => {
             events.emit('request-update-plugins')
@@ -196,9 +200,9 @@ export default class extends React.PureComponent {
     )
   }
 
-  showPluginOptionsModal = event => {
+  showPluginOptionsModal = (event) => {
     const name = typeof event === 'string' ? event : event.currentTarget.dataset.name
-    const selectedPlugin = this.context.plugins.find(item => item.name === name)
+    const selectedPlugin = this.context.plugins.find((item) => item.name === name)
     if (selectedPlugin) {
       this.setState({ showPluginOptionsModal: true, selectedPlugin })
     }
@@ -212,7 +216,7 @@ export default class extends React.PureComponent {
     if (prevState.tabIndex !== this.state.tabIndex && this.state.tabIndex === 2) {
       events.emit('request-update-plugins')
       fetchPlugins()
-        .then(res => {
+        .then((res) => {
           if (res && res.plugins) {
             this.setState({ thridPartPlugins: res.plugins })
           }
@@ -229,37 +233,41 @@ export default class extends React.PureComponent {
     const taskNotEmpty = appState.taskList.length > 0
     const extensionCompressors = mapExtensionsAndCompressors(compressors)
     const uninstalledPlugins = thridPartPlugins.filter(
-      item => !plugins.find(subItem => subItem.name === item.name)
+      (item) => !plugins.find((subItem) => subItem.name === item.name)
     )
     const { installingPlugins } = appState
 
     return (
       <div className="component-preferences">
         <div className="tab-header">
-          <a
-            href="javascript:void(0);"
+          <button
             data-index="0"
             data-active={tabIndex === 0}
-            className="button button-default tab-button button-common"
+            className="tab-button button-common"
             onClick={this.setTabIndex}>
-            <span>通用设定</span>
-          </a>
-          <a
-            href="javascript:void(0);"
+            <span>通用</span>
+          </button>
+          <button
             data-index="1"
             data-active={tabIndex === 1}
-            className="button button-default tab-button button-compress"
+            className="tab-button button-compress"
             onClick={this.setTabIndex}>
-            <span>压缩参数</span>
-          </a>
-          <a
-            href="javascript:void(0);"
+            <span>压缩</span>
+          </button>
+          <button
             data-index="2"
             data-active={tabIndex === 2}
-            className="button button-default tab-button button-plugin"
+            className="tab-button button-plugin"
             onClick={this.setTabIndex}>
-            <span>插件管理</span>
-          </a>
+            <span>插件</span>
+          </button>
+          <button
+            data-index="3"
+            data-active={tabIndex === 3}
+            className="tab-button button-about"
+            onClick={this.setTabIndex}>
+            <span>关于</span>
+          </button>
         </div>
         <div className="tab-content">
           <div className="tab-item" data-index="0" data-active={tabIndex === 0}>
@@ -324,7 +332,7 @@ export default class extends React.PureComponent {
                   </tr>
                 </thead>
                 <tbody>
-                  {extensionCompressors.map(item => (
+                  {extensionCompressors.map((item) => (
                     <tr key={item.extension}>
                       <td>{item.extension}</td>
                       <td>
@@ -407,7 +415,7 @@ export default class extends React.PureComponent {
               <div className="table-wrapper">
                 <table>
                   <tbody>
-                    {plugins.map(plugin => (
+                    {plugins.map((plugin) => (
                       <tr key={plugin.name}>
                         <td>
                           <h5 className="caption">
@@ -448,7 +456,7 @@ export default class extends React.PureComponent {
                         </td>
                       </tr>
                     ))}
-                    {uninstalledPlugins.map(plugin => (
+                    {uninstalledPlugins.map((plugin) => (
                       <tr key={plugin.name}>
                         <td>
                           <h5 className="caption">
@@ -481,6 +489,17 @@ export default class extends React.PureComponent {
                 <i className="mdi mdi-folder"></i>
                 <span>打开插件目录</span>
               </a>
+            </div>
+          </div>
+          <div className="tab-item" data-index="3" data-active={tabIndex === 3}>
+            <div className="section-about">
+              <div className="app-icon" />
+              <h2 className="app-name">
+                <span>
+                  Repic <small>v0.1.0</small>
+                </span>
+              </h2>
+              <h3 className="app-description">一个好用的图片压缩工具</h3>
             </div>
           </div>
         </div>

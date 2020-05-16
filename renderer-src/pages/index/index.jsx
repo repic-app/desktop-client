@@ -400,7 +400,6 @@ export default class extends React.PureComponent {
             <div className="footer">
               <button onClick={this.handleRequestPickFile} className="button-pick-files">
                 <span>选取文件</span>
-                <i className="mdi mdi-arrow-right"></i>
               </button>
               <TaskAnalyzer
                 appState={appState}

@@ -3,13 +3,14 @@
 .component-select {
   position: relative;
   margin: 0;
-  background-color: lighten($COLOR_DARK, 18);
+  background-color: #f8f9fa;
   border-radius: 3px;
-  box-shadow: 0 0 0 0.5px rgba(#000, 0.4);
+  box-shadow: 0 0 0 0.5px rgba(#000, 0.2);
   &.disabled {
+    opacity: 0.5;
     .icon {
-      background-color: gray($COLOR_PRIMARY);
-      opacity: 0.5;
+      background-color: #999;
+      box-shadow: 0 0 0 0.5px #777;
     }
   }
   &.size-small {
@@ -50,7 +51,7 @@
     border: none;
     border-radius: 1px 0 0 1px;
     outline: none;
-    color: rgba(#fff, 0.5);
+    color: #666;
     font-size: 1em;
     -webkit-appearance: none;
   }
@@ -66,7 +67,7 @@
     height: 100%;
     background-color: $COLOR_PRIMARY;
     border-radius: 0 3px 3px 0;
-    // box-shadow: inset 0 0 0 0.5px rgba(#000, 0.4);
+    box-shadow: 0 0 0 0.5px darken($COLOR_PRIMARY, 10);
     color: rgba(#fff, 1);
     font-size: 12px;
     pointer-events: none;
