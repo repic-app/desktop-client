@@ -68,22 +68,22 @@ export default React.memo((props) => {
       {props.preferences.overrideOrigin ? (
         <div className="operates">
           <a href="javascript:void(0);" data-disabled={restoreDisabled} className="button button-restore" onClick={props.onRestore}>
-            <i className="mdi mdi-undo-variant"></i>
+            <i className="mdi mdi-restore"></i>
           </a>
           <a href="javascript:void(0);" data-disabled={recompressDisabled} className="button button-recompress" onClick={props.onRecompress}>
-            <i className="mdi mdi-redo-variant"></i>
+            <i className="mdi mdi-restore invert-x"></i>
           </a>
           <a href="javascript:void(0);" data-disabled={compareDisabled} className="button button-compare" onClick={requestCompareView}>
-            <i className="mdi mdi-eye"></i>
+            <i className="mdi mdi-compare"></i>
           </a>
         </div>
       ) : (
         <div className="operates">
-          <a href="javascript:void(0);" data-disabled={restoreDisabled} className="button button-restore" onClick={requestLocationImage}>
-            <i className="mdi mdi-magnify"></i>
+          <a href="javascript:void(0);" data-disabled={restoreDisabled} className="button button-reveal" onClick={requestLocationImage}>
+            <i className="mdi mdi-folder-outline"></i>
           </a>
           <a href="javascript:void(0);" data-disabled={compareDisabled} className="button button-compare" onClick={requestCompareView}>
-            <i className="mdi mdi-eye"></i>
+            <i className="mdi mdi-compare"></i>
           </a>
         </div>
       )}

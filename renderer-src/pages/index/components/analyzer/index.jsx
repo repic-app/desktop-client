@@ -125,13 +125,13 @@ export default React.memo(
             {preferences.overrideOrigin ? (
               <>
                 <button disabled={restoreDisabled} className="button" onClick={requestRestoreAll}>
-                  <i className="mdi mdi-undo-variant"></i>
+                  <i className="mdi mdi-restore"></i>
                 </button>
                 <button
                   disabled={recompressDisabled}
-                  className="button"
+                  className="button invert"
                   onClick={requestRecompressAll}>
-                  <i className="mdi mdi-redo-variant"></i>
+                  <i className="mdi mdi-restore"></i>
                 </button>
               </>
             ) : (

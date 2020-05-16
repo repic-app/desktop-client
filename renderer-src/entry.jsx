@@ -46,6 +46,8 @@ export default class extends React.PureComponent {
       this.updateAppTheme
     )
 
+    remote.getCurrentWindow().setSheetOffset(39)
+
     electron.ipcRenderer.on('user-change-app-theme', () => {
       this.updateAppTheme()
     })

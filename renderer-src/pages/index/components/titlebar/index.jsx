@@ -7,18 +7,24 @@ import Preferences from '../preferences'
 import './styles.scss'
 
 export default React.memo(({ preferences, appState, setAppState }) => {
-  const preferencesModalRef = useRef(null)
+  const modalRef = useRef(null)
+  const preferencesRef = useRef(null)
 
   const toggleSticky = useCallback(() => {
     remote.getCurrentWindow().setAlwaysOnTop(!appState.isSticky)
     setAppState({ isSticky: !appState.isSticky })
   }, [appState.isSticky])
 
-  const showPreferencesModal = useCallback(() => {
-    setAppState({
-      showPreferences: true,
-    })
-  }, [])
+  const togglePreferencesModal = useCallback((showPreferences) => {
+    const nextShowPreferences = typeof showPreferences === 'boolean' ? showPreferences : !appState.showPreferences
+    if (nextShowPreferences && !appState.showPreferences) {
+      setAppState({
+        showPreferences:true
+      })
+    } else if (!nextShowPreferences && appState.showPreferences) {
+      modalRef.current.externalRequestClose()
+    }
+  }, [appState.showPreferences])
 
   const hidePreferencesModal = useCallback(() => {
     setAppState({
@@ -32,8 +38,8 @@ export default React.memo(({ preferences, appState, setAppState }) => {
 
   useEffect(() => {
     event.on('request-open-plugin-settings', () => {
-      showPreferencesModal()
-      preferencesModalRef.current.setTabIndex(2)
+      togglePreferencesModal(true)
+      preferencesRef.current.setTabIndex(2)
     })
   }, [])
 
@@ -50,20 +56,20 @@ export default React.memo(({ preferences, appState, setAppState }) => {
           <i className="mdi mdi-pin"></i>
         </button>
         <button
-          data-disabled={appState.showPreferences}
-          onClick={showPreferencesModal}
+          onClick={togglePreferencesModal}
           className="button-toggle-preferences">
           <i className="mdi mdi-settings"></i>
         </button>
       </div>
       <Modal
         width={440}
+        ref={modalRef}
         className="preferences-modal"
         active={appState.showPreferences}
         onClose={hidePreferencesModal}
         showConfirm={false}
         cancelText="关闭">
-        <Preferences ref={preferencesModalRef} />
+        <Preferences ref={preferencesRef} />
       </Modal>
     </div>
   )

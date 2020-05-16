@@ -37,24 +37,28 @@ class Modal extends React.PureComponent {
   }
 
   handleMaskClick = () => {
-    this.props.closeOnBlur && this.close('mask')
+    this.props.closeOnBlur &&this.handleClose(this.props.onWillClose && this.props.onWillClose('mask-close'))
+  }
+
+  externalRequestClose = () => {
+    this.handleClose(this.props.onWillClose && this.props.onWillClose('external-close'))
   }
 
   handleCloseButtonClick = () => {
-    this.handleClose(this.props.onWillClose && this.props.onWillClose(), 'button-close')
+    this.handleClose(this.props.onWillClose && this.props.onWillClose('button-close'))
   }
 
   hanleCancelButtonClick = () => {
-    this.handleClose(this.props.onCancel && this.props.onCancel(), 'button-cancel')
+    this.handleClose(this.props.onCancel && this.props.onCancel('button-cancel'))
   }
 
   hanleConfirmButtonClick = () => {
-    this.handleClose(this.props.onConfirm && this.props.onConfirm(), 'button-confirm')
+    this.handleClose(this.props.onConfirm && this.props.onConfirm('button-confirm'))
   }
 
-  handleClose = (expression, source) => {
+  handleClose = (expression) => {
     if (expression !== false) {
-      this.close(source)
+      this.close()
     }
   }
 

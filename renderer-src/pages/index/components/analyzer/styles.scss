@@ -124,6 +124,9 @@
       &:hover {
         background-color: rgba(#000, 0.15);
       }
+      &.invert{
+        transform: scaleX(-1);
+      }
     }
   }
 }
