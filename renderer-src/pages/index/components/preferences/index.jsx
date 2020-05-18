@@ -337,7 +337,7 @@ export default class extends React.PureComponent {
                       <td>{item.extension}</td>
                       <td>
                         <Select
-                          disabled={item.compressors.length <= 1}
+                          disabled={item.compressors.length < 1}
                           value={item.defaultComprssor || item.compressors[0].name}
                           name={item.extension}
                           onChange={this.handleDefaultCompressorChange}>
