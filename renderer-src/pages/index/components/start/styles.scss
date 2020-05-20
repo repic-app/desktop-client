@@ -3,17 +3,19 @@
 .component-start {
   position: absolute;
   z-index: 3;
-  top: 10px;
-  right: 10px;
-  bottom: 10px;
-  left: 10px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
-  border-radius: 3px;
+  // border-radius: 3px;
   opacity: 0;
   pointer-events: none;
+  transition: background-color 0.3s;
+  will-change: background-color;
   .drag-tip-area {
     position: relative;
     width: 320px;
@@ -27,10 +29,30 @@
     width: 120px;
     height: 120px;
     margin: 40px auto 0 auto;
-    background-image: url(../../../../assets/images/start.svg);
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: 80px auto;
+    &::before,
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 120px;
+      height: 120px;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: 120px auto;
+      content: '';
+      transition: transform 0.3s;
+      will-change: transform;
+    }
+    &::before {
+      z-index: 2;
+      background-image: url(../../../../assets/images/start_layer_1.png);
+      transform: translate(-5px, -5px);
+    }
+    &::after {
+      z-index: 1;
+      background-image: url(../../../../assets/images/start_layer_2.png);
+      transform: translate(5px, 5px);
+    }
   }
   .drag-tip {
     margin-top: 0;
@@ -56,4 +78,10 @@
 
 [data-dragging-over='true'] .component-start {
   background-color: rgba($COLOR_PRIMARY, 0.1);
+  .drag-shape {
+    &::before,
+    &::after {
+      transform: translate(0, 0);
+    }
+  }
 }

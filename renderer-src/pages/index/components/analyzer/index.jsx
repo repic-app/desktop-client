@@ -112,7 +112,9 @@ export default React.memo(
             {taskAllFinished ? (
               <b className="count">{taskResult.counts[taskStatus.COMPLETE]}个文件压缩成功</b>
             ) : (
-              <b className="count">已压缩{taskResult.counts[taskStatus.COMPLETE]}个文件</b>
+              <b className="count">
+                已压缩{taskResult.counts[taskStatus.COMPLETE]}个文件，共{taskList.length}个文件
+              </b>
             )}
             <span className="size">
               体积共减少
