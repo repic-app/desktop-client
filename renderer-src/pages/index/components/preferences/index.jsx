@@ -44,22 +44,20 @@ const mapExtensionsAndCompressors = (compressors) => {
 }
 
 const requestPickSaveFolder = (preferences, setPreferences) => {
-  remote.dialog.showOpenDialog(
-    remote.getCurrentWindow(),
-    {
+  remote.dialog
+    .showOpenDialog(remote.getCurrentWindow(), {
       title: '选择存储文件夹',
       buttonLabel: '选择此文件夹',
       defaultPath: preferences.autoSavePath,
       properties: ['openDirectory', 'createDirectory'],
-    },
-    (filePaths) => {
+    })
+    .then(({ filePaths }) => {
       if (filePaths && filePaths[0]) {
         setPreferences({
           autoSavePath: filePaths[0],
         })
       }
-    }
-  )
+    })
 }
 
 const setDefaultCompressorForExtension = (plugins, extension, compressorName) => {
@@ -182,22 +180,21 @@ export default class extends React.PureComponent {
   uninstallPlugin = (event) => {
     const { name } = event.currentTarget.dataset
 
-    remote.dialog.showMessageBox(
-      {
+    remote.dialog
+      .showMessageBox({
         type: 'warning',
         message: '确定要卸载此插件吗？',
         detail: '你可以在任何时候重新安装此插件',
         defaultId: 1,
         buttons: ['确定', '取消'],
-      },
-      (index) => {
+      })
+      .then(({ response: index }) => {
         if (index === 0) {
           uninstallPlugin(name).then(() => {
             events.emit('request-update-plugins')
           })
         }
-      }
-    )
+      })
   }
 
   showPluginOptionsModal = (event) => {

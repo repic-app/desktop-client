@@ -61,20 +61,19 @@ export const DragWrapper = React.memo((props) => {
 
 export const openFilePicker = (compressors, onChange) => {
   if (!compressors.length) {
-    remote.dialog.showMessageBox(
-      {
+    remote.dialog
+      .showMessageBox({
         type: 'info',
         message: '未启用任何转换插件',
         detail: '是否前往插件管理页来启用转换插件？',
         defaultId: 0,
         buttons: ['是', '否'],
-      },
-      (index) => {
+      })
+      .then(({ response: index }) => {
         if (index === 0) {
           events.emit('request-open-plugin-settings')
         }
-      }
-    )
+      })
     return false
   }
 
