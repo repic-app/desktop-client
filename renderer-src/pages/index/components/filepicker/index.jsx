@@ -26,7 +26,14 @@ export const DragWrapper = React.memo((props) => {
       event.stopPropagation()
       setIsDragging(false)
       dragEventTriggerCount > 0 && (dragEventTriggerCount -= 1)
-      props.onChange(event.dataTransfer.files)
+      props.onChange(
+        [].slice.call(event.dataTransfer.files).map((item) => {
+          return {
+            file: item,
+            path: item.path,
+          }
+        })
+      )
     },
     [props.onChange]
   )

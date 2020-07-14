@@ -15,7 +15,7 @@
   &[data-visible='false'] {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(40px) scale(0.95);
+    transform: translateY(-40px) scale(0.95);
   }
   .drag-tip {
     margin-top: 140px;

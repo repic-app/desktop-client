@@ -3,6 +3,7 @@
 .component-task-list {
   flex: 1;
   box-sizing: border-box;
+  min-height: 100%;
   margin: 0;
   padding: 5px 0 70px 0;
   overflow: auto;

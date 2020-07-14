@@ -96,6 +96,13 @@
       color: $COLOR_PRIMARY;
       font-size: 14px;
       cursor: pointer;
+      &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      &.invert {
+        transform: scaleX(-1);
+      }
       &:hover {
         background-color: rgba($COLOR_PRIMARY, 0.15);
       }
