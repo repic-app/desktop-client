@@ -7,8 +7,6 @@ const decompress = require('decompress')
 const { getAPPData, APP_PLUGIN_PATH } = require('./storage')
 const builtinPluginFolder = path.join(__dirname, '../plugins')
 
-const thridPartPluginsURL = 'https://repic.app/plugins.json?r=' + Date.now()
-
 let registeredPlugins = []
 
 !fs.existsSync(APP_PLUGIN_PATH) && fs.mkdirSync(APP_PLUGIN_PATH)
@@ -21,7 +19,7 @@ const registerPlugins = () => {
   registeredPlugins = []
 
   builtPlugins &&
-    builtPlugins.forEach(item => {
+    builtPlugins.forEach((item) => {
       const pluginPath = path.join(builtinPluginFolder, item)
 
       if (fs.statSync(pluginPath).isDirectory()) {
@@ -41,7 +39,7 @@ const registerPlugins = () => {
     })
 
   thridPartPlugins &&
-    thridPartPlugins.forEach(item => {
+    thridPartPlugins.forEach((item) => {
       const pluginPath = path.join(APP_PLUGIN_PATH, item)
 
       if (fs.existsSync(path.join(pluginPath, 'index.js'))) {
@@ -63,35 +61,44 @@ const registerPlugins = () => {
   return registeredPlugins
 }
 
-const updateRegisteredPlugins = plugins => {
+const updateRegisteredPlugins = (plugins) => {
   registeredPlugins = plugins
 }
 
 const getCompressors = () => {
-  return registeredPlugins.filter(item => !item.disabled && item.type === 'compressor')
+  return registeredPlugins.filter((item) => !item.disabled && item.type === 'compressor')
 }
 
 const fetchPlugins = () =>
   new Promise((resolve, reject) => {
     try {
-      https.get(thridPartPluginsURL, res => {
-        let data = ''
+      https.get(
+        {
+          port: 443,
+          host: 'raw.githubusercontent.com',
+          path: '/repic-app/plugins-manifest/master/plugins.json',
+          search: 't=' + Date.now(),
+          rejectUnauthorized: false,
+        },
+        (res) => {
+          let data = ''
 
-        res.on('data', chunk => {
-          data += chunk
-        })
+          res.on('data', (chunk) => {
+            data += chunk
+          })
 
-        res.on('end', () => {
-          try {
-            resolve(JSON.parse(data))
-          } catch (error) {
-            reject(error)
-          }
-        })
+          res.on('end', () => {
+            try {
+              resolve(JSON.parse(data))
+            } catch (error) {
+              reject(error)
+            }
+          })
 
-        res.on('error', reject)
-        res.on('abort', reject)
-      })
+          res.on('error', reject)
+          res.on('abort', reject)
+        }
+      )
     } catch (error) {
       reject(error)
     }
@@ -103,13 +110,13 @@ const installPlugin = (name, url) =>
 
     try {
       const tempFilePath = path.join(APP_PLUGIN_PATH, `.temp_${name}.zip`)
-      httpClient.get(url, response => {
+      httpClient.get(url, (response) => {
         response
           .pipe(fs.createWriteStream(tempFilePath))
           .on('error', reject)
           .on('close', () => {
             decompress(tempFilePath, APP_PLUGIN_PATH)
-              .then(res => {
+              .then((res) => {
                 fs.renameSync(
                   path.join(APP_PLUGIN_PATH, res[0].path),
                   path.join(APP_PLUGIN_PATH, name)
@@ -129,7 +136,7 @@ const installPlugin = (name, url) =>
     }
   })
 
-const uninstallPlugin = async pluginPath => {
+const uninstallPlugin = async (pluginPath) => {
   try {
     rimraf.sync(path.join(APP_PLUGIN_PATH, pluginPath))
     return true

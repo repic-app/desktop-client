@@ -2,19 +2,19 @@
 @import '_icons';
 
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 1px;
-  background-color: rgba(#fff, 0.05);
+  width: 10px;
+  height: 0.5px;
+  background-color: rgba(#000, 0);
 }
-
 ::-webkit-scrollbar-thumb {
   width: 8px;
-  background-color: rgba(#000, 0.35);
+  background-color: rgba(#000, 0.15);
   background-clip: content-box;
   border: 2px solid transparent;
+  border-left: none;
   border-radius: 6px;
   &:hover {
-    background-color: rgba(#000, 0.55);
+    background-color: rgba(#000, 0.25);
   }
 }
 
@@ -23,6 +23,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  overflow: hidden;
   font-family: caption, 'PingFang SC', arial, 'Microsoft Yahei', 微软雅黑;
   cursor: default;
   user-select: none;

@@ -1,0 +1,126 @@
+@import '~scssinc';
+
+.component-file-picker {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 440px;
+  height: 642px;
+  transition: transform 0.4s, opacity 0.4s, visibility 0.4s;
+  will-change: transform, opacity, visibility;
+  &[data-visible='false'] {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(40px) scale(0.95);
+  }
+  .drag-tip {
+    margin-top: 140px;
+    .icon {
+      position: relative;
+      box-sizing: border-box;
+      width: 120px;
+      height: 120px;
+      margin: 40px auto 0 auto;
+      &::before,
+      &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 120px;
+        height: 120px;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: 120px auto;
+        content: '';
+        transition: transform 0.3s;
+        will-change: transform;
+      }
+      &::before {
+        z-index: 2;
+        background-image: url(../../../../assets/images/start_layer_1.png);
+        transform: translate(-5px, -5px);
+      }
+      &::after {
+        z-index: 1;
+        background-image: url(../../../../assets/images/start_layer_2.png);
+        transform: translate(5px, 5px);
+      }
+    }
+    .text {
+      text-align: center;
+      span,
+      small {
+        display: block;
+      }
+      span {
+        color: #666;
+        // color: #999; // dark
+        font-size: 14px;
+        font-weight: normal;
+      }
+      small {
+        color: #999;
+        // color: #666; // dark
+        font-size: 11px;
+        // font-weight: 300;
+        text-transform: uppercase;
+      }
+    }
+  }
+  .file-pick-entry {
+    position: relative;
+    width: 300px;
+    height: 50px;
+    margin: 190px auto 0 auto;
+    input[type='file'] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      width: 300px;
+      height: 50px;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .button-pick-files {
+      width: 300px;
+      height: 50px;
+      border-radius: 10px;
+      background-color: $COLOR_PRIMARY;
+      background-image: linear-gradient(to bottom, rgba(#fff, 0.1), rgba(#fff, 0));
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      box-shadow: inset 0 0 0 0.5px rgba(#000, 0.2); //, 0 5px 10px rgba($COLOR_PRIMARY, 0.3);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.5s;
+      &:hover {
+        background-color: darken($COLOR_PRIMARY, 5);
+      }
+    }
+  }
+}
+
+.component-drag-wrapper {
+  position: relative;
+  height: calc(100vh - 38px);
+  overflow: auto;
+  transition: background-color 0.4s;
+  will-change: background-color;
+  &[data-dragging-over='true'] {
+    background-color: rgba($COLOR_PRIMARY, 0.05);
+    .drag-tip .icon {
+      &::before,
+      &::after {
+        transform: translate(0, 0);
+      }
+    }
+  }
+}

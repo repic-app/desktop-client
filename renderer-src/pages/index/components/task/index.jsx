@@ -7,15 +7,15 @@ import './styles.scss'
 const imageTypePattern = /image\/(jpg|png|webp|jpeg)/
 
 const DescriptionText = React.memo((task) => {
-
   const optimizeRateTextColor = formateOptimizedRate(task.optimizedRate)
 
   if (task.status === taskStatus.COMPLETE) {
     return (
       <span className="description-text text-with-icon">
-        <span className={`text-${optimizeRateTextColor}`}>{task.optimizedRate.toFixed(2)}%</span>&ensp;
+        <span className={`text-${optimizeRateTextColor}`}>{task.optimizedRate.toFixed(2)}%</span>
+        &ensp;
         <span>{formatSize(task.originalSize)}</span>
-        <i className="mdi mdi-arrow-right"></i>
+        <i className="icon-arrow-right"></i>
         <span>{formatSize(task.optimizedSize)}</span>
       </span>
     )
@@ -29,7 +29,6 @@ const handleThumbClick = (event) => {
 }
 
 export default React.memo((props) => {
-
   const requestLocationImage = () => {
     locateFile(props.task.optimizedPath)
   }
@@ -45,11 +44,18 @@ export default React.memo((props) => {
 
   return (
     <li className="component-task-item" data-status={props.task.status}>
-      <span className="status-icon"><i data-status={props.task.status} /></span>
+      <span className="status-icon">
+        <i data-status={props.task.status} />
+      </span>
       {props.preferences.showThumb ? (
         props.task.thumbUrl ? (
           <div className="thumb" onClick={handleThumbClick}>
-            {props.task.status === taskStatus.COMPLETE ? <img src={`file://${props.task.optimizedPath || props.task.path}`} className="optimized-image"/> : null}
+            {props.task.status === taskStatus.COMPLETE ? (
+              <img
+                src={`file://${props.task.optimizedPath || props.task.path}`}
+                className="optimized-image"
+              />
+            ) : null}
             <img className="thumb-image" src={props.task.thumbUrl} />
           </div>
         ) : (
@@ -57,7 +63,9 @@ export default React.memo((props) => {
         )
       ) : null}
       <div className="meta">
-        <span className="name" title={props.task.file.name}>{props.task.file.name}</span>
+        <span className="name" title={props.task.file.name}>
+          {props.task.file.name}
+        </span>
         <DescriptionText
           status={props.task.status}
           originalSize={props.task.originalSize}
@@ -67,23 +75,43 @@ export default React.memo((props) => {
       </div>
       {props.preferences.overrideOrigin ? (
         <div className="operates">
-          <a href="javascript:void(0);" data-disabled={restoreDisabled} className="button button-restore" onClick={props.onRestore}>
+          <a
+            href="javascript:void(0);"
+            data-disabled={restoreDisabled}
+            className="button button-restore"
+            onClick={props.onRestore}>
             <i className="mdi mdi-restore"></i>
           </a>
-          <a href="javascript:void(0);" data-disabled={recompressDisabled} className="button button-recompress" onClick={props.onRecompress}>
+          <a
+            href="javascript:void(0);"
+            data-disabled={recompressDisabled}
+            className="button button-recompress"
+            onClick={props.onRecompress}>
             <i className="mdi mdi-restore invert-x"></i>
           </a>
-          <a href="javascript:void(0);" data-disabled={compareDisabled} className="button button-compare" onClick={requestCompareView}>
-            <i className="mdi mdi-compare"></i>
+          <a
+            href="javascript:void(0);"
+            data-disabled={compareDisabled}
+            className="button button-compare"
+            onClick={requestCompareView}>
+            <i className="icon-eye"></i>
           </a>
         </div>
       ) : (
         <div className="operates">
-          <a href="javascript:void(0);" data-disabled={restoreDisabled} className="button button-reveal" onClick={requestLocationImage}>
-            <i className="mdi mdi-folder-outline"></i>
+          <a
+            href="javascript:void(0);"
+            data-disabled={restoreDisabled}
+            className="button button-reveal"
+            onClick={requestLocationImage}>
+            <i className="icon-folder"></i>
           </a>
-          <a href="javascript:void(0);" data-disabled={compareDisabled} className="button button-compare" onClick={requestCompareView}>
-            <i className="mdi mdi-compare"></i>
+          <a
+            href="javascript:void(0);"
+            data-disabled={compareDisabled}
+            className="button button-compare"
+            onClick={requestCompareView}>
+            <i className="icon-eye"></i>
           </a>
         </div>
       )}

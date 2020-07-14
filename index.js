@@ -1,4 +1,4 @@
-const { app, Menu, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron')
 const storage = require('./helpers/storage')
 const path = require('path')
 const isProduction = process.env.NODE_ENV !== 'development'
@@ -27,6 +27,7 @@ function initialize() {
       frame: false,
       icon: path.join(__dirname, 'assets/icon.png'),
       titleBarStyle: 'hiddenInset',
+      // trafficLightPosition: { x: 10, y: 22 },
       webPreferences: {
         devTools: !isProduction,
         webSecurity: false,

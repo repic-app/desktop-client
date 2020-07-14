@@ -4,65 +4,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: #fff; //lighten($COLOR_DARK, 5);
+  background-color: #fff;
   border-radius: 5px;
-  .index-content {
-    display: flex;
-    position: relative;
-    flex: 1;
-    overflow: hidden;
-    perspective: 1000px;
-    &[data-empty='true'] {
-      .component-start {
-        opacity: 1;
-        transform: scale(1);
-        pointer-events: all;
-      }
-    }
-    &[data-empty='false'] {
-      .component-task-list {
-        opacity: 1;
-        transform: scale(1);
-      }
-      .footer {
-        .button-pick-files {
-          transform: translateY(120px);
-        }
-      }
-    }
-    .footer {
-      position: absolute;
-      z-index: 5;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      .button-pick-files {
-        position: absolute;
-        width: 300px;
-        height: 50px;
-        z-index: 4;
-        top: -50px;
-        right: 0;
-        left: 0;
-        margin: 0 auto;
-        background-color: $COLOR_PRIMARY;
-        background-image: linear-gradient(to bottom, rgba(#fff, 0.1), rgba(#fff, 0));
-        border: none;
-        border-radius: 3px;
-        outline: none;
-        box-shadow: inset 0 0 0 0.5px rgba(#000, 0.2);//, 0 5px 10px rgba($COLOR_PRIMARY, 0.3);
-        color: #fff;
-        font-size: 18px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.5s;
-        &:hover {
-          background-color: darken($COLOR_PRIMARY, 5);
-        }
-      }
-    }
-  }
 }
 
 .cache-dir-entry {

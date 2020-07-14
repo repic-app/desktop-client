@@ -11,6 +11,10 @@
   background-color: #f8f9fa;
   transition: transform 0.4s, opacity 0.4s;
   transform: translateX(50px);
+  &[data-visible='true'] {
+    opacity: 1;
+    transform: translateX(0);
+  }
   &::-webkit-scrollbar-track {
     margin-bottom: 70px;
   }

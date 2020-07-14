@@ -11,7 +11,6 @@ const encryptString = (string) => {
 }
 
 const checkRegistrationAPI = async () => {
-
   const registrationCode = getAPPData('registrationCode')
 
   if (!registrationCode) {
@@ -19,27 +18,24 @@ const checkRegistrationAPI = async () => {
   }
 
   return {
-    jjma: registrationCode
+    jjma: registrationCode,
   }
-
 }
 
-const fakeFetch = (url, param) => new Promise((resolve) => {
-
-  setTimeout(() => {
-    resolve({
-      url: url,
-      data: {
-        _s: encryptString(param.registrationCode),
-        available: true
-      }
-    })
-  }, 500)
-
-})
+const fakeFetch = (url, param) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        url: url,
+        data: {
+          _s: encryptString(param.registrationCode),
+          available: true,
+        },
+      })
+    }, 500)
+  })
 
 const applyRegistrationCodeAPI = async (registrationCode) => {
-
   if (!registrationCode) {
     return false
   }
@@ -47,7 +43,7 @@ const applyRegistrationCodeAPI = async (registrationCode) => {
   const machineId = machineIdSync()
 
   // 前往服务端校验注册码和机器ID
-  const result = await fakeFetch('http://registration-server/', { machineId, registrationCode })//request('http://registration-server/', { machineId, registrationCode })
+  const result = await fakeFetch('http://registration-server/', { machineId, registrationCode }) //request('http://registration-server/', { machineId, registrationCode })
   // const result = {
   //   _s: 'asdasdasdasda',
   //   available: true,
@@ -61,7 +57,6 @@ const applyRegistrationCodeAPI = async (registrationCode) => {
   // setAppData('registrationCode', registrationCode)
 
   return result
-
 }
 
 module.exports = { checkRegistrationAPI, applyRegistrationCodeAPI }

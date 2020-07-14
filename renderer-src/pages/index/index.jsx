@@ -1,13 +1,12 @@
 import React from 'react'
 import TitleBar from './components/titlebar'
-import Start from './components/start'
+import FilePicker, { DragWrapper } from './components/filepicker'
 import TaskList from './components/tasklist'
-import TaskAnalyzer from './components/analyzer'
+import TaskBar from './components/taskbar'
 import { playSound } from 'helpers/sound'
 import events from 'helpers/events'
 import remote, { requireRemote } from 'helpers/remote'
 import { appendTasks, executeTasks, restoreTask } from 'helpers/task'
-import { resolveLocalFiles } from 'utils/base'
 import { taskStatus } from 'constants/task'
 import { sleep } from 'utils/base'
 import APPContext from 'store/index'
@@ -32,8 +31,6 @@ const defaultAppState = {
   showPreferences: false,
   installingPlugins: [],
 }
-
-let dragEventTriggerCount = 0
 
 export default class extends React.PureComponent {
   static contextType = APPContext
@@ -151,76 +148,6 @@ export default class extends React.PureComponent {
     )
   }
 
-  handleDragEnter = (event) => {
-    if (dragEventTriggerCount === 0) {
-      playSound('INSERT_PHOTO')
-    }
-
-    dragEventTriggerCount += 1
-    this.setState({ isDraggingOver: true })
-
-    event.preventDefault()
-    event.stopPropagation()
-  }
-
-  handleDragOver = (event) => {
-    event.preventDefault()
-  }
-
-  handleDragDrop = async (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-
-    const files = event.dataTransfer.files
-    const currentTaskList = this.state.appState.taskList
-    const nextTaskList = appendTasks(
-      currentTaskList,
-      [].map.call(files, (file) => ({ file, path: file.path }))
-    )
-
-    if (nextTaskList.length === currentTaskList.length) {
-      playSound('ERROR')
-    }
-
-    if (!nextTaskList.length) {
-      this.handleDragCancel()
-      return false
-    }
-
-    dragEventTriggerCount > 0 && (dragEventTriggerCount -= 1)
-
-    this.setAppState(
-      {
-        taskList: nextTaskList,
-      },
-      async () => {
-        if (!currentTaskList.length) {
-          await sleep(500)
-        }
-        this.setAppState(
-          {
-            taskList: executeTasks(nextTaskList, this.handleTaskUpdate, this.handleThumbCreate),
-          },
-          this.updateProgress
-        )
-      }
-    )
-  }
-
-  handleDragCancel = (event) => {
-    dragEventTriggerCount > 0 && (dragEventTriggerCount -= 1)
-
-    if (dragEventTriggerCount === 0) {
-      playSound('INSERT_PHOTO')
-      this.setState({ isDraggingOver: false })
-    }
-
-    if (event) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-  }
-
   handlePickedFile = (files) => {
     const currentTaskList = this.state.appState.taskList
     const nextTaskList = appendTasks(currentTaskList, files)
@@ -247,43 +174,6 @@ export default class extends React.PureComponent {
           },
           this.updateProgress
         )
-      }
-    )
-  }
-
-  handleRequestPickFile = () => {
-    if (!this.state.compressors.length) {
-      remote.dialog.showMessageBox(
-        {
-          type: 'info',
-          message: '未启用任何转换插件',
-          detail: '是否前往插件管理页来启用转换插件？',
-          defaultId: 0,
-          buttons: ['是', '否'],
-        },
-        (index) => {
-          if (index === 0) {
-            events.emit('request-open-plugin-settings')
-          }
-        }
-      )
-      return false
-    }
-
-    remote.dialog.showOpenDialog(
-      remote.getCurrentWindow(),
-      {
-        title: '选择图片文件',
-        filters: [
-          {
-            name: '图片文件',
-            extensions: this.state.compressors.map((item) => item.extensions).flat(),
-          },
-        ],
-        properties: ['openFile', 'multiSelections', 'noResolveAliases', 'treatPackageAsDirectory'],
-      },
-      (filePaths) => {
-        filePaths && this.handlePickedFile(resolveLocalFiles(filePaths))
       }
     )
   }
@@ -375,43 +265,35 @@ export default class extends React.PureComponent {
       <div className="app-page page-index">
         <APPContext.Provider value={this.getContextValue()}>
           <TitleBar appState={appState} preferences={preferences} setAppState={this.setAppState} />
-          <div
-            className="index-content"
-            onDragEnter={this.handleDragEnter}
-            onDragExit={this.handleDragCancel}
-            onDragEnd={this.handleDragCancel}
-            onDragOver={this.handleDragOver}
-            onDrop={this.handleDragDrop}
-            onDragLeave={this.handleDragCancel}
-            data-dragging-over={this.state.isDraggingOver}
-            data-empty={appState.taskList.length === 0}>
-            <Start
+          <DragWrapper
+            appState={appState}
+            compressors={compressors}
+            onChange={this.handlePickedFile}>
+            <FilePicker
               appState={appState}
               compressors={compressors}
-              setAppState={this.setAppState}
-              onRequestPickFile={this.handleRequestPickFile}
+              onChange={this.handlePickedFile}
+              visible={!appState.taskList.length}
             />
             <TaskList
               appState={appState}
               preferences={preferences}
               onRestore={this.handleRestore}
+              visible={!!appState.taskList.length}
               onRecompress={this.handleRecompress}
             />
-            <div className="footer">
-              <button onClick={this.handleRequestPickFile} className="button-pick-files">
-                <span>选取文件</span>
-              </button>
-              <TaskAnalyzer
-                appState={appState}
-                preferences={preferences}
-                setAppState={this.setAppState}
-                onClear={this.handleClear}
-                onRestoreAll={this.handleRestoreAll}
-                onRecompressAll={this.handleRecompressAll}
-                onRequestPickFile={this.handleRequestPickFile}
-              />
-            </div>
-          </div>
+          </DragWrapper>
+          <TaskBar
+            appState={appState}
+            setAppState={this.setAppState}
+            compressors={compressors}
+            preferences={preferences}
+            onClear={this.handleClear}
+            onPickFile={this.handlePickedFile}
+            onRestoreAll={this.handleRestoreAll}
+            onRecompressAll={this.handleRecompressAll}
+            visible={!!appState.taskList.length}
+          />
         </APPContext.Provider>
       </div>
     )

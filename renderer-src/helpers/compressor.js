@@ -10,67 +10,60 @@ export const { APP_TEMP_PATH } = requireRemote('./helpers/storage')
 
 !fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
 
-export const cleanTempFiles = () => new Promise((resolve) => {
-  fs.rmdir(APP_TEMP_PATH, (error) => {
-    if (error) {
-      resolve()
-    } else {
-      fs.mkdirSync(APP_TEMP_PATH)
-      resolve()
-    }
+export const cleanTempFiles = () =>
+  new Promise((resolve) => {
+    fs.rmdir(APP_TEMP_PATH, (error) => {
+      if (error) {
+        resolve()
+      } else {
+        fs.mkdirSync(APP_TEMP_PATH)
+        resolve()
+      }
+    })
   })
-})
 
-export const writeFileAsync = (filePath, fileData) => new Promise((resolve, reject) => {
+export const writeFileAsync = (filePath, fileData) =>
+  new Promise((resolve, reject) => {
+    if (fileData instanceof Blob) {
+      const fileReader = new FileReader()
 
-  if (fileData instanceof Blob) {
-    const fileReader = new FileReader()
+      fileReader.onload = () => {
+        fs.writeFileSync(filePath, Buffer.from(new Uint8Array(fileReader.result)))
+        const fileSize = fs.statSync(filePath).size
+        resolve(fileSize)
+      }
 
-    fileReader.onload = () => {
-      fs.writeFileSync(filePath, Buffer.from(new Uint8Array(fileReader.result)))
-      const fileSize = fs.statSync(filePath).size
-      resolve(fileSize)
+      fileReader.onerror = reject
+      fileReader.readAsArrayBuffer(fileData)
+
+      return false
     }
 
-    fileReader.onerror = reject
-    fileReader.readAsArrayBuffer(fileData)
-
-    return false
-  }
-
-  fs.writeFileSync(filePath, fileData)
-  resolve(fs.statSync(filePath).size)
-
-})
+    fs.writeFileSync(filePath, fileData)
+    resolve(fs.statSync(filePath).size)
+  })
 
 export const backupTask = (task) => {
-
   try {
-
     !fs.existsSync(APP_TEMP_PATH) && fs.mkdirSync(APP_TEMP_PATH)
 
     const backupFilePath = path.join(APP_TEMP_PATH, `${task.id}_${task.file.name}`)
     fs.copyFileSync(task.path, backupFilePath)
 
     return backupFilePath
-
   } catch (error) {
     return false
   }
-
 }
 
 export const restoreTask = (task, copy = false) => {
-
   if (task.backupPath) {
-
     try {
       copy ? fs.copyFileSync(task.backupPath, task.path) : fs.renameSync(task.backupPath, task.path)
     } catch (error) {
       console.warn(error)
       // ...
     }
-
   }
 
   return {
@@ -79,13 +72,11 @@ export const restoreTask = (task, copy = false) => {
     optimizedFile: null,
     optimizedSize: null,
     optimizedRate: null,
-    optimizedPath: null
+    optimizedPath: null,
   }
-
 }
 
 export const compressTask = async (task, preferences, onThumbCreate) => {
-
   const compressors = getCompressors()
 
   let backupPath = null
@@ -94,7 +85,6 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
   let optimizedPath = null
 
   try {
-
     if (!preferences.overrideOrigin && !fs.existsSync(preferences.autoSavePath)) {
       fs.mkdirSync(preferences.autoSavePath)
     }
@@ -116,29 +106,39 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
       backupPath = backupTask(task)
     }
 
-    const compressorsForExtension = compressors.filter(compressor => {
+    const compressorsForExtension = compressors.filter((compressor) => {
       return compressor.accepts.includes(task.file.type)
     })
 
-    const matchedCompressor = compressorsForExtension.find(compressor => {
-      return compressor.defaultFor && compressor.defaultFor.includes(fileExtension)
-    }) || compressorsForExtension[0]
+    const matchedCompressor =
+      compressorsForExtension.find((compressor) => {
+        return compressor.defaultFor && compressor.defaultFor.includes(fileExtension)
+      }) || compressorsForExtension[0]
 
     if (!matchedCompressor) {
       throw 'Unsupported file format.'
     }
 
     if (!cachedCompressors[matchedCompressor.name]) {
-      cachedCompressors[matchedCompressor.name] = matchedCompressor.process === 'main' ? requireRemote(matchedCompressor.path) : global.require(matchedCompressor.path)
+      cachedCompressors[matchedCompressor.name] =
+        matchedCompressor.process === 'main'
+          ? requireRemote(matchedCompressor.path)
+          : global.require(matchedCompressor.path)
     }
 
-    optimizeResule = await cachedCompressors[matchedCompressor.name](task, preferences, matchedCompressor.options)
+    optimizeResule = await cachedCompressors[matchedCompressor.name](
+      task,
+      preferences,
+      matchedCompressor.options
+    )
 
     if (optimizeResule && optimizeResule.path) {
       optimizedSize = optimizeResule.size
       optimizedPath = optimizeResule.path
     } else {
-      optimizedPath = preferences.overrideOrigin ? filePath : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
+      optimizedPath = preferences.overrideOrigin
+        ? filePath
+        : `${preferences.autoSavePath}/optmized_${task.id}_${task.file.name}`
       optimizedSize = await writeFileAsync(optimizedPath, optimizeResule.data)
     }
 
@@ -153,11 +153,9 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
       backupPath: backupPath,
       optimizedSize: optimizedSize,
       optimizedPath: optimizedPath,
-      optimizedRate: (task.originalSize - optimizedSize) / task.originalSize * 100
+      optimizedRate: ((task.originalSize - optimizedSize) / task.originalSize) * 100,
     }
-
   } catch (error) {
-
     console.log(error)
     try {
       backupPath && fs.renameSync(backupPath, task.path)
@@ -169,9 +167,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
       id: task.id,
       status: 4,
       error: error,
-      optimizedFile: null
+      optimizedFile: null,
     }
-
   }
-
 }

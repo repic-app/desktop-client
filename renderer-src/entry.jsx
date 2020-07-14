@@ -11,9 +11,7 @@ import ComparePage from 'pages/compare'
 const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
 
 export default class extends React.PureComponent {
-
   updateAppTheme = () => {
-
     // const { theme } = getAPPData('preferences')
     const theme = 'dark'
 
@@ -33,8 +31,7 @@ export default class extends React.PureComponent {
     compareViewWindow && compareViewWindow.webContents.send('user-change-app-theme', theme)
   }
 
-  componentDidMount () {
-
+  componentDidMount() {
     if (isWindows) {
       document.body.classList.add('system-windows')
     } else {
@@ -53,13 +50,17 @@ export default class extends React.PureComponent {
     })
   }
 
-  render () {
+  render() {
     return (
       <HashRouter>
-        <div className="page-container">
-          <Route path="/" exact component={() => <IndexPage onUpdateAppTheme={this.updateAppTheme} />} />
-          <Route path="/compare" exact component={ComparePage} />
-        </div>
+        {/* <div className="page-container"> */}
+        <Route
+          path="/"
+          exact
+          component={() => <IndexPage onUpdateAppTheme={this.updateAppTheme} />}
+        />
+        <Route path="/compare" exact component={ComparePage} />
+        {/* </div> */}
       </HashRouter>
     )
   }
