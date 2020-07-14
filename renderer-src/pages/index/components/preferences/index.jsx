@@ -493,7 +493,7 @@ export default class extends React.PureComponent {
               <div className="app-icon" />
               <h2 className="app-name">
                 <span>
-                  Repic <small>v0.1.0</small>
+                  Repic <small>v0.0.1</small>
                 </span>
               </h2>
               <h3 className="app-description">一个好用的图片压缩工具</h3>
