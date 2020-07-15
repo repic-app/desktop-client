@@ -72,33 +72,24 @@ const getCompressors = () => {
 const fetchPlugins = () =>
   new Promise((resolve, reject) => {
     try {
-      https.get(
-        {
-          port: 443,
-          host: 'raw.githubusercontent.com',
-          path: '/repic-app/plugins-manifest/master/plugins.json',
-          search: 't=' + Date.now(),
-          rejectUnauthorized: false,
-        },
-        (res) => {
-          let data = ''
+      https.get('https://repic.app/plugins.json?' + Date.now(), (res) => {
+        let data = ''
 
-          res.on('data', (chunk) => {
-            data += chunk
-          })
+        res.on('data', (chunk) => {
+          data += chunk
+        })
 
-          res.on('end', () => {
-            try {
-              resolve(JSON.parse(data))
-            } catch (error) {
-              reject(error)
-            }
-          })
+        res.on('end', () => {
+          try {
+            resolve(JSON.parse(data))
+          } catch (error) {
+            reject(error)
+          }
+        })
 
-          res.on('error', reject)
-          res.on('abort', reject)
-        }
-      )
+        res.on('error', reject)
+        res.on('abort', reject)
+      })
     } catch (error) {
       reject(error)
     }
