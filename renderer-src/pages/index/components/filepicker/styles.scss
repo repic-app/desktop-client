@@ -124,3 +124,10 @@
     }
   }
 }
+
+.system-windows .component-file-picker {
+  .file-pick-entry .button-pick-files{
+    border-radius: 0;
+    font-weight: 500;
+  }
+}

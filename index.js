@@ -1,16 +1,18 @@
 const { app, BrowserWindow } = require('electron')
+const os = require('os')
 const storage = require('./helpers/storage')
 const path = require('path')
 const isProduction = process.env.NODE_ENV !== 'development'
+const isWindows = os.platform() === 'win32'
 
 const rendererPageBaseURL = !isProduction
   ? 'http://localhost:8188'
   : 'file://' + path.join(__dirname, './renderer/index.html')
 let mainWindow = null
 
+function initialize() {
 app.commandLine.appendSwitch('--autoplay-policy', 'no-user-gesture-required')
 
-function initialize() {
   makeSingleInstance()
 
   function createMainWindow() {
@@ -19,7 +21,7 @@ function initialize() {
       width: 440,
       height: 680,
       title: app.getName(),
-      backgroundColor: '#fff',
+      backgroundColor: '#ffffff',
       transparent: false,
       resizable: false,
       maximizable: false,

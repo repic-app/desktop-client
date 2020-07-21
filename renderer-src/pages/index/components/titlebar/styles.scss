@@ -3,16 +3,22 @@
 .component-title-bar {
   position: relative;
   z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
   width: 100%;
   height: $TITLE_BAR_HEIGHT;
   margin: 0 auto;
-  background-color: #000;
+  padding: 0 10px;
+  background-color: #fff;
   background-image: linear-gradient(to bottom, #fff, #f1f2f3);
   text-align: center;
   user-select: none;
   -webkit-app-region: drag;
   box-shadow: 0 0.5px 0 0 rgba(#000, 0.15), 0 1px 3px rgba(#000, 0.1);
   .app-title {
+    flex: 1;
     display: block;
     height: $TITLE_BAR_HEIGHT;
     color: $COLOR_CAPTION;
@@ -21,10 +27,11 @@
     line-height: $TITLE_BAR_HEIGHT;
     // text-transform: uppercase;
   }
-  .buttons {
-    position: absolute;
-    top: 0;
-    right: 10px;
+  .window-buttons,
+  .option-buttons{
+    width: 48px;
+  }
+  .option-buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,7 +39,6 @@
     button {
       width: 22px;
       height: 22px;
-      margin-left: 3px;
       padding: 0;
       background-color: transparent;
       // background-color: #f2f3f4;
@@ -63,6 +69,12 @@
       }
     }
   }
+}
+
+.system-windows .component-title-bar{
+  flex-direction: row-reverse;
+  background-image: none;
+  box-shadow: 0 0.5px 0 0 rgba(#000, 0.3);
 }
 
 .preferences-modal .modal-content {

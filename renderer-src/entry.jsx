@@ -15,7 +15,7 @@ export default class extends React.PureComponent {
     // const { theme } = getAPPData('preferences')
     const theme = 'dark'
 
-    if (theme === 'auto') {
+    if (theme === 'auto' && remote.systemPreferences && remote.systemPreferences.isDarkMode) {
       if (remote.systemPreferences.isDarkMode()) {
         document.body.classList.remove('light-style')
       } else {
@@ -36,12 +36,11 @@ export default class extends React.PureComponent {
       document.body.classList.add('system-windows')
     } else {
       this.updateAppTheme()
+      remote.systemPreferences.subscribeNotification(
+        'AppleInterfaceThemeChangedNotification',
+        this.updateAppTheme
+      )  
     }
-
-    remote.systemPreferences.subscribeNotification(
-      'AppleInterfaceThemeChangedNotification',
-      this.updateAppTheme
-    )
 
     remote.getCurrentWindow().setSheetOffset(39)
 

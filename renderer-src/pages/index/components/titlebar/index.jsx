@@ -45,10 +45,11 @@ export default React.memo(({ preferences, appState, setAppState }) => {
 
   return (
     <div className="component-title-bar">
+      <div className="window-buttons"></div>
       <div className="app-title">
         <span>Repic App</span>
       </div>
-      <div className="buttons">
+      <div className="option-buttons">
         <button
           data-active={appState.isSticky}
           onClick={toggleSticky}
