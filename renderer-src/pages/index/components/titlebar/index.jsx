@@ -6,6 +6,14 @@ import { openLink, openFolder, openCacheFolder } from 'utils/base'
 import Preferences from '../preferences'
 import './styles.scss'
 
+const handleMinimize = () => {
+  remote.getCurrentWindow().minimize()
+}
+
+const handleClose = () => {
+  remote.getCurrentWindow().close()
+}
+
 export default React.memo(({ preferences, appState, setAppState }) => {
   const modalRef = useRef(null)
   const preferencesRef = useRef(null)
@@ -15,16 +23,20 @@ export default React.memo(({ preferences, appState, setAppState }) => {
     setAppState({ isSticky: !appState.isSticky })
   }, [appState.isSticky])
 
-  const togglePreferencesModal = useCallback((showPreferences) => {
-    const nextShowPreferences = typeof showPreferences === 'boolean' ? showPreferences : !appState.showPreferences
-    if (nextShowPreferences && !appState.showPreferences) {
-      setAppState({
-        showPreferences:true
-      })
-    } else if (!nextShowPreferences && appState.showPreferences) {
-      modalRef.current.externalRequestClose()
-    }
-  }, [appState.showPreferences])
+  const togglePreferencesModal = useCallback(
+    (showPreferences) => {
+      const nextShowPreferences =
+        typeof showPreferences === 'boolean' ? showPreferences : !appState.showPreferences
+      if (nextShowPreferences && !appState.showPreferences) {
+        setAppState({
+          showPreferences: true,
+        })
+      } else if (!nextShowPreferences && appState.showPreferences) {
+        modalRef.current.externalRequestClose()
+      }
+    },
+    [appState.showPreferences]
+  )
 
   const hidePreferencesModal = useCallback(() => {
     setAppState({
@@ -45,7 +57,10 @@ export default React.memo(({ preferences, appState, setAppState }) => {
 
   return (
     <div className="component-title-bar">
-      <div className="window-buttons"></div>
+      <div className="window-buttons">
+        <button onClick={handleMinimize} className="button-minimize"></button>
+        <button onClick={handleClose} className="button-close"></button>
+      </div>
       <div className="app-title">
         <span>Repic App</span>
       </div>
@@ -56,9 +71,7 @@ export default React.memo(({ preferences, appState, setAppState }) => {
           className="button-toggle-sticky">
           <i className="mdi mdi-pin"></i>
         </button>
-        <button
-          onClick={togglePreferencesModal}
-          className="button-toggle-preferences">
+        <button onClick={togglePreferencesModal} className="button-toggle-preferences">
           <i className="mdi mdi-settings"></i>
         </button>
       </div>

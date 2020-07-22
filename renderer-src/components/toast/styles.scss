@@ -1,22 +1,22 @@
-@import "~scssinc";
+@import '~scssinc';
 
-.component-toast-queue-container{
+.component-toast-queue-container {
   position: absolute;
   z-index: 999999;
   top: 0;
   left: 0;
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  width: 440px;
 }
 
-.component-toast{
+.component-toast {
   position: relative;
-  &.visible{
-    .toast-mask{
+  &.visible {
+    .toast-mask {
       opacity: 1;
     }
-    .toast-content{
+    .toast-content {
       top: 0;
       opacity: 1;
     }
@@ -25,13 +25,13 @@
   &.info,
   &.error,
   &.warning,
-  &.success{
-    .toast-content{
+  &.success {
+    .toast-content {
       height: 32px;
       padding: 0 15px;
       border-radius: 2px;
       line-height: 32px;
-      .toast-text{
+      .toast-text {
         font-size: 12px;
       }
     }
@@ -39,15 +39,15 @@
 
   &.error,
   &.warning,
-  &.success{
-    .toast-content{
+  &.success {
+    .toast-content {
       color: #fff;
     }
   }
 
-  &.info .toast-content{
+  &.info .toast-content {
     background-color: #fff;
-    .toast-content{
+    .toast-content {
       color: $COLOR_CAPTION;
     }
   }
@@ -67,19 +67,19 @@
   //   // box-shadow: 0 5px 10px 3px rgba(#000, .2);
   // }
 
-  .toast-mask{
+  .toast-mask {
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(#555, .2);
+    width: 440px;
+    height: 680px;
+    background-color: rgba(#555, 0.2);
     opacity: 0;
-    transition: opacity .3s;
+    transition: opacity 0.3s;
   }
 
-  .toast-content{
+  .toast-content {
     position: relative;
     z-index: 2;
     top: -32px;
@@ -87,11 +87,10 @@
     display: inline-block;
     width: auto;
     margin-top: 50px;
-    background-color: rgba(#000, .3);
+    background-color: rgba(#000, 0.3);
     transform: translate(-50%, 0);
     opacity: 0;
-    transition: opacity .3s, top .3s;
+    transition: opacity 0.3s, top 0.3s;
     backdrop-filter: blur(10px);
   }
-
 }

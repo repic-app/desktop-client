@@ -98,7 +98,7 @@
       box-shadow: inset 0 0 0 0.5px rgba(#000, 0.2); //, 0 5px 10px rgba($COLOR_PRIMARY, 0.3);
       color: #fff;
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 500;
       cursor: pointer;
       transition: background-color 0.3s, transform 0.5s;
       &:hover {
@@ -110,7 +110,7 @@
 
 .component-drag-wrapper {
   position: relative;
-  height: calc(100vh - 38px);
+  height: calc(680px - 38px);
   overflow: auto;
   transition: background-color 0.4s;
   will-change: background-color;
@@ -126,7 +126,8 @@
 }
 
 .system-windows .component-file-picker {
-  .file-pick-entry .button-pick-files{
+  .file-pick-entry .button-pick-files {
+    background-image: none;
     border-radius: 0;
     font-weight: 500;
   }

@@ -239,20 +239,20 @@ export default class extends React.PureComponent {
 
     if (getAPPData('showPluginInstallTip', false)) {
       setTimeout(() => {
-        remote.dialog.showMessageBox(
-          {
+        remote.dialog
+          .showMessageBox({
             type: 'info',
             message: '是否安装压缩插件？',
             detail: '程序仅内置jpg和webp图片压缩功能，安装压缩插件后可压缩更多格式的文件',
             defaultId: 0,
             buttons: ['安装插件', '取消'],
-          }.then(({ response: index }) => {
+          })
+          .then(({ response: index }) => {
             setAPPData('showPluginInstallTip', false)
             if (index === 0) {
               events.emit('request-open-plugin-settings')
             }
           })
-        )
       }, 1000)
     }
   }

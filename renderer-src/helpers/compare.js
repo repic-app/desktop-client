@@ -1,19 +1,22 @@
 import electron from 'electron'
+import { requireRemote } from 'helpers/remote'
+
+const os = requireRemote('os')
+const isWindows = os.platform() === 'win32'
 
 const compareViewWindowOptions = {
   show: false,
-  width: 800,
-  height: 680,
-  minWidth: 600,
-  minHeight: 680,
+  width: isWindows ? 830 : 800,
+  height: isWindows ? 730 : 680,
   resizable: false,
   maximizable: false,
   fullscreenable: false,
   title: '压缩效果对比',
-  frame: true,
-  hasShadow: true,
-  transparent: true,
-  titleBarStyle: 'hiddenInset',
+  frame: !isWindows,
+  hasShadow: !isWindows,
+  transparent: isWindows,
+  backgroundColor: '#00ffffff',
+  titleBarStyle: isWindows ? 'customButtonOnHover' : 'hiddenInset',
   webPreferences: {
     devTools: true,
     webSecurity: false,
@@ -43,6 +46,10 @@ export const openCompareView = (url, task) => {
     })
   } else {
     compareViewWindow.webContents.send('load-task-data', task)
+    if (compareViewWindow.isMinimized()) {
+      compareViewWindow.restore()
+    }
     compareViewWindow.focus()
   }
+  console.log(compareViewWindow)
 }

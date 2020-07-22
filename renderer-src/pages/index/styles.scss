@@ -3,9 +3,13 @@
 .page-index {
   display: flex;
   flex-direction: column;
+  width: 440px;
+  height: 680px;
   overflow: hidden;
   background-color: #fff;
-  border-radius: 5px;
+}
+
+.system-windows .page-index {
 }
 
 .cache-dir-entry {

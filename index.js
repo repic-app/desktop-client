@@ -11,24 +11,25 @@ const rendererPageBaseURL = !isProduction
 let mainWindow = null
 
 function initialize() {
-app.commandLine.appendSwitch('--autoplay-policy', 'no-user-gesture-required')
+  app.commandLine.appendSwitch('--autoplay-policy', 'no-user-gesture-required')
 
   makeSingleInstance()
 
   function createMainWindow() {
     const windowOptions = {
       show: false,
-      width: 440,
-      height: 680,
+      width: isWindows ? 470 : 440,
+      height: isWindows ? 710 : 680,
       title: app.getName(),
-      backgroundColor: '#ffffff',
-      transparent: false,
+      backgroundColor: isWindows ? '#00ffffff' : '#00ffffff',
+      transparent: true,
       resizable: false,
       maximizable: false,
       fullscreenable: false,
       frame: false,
+      hasShadow: !isWindows,
       icon: path.join(__dirname, 'assets/icon.png'),
-      titleBarStyle: 'hiddenInset',
+      titleBarStyle: isWindows ? 'customBottomOnHover' : 'hiddenInset',
       // trafficLightPosition: { x: 10, y: 22 },
       webPreferences: {
         devTools: !isProduction,

@@ -28,8 +28,55 @@
     // text-transform: uppercase;
   }
   .window-buttons,
-  .option-buttons{
+  .option-buttons {
     width: 48px;
+  }
+  .window-buttons {
+    display: none;
+    align-items: center;
+    .button-minimize,
+    .button-close {
+      width: 24px;
+      height: 24px;
+      background-color: transparent;
+      border: none;
+      outline: none;
+    }
+    .button-minimize {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover::before {
+        background-color: $COLOR_WARNING;
+      }
+      &::before {
+        width: 18px;
+        height: 2px;
+        background-color: #666;
+        content: '';
+      }
+    }
+    .button-close {
+      position: relative;
+      transform: rotate(45deg);
+      &:hover::before,
+      &:hover::after {
+        background-color: $COLOR_DANGER;
+      }
+      &::before,
+      &::after {
+        position: absolute;
+        top: 11px;
+        left: 7px;
+        width: 10px;
+        height: 2px;
+        background-color: #666;
+        content: '';
+      }
+      &::after {
+        transform: rotate(90deg);
+      }
+    }
   }
   .option-buttons {
     display: flex;
@@ -71,10 +118,14 @@
   }
 }
 
-.system-windows .component-title-bar{
+.system-windows .component-title-bar {
   flex-direction: row-reverse;
+  background-color: #f8f9fa;
   background-image: none;
-  box-shadow: 0 0.5px 0 0 rgba(#000, 0.3);
+  box-shadow: 0 0.5px 0 0 rgba(#000, 0.2); //, 0 1px 5px rgba(#000, 0.1);
+  .window-buttons {
+    display: flex;
+  }
 }
 
 .preferences-modal .modal-content {

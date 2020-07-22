@@ -9,6 +9,7 @@ import ComparePage from 'pages/compare'
 
 // const { getAPPData } = requireRemote('./helpers/storage')
 const isWindows = navigator.userAgent.toLowerCase().indexOf('windows nt') !== -1
+isWindows && document && document.body.classList.add('system-windows')
 
 export default class extends React.PureComponent {
   updateAppTheme = () => {
@@ -32,14 +33,12 @@ export default class extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (isWindows) {
-      document.body.classList.add('system-windows')
-    } else {
+    if (!isWindows) {
       this.updateAppTheme()
       remote.systemPreferences.subscribeNotification(
         'AppleInterfaceThemeChangedNotification',
         this.updateAppTheme
-      )  
+      )
     }
 
     remote.getCurrentWindow().setSheetOffset(39)
