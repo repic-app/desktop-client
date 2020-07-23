@@ -18,8 +18,8 @@ function initialize() {
   function createMainWindow() {
     const windowOptions = {
       show: false,
-      width: isWindows ? 470 : 440,
-      height: isWindows ? 710 : 680,
+      width: 440,
+      height: 680,
       title: app.getName(),
       backgroundColor: isWindows ? '#00ffffff' : '#00ffffff',
       transparent: true,
