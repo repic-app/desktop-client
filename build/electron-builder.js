@@ -10,6 +10,10 @@ module.exports = {
     icon: 'assets/icon.icns',
     target: 'dmg'
   },
+  win: {
+    icon: 'assets/icon.icns',
+    target: ['msi']
+  },
   files: [
     '**/*',
     '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}',
