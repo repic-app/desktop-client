@@ -111,7 +111,7 @@
 .component-drag-wrapper {
   position: relative;
   height: calc(680px - 38px);
-  overflow: auto;
+  overflow: hidden;
   transition: background-color 0.4s;
   will-change: background-color;
   &[data-dragging-over='true'] {
