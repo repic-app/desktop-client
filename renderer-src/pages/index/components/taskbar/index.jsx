@@ -62,10 +62,12 @@ export default React.memo((props) => {
 
   const requestRecompressAll = useCallback(() => {
     setRecompressing(true)
-    reexecuteTasks(taskList).then((res) => {
-      props.onRecompressAll(res)
-      setRecompressing(false)
-    })
+    reexecuteTasks(taskList)
+      .then((res) => {
+        props.onRecompressAll(res)
+        setRecompressing(false)
+      })
+      .catch(console.warn)
   }, [props.onRecompressAll, taskList])
 
   const requestRestoreAll = useCallback(() => {

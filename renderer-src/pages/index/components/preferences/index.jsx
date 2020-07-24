@@ -7,6 +7,7 @@ import PluginOptions from '../pluginoptions'
 import APPContext from 'store/index'
 import events from 'helpers/events'
 import { openPluginFolder, openLink } from 'utils/base'
+import packageJson from '../../../../../package.json'
 import './styles.scss'
 
 const similarExtensions = ['jpeg']
@@ -493,7 +494,7 @@ export default class extends React.PureComponent {
               <div className="app-icon" />
               <h2 className="app-name">
                 <span>
-                  Repic <small>v0.0.1</small>
+                  Repic <small>v{packageJson.version}</small>
                 </span>
               </h2>
               <h3 className="app-description">一个好用的图片压缩工具</h3>

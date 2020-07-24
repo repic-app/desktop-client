@@ -47,13 +47,16 @@ export const restoreTasks = (taskList) =>
   })
 
 export const reexecuteTasks = (taskList) =>
-  taskList.map((task) => {
-    return task.status === taskStatus.RESTORED
-      ? {
-          ...task,
-          status: taskStatus.PENDING,
-        }
-      : task
+  new Promise((resolve) => {
+    const nextTaskList = taskList.map((task) => {
+      return task.status === taskStatus.RESTORED
+        ? {
+            ...task,
+            status: taskStatus.PENDING,
+          }
+        : task
+    })
+    resolve(nextTaskList)
   })
 
 export const executeTask = async (task, preferences, optimizedCallback, thumbCreatedCallback) => {
