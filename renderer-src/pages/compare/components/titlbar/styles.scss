@@ -19,9 +19,6 @@
   text-align: center;
   user-select: none;
   -webkit-app-region: drag;
-  .button {
-    -webkit-app-region: no-drag;
-  }
   .app-title {
     display: block;
     max-width: 50%;
@@ -38,6 +35,7 @@
   .window-buttons,
   .window-state {
     width: 200px;
+    -webkit-app-region: no-drag;
   }
   .window-buttons {
     display: none;

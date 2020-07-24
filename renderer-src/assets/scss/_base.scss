@@ -31,13 +31,8 @@ html {
   width: 100vw;
   height: 100vh;
 }
-body {
-}
 
 body.system-windows {
-  position: relative;
-  margin: 10px 15px 0 15px;
-  box-shadow: 0 0 0 0.5px rgba(#000, 0.2), 0 5px 15px rgba(#000, 0.2);
   ::-webkit-scrollbar {
     width: 6px;
     background-color: #f1f2f3;
@@ -66,8 +61,8 @@ a {
 }
 
 .app-page {
-  width: 440px;
-  height: 680px;
+  width: 100vw;
+  height: 100vh;
 }
 
 .b-box {

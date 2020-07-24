@@ -8,7 +8,7 @@
   z-index: 1;
   top: 0;
   left: 0;
-  width: 440px;
+  width: 100vw;
   height: 642px;
   transition: transform 0.4s, opacity 0.4s, visibility 0.4s;
   will-change: transform, opacity, visibility;
@@ -111,7 +111,7 @@
 .component-drag-wrapper {
   position: relative;
   height: calc(680px - 38px);
-  overflow: auto;
+  overflow: hidden;
   transition: background-color 0.4s;
   will-change: background-color;
   &[data-dragging-over='true'] {
