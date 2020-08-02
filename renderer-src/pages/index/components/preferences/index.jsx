@@ -97,6 +97,23 @@ const setPluginOption = (plugins, name, optionName, optionValue) => {
   })
 }
 
+const themes = [
+  {
+    key: 'light',
+    title: '浅色主题',
+  },
+  {
+    key: 'dark',
+    title: '深色主题',
+  },
+  {
+    key: 'auto',
+    title: '跟随系统',
+  },
+]
+
+const parallelTaskCounts = [1, 3, 5, 8, 10]
+
 export default class extends React.PureComponent {
   static contextType = APPContext
 
@@ -112,7 +129,7 @@ export default class extends React.PureComponent {
     this.setState({ tabIndex })
   }
 
-  handleChange = (value, name) => {
+  handleOptionChange = (value, name) => {
     this.context.setPreferences({ [name]: value })
   }
 
@@ -270,37 +287,17 @@ export default class extends React.PureComponent {
         <div className="tab-content">
           <div className="tab-item" data-index="0" data-active={tabIndex === 0}>
             <div className="option-group">
-              <label className="label">显示缩略图</label>
-              <div className="option">
-                <Switch
-                  checked={preferences.showThumb}
-                  name="showThumb"
-                  onChange={this.handleChange}
-                />
-              </div>
-            </div>
-            <div className="option-group">
-              <label className="label">并行压缩数量</label>
+              <label className="label">外观</label>
               <div className="option">
                 <Select
-                  value={`${preferences.parallelTaskCount}`}
-                  name="parallelTaskCount"
-                  onChange={this.handleChange}>
-                  <option value="1" key={0}>
-                    1
-                  </option>
-                  <option value="3" key={1}>
-                    3
-                  </option>
-                  <option value="5" key={2}>
-                    5
-                  </option>
-                  <option value="8" key={3}>
-                    8
-                  </option>
-                  <option value="10" key={4}>
-                    10
-                  </option>
+                  value={`${preferences.theme}`}
+                  name="theme"
+                  onChange={this.handleOptionChange}>
+                  {themes.map((item) => (
+                    <option value={item.key} key={item.key}>
+                      {item.title}
+                    </option>
+                  ))}
                 </Select>
               </div>
             </div>
@@ -310,8 +307,34 @@ export default class extends React.PureComponent {
                 <Switch
                   checked={preferences.stickyOnLaunch}
                   name="stickyOnLaunch"
-                  onChange={this.handleChange}
+                  onChange={this.handleOptionChange}
                 />
+              </div>
+            </div>
+            <div className="divider"></div>
+            <div className="option-group">
+              <label className="label">显示缩略图</label>
+              <div className="option">
+                <Switch
+                  checked={preferences.showThumb}
+                  name="showThumb"
+                  onChange={this.handleOptionChange}
+                />
+              </div>
+            </div>
+            <div className="option-group">
+              <label className="label">并行任务数量</label>
+              <div className="option">
+                <Select
+                  value={`${preferences.parallelTaskCount}`}
+                  name="parallelTaskCount"
+                  onChange={this.handleOptionChange}>
+                  {parallelTaskCounts.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
+                </Select>
               </div>
             </div>
           </div>
@@ -360,7 +383,7 @@ export default class extends React.PureComponent {
                 <Select
                   value={`${preferences.outputQuality}`}
                   name="outputQuality"
-                  onChange={this.handleChange}>
+                  onChange={this.handleOptionChange}>
                   <option value="0.3" key={0}>
                     极低
                   </option>
@@ -385,7 +408,7 @@ export default class extends React.PureComponent {
                 <Switch
                   checked={preferences.overrideOrigin}
                   name="overrideOrigin"
-                  onChange={this.handleChange}
+                  onChange={this.handleOptionChange}
                 />
               </div>
             </div>

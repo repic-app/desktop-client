@@ -27,3 +27,7 @@
     margin-bottom: 59px;
   }
 }
+
+body[data-theme='dark'] .component-task-list {
+  background-color: transparent;
+}

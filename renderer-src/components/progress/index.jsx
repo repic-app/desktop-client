@@ -2,7 +2,7 @@ import React from 'react'
 import './styles.scss'
 
 export default React.memo((props) => {
-  const radius = 25
+  const radius = 22
   const circlePerimeter = 2 * 3.141592654 * radius
   const dasharray = circlePerimeter * props.progress + ' ' + circlePerimeter
 

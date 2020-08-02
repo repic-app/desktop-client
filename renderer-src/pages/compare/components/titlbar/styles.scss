@@ -38,7 +38,8 @@
     -webkit-app-region: no-drag;
   }
   .window-buttons {
-    display: none;
+    display: flex;
+    visibility: hidden;
     align-items: center;
     justify-content: flex-end;
     .button-minimize,
@@ -88,6 +89,7 @@
   .window-state {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     width: 180px;
     height: $TITLE_BAR_HEIGHT;
     .button {
@@ -118,11 +120,20 @@
   background-image: none;
   box-shadow: 0 0.5px 0 0 rgba(#000, 0.2), 0 1px 5px rgba(#000, 0.1);
   .window-buttons {
-    display: flex;
+    visibility: visible;
   }
   .window-state {
+    justify-content: flex-start;
     .button {
       border-radius: 0;
     }
+  }
+}
+
+body[data-theme='dark'] .component-compare-title-bar {
+  background-image: linear-gradient(to bottom, #494a4b, #414243);
+  box-shadow: 0 0.5px 0 0 rgba(#000, 0.44), 0 1px 3px rgba(#000, 0.1);
+  .app-title {
+    color: #aaa;
   }
 }

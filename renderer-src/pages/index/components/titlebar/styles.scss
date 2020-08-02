@@ -16,7 +16,7 @@
   text-align: center;
   user-select: none;
   -webkit-app-region: drag;
-  box-shadow: 0 0.5px 0 0 rgba(#000, 0.15), 0 1px 3px rgba(#000, 0.1);
+  box-shadow: 0 0.5px 0 0 rgba(#000, 0.2);
   .app-title {
     flex: 1;
     display: block;
@@ -25,7 +25,6 @@
     font-size: 13px;
     font-weight: 700;
     line-height: $TITLE_BAR_HEIGHT;
-    // text-transform: uppercase;
   }
   .window-buttons,
   .option-buttons {
@@ -33,7 +32,8 @@
     -webkit-app-region: no-drag;
   }
   .window-buttons {
-    display: none;
+    display: flex;
+    visibility: hidden;
     align-items: center;
     .button-minimize,
     .button-close {
@@ -89,12 +89,9 @@
       height: 22px;
       padding: 0;
       background-color: transparent;
-      // background-color: #f2f3f4;
-      // background-image: linear-gradient(to bottom, #fff, #f1f2f3);
       border: none;
       border-radius: 3px;
       outline: none;
-      // box-shadow: inset 0 0 0 0.5px rgba(#000, 0.2), 0 0.5px 0 rgba(#000, 0.1);
       color: lighten($COLOR_CAPTION, 10);
       font-size: 14px;
       line-height: 23px;
@@ -104,7 +101,6 @@
         color: $COLOR_CAPTION;
       }
       &[data-active='true'] {
-        color: $COLOR_PRIMARY;
         background-color: $COLOR_PRIMARY;
         background-image: none;
         box-shadow: inset 0 0 0 0.5px rgba(#000, 0.2), 0 -0.5px 0 rgba(#000, 0.1);
@@ -122,15 +118,35 @@
   flex-direction: row-reverse;
   background-color: #f8f9fa;
   background-image: none;
-  box-shadow: 0 0.5px 0 0 rgba(#000, 0.2); //, 0 1px 5px rgba(#000, 0.1);
+  box-shadow: 0 0.5px 0 0 rgba(#000, 0.4);
   .window-buttons {
-    display: flex;
+    visibility: visible;
   }
-  .option-buttons button{
+  .option-buttons button {
     border-radius: 0;
   }
 }
 
 .preferences-modal .modal-content {
   background-color: #fff;
+}
+
+body[data-theme='dark'] {
+  .component-title-bar {
+    background-image: linear-gradient(to bottom, #494a4b, #414243);
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.44), 0 1px 3px rgba(#000, 0.1);
+    .app-title {
+      color: #aaa;
+    }
+    .option-buttons button {
+      color: #888;
+      &[data-active='true'] {
+        box-shadow: inset 0 0 0 0.5px rgba(#000, 0.6), 0 -0.5px 0 rgba(#000, 0.1);
+        color: rgba(#fff, 0.8);
+      }
+    }
+  }
+  .preferences-modal .modal-content {
+    background-color: #38393a;
+  }
 }

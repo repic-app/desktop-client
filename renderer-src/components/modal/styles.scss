@@ -129,5 +129,8 @@
   }
 }
 
-.light-style .component-modal {
+body[data-theme='dark'] .component-modal {
+  .modal-content {
+    background-color: #38393a;
+  }
 }

@@ -34,10 +34,10 @@
         color: #fff;
       }
       &.button-common {
-        border-radius: 5px 0 0 5px;
+        border-radius: 3px 0 0 3px;
       }
       &.button-about {
-        border-radius: 0 5px 5px 0;
+        border-radius: 0 3px 3px 0;
       }
     }
   }
@@ -56,7 +56,7 @@
     height: 1px;
     margin: 15px 0;
     overflow: hidden;
-    box-shadow: 0 0.5px 0 0 rgba(#000, 0.3);
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.2);
   }
   .option-group {
     height: 20px;
@@ -104,6 +104,7 @@
     overflow: hidden;
     background-color: #fff;
     box-shadow: 0 0 0 0.5px rgba(#000, 0.2);
+    color: #666;
     table {
       width: 100%;
       border-collapse: collapse;
@@ -116,16 +117,15 @@
     th {
       height: 26px;
       padding: 0 10px;
-      color: #666;
-      background-color: #f3f4f5;
+
+      background-color: rgba(#000, 0.15);
     }
     tr {
       &:nth-child(even) {
-        background-color: #f8f9fa;
+        background-color: rgba(#000, 0.1);
       }
       td {
         padding: 10px;
-        color: #666;
       }
     }
   }
@@ -146,7 +146,7 @@
       position: relative;
       height: 24px;
       margin: 0;
-      color: #666;
+
       font-size: 13px;
       font-weight: bold;
       .title {
@@ -164,7 +164,7 @@
     .description {
       margin: 5px 0 5px 0;
       padding: 0;
-      color: #777;
+      opacity: 0.8;
       font-size: 11px;
     }
     .operates {
@@ -260,6 +260,49 @@
         background-image: none;
         box-shadow: 0 0 0 1px darken($COLOR_PRIMARY, 20);
       }
+    }
+  }
+}
+
+body[data-theme='dark'] .component-preferences {
+  .tab-header {
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.5);
+    .tab-button {
+      color: #aaa;
+      background-image: linear-gradient(to bottom, #494a4b, #414243);
+      box-shadow: 0 0 0 0.5px rgba(#000, 0.5);
+      &[data-active='true'] {
+        background-color: $COLOR_PRIMARY;
+        background-image: none;
+        box-shadow: 0 0 0 0.5px darken(#000, 10);
+        color: #fff;
+      }
+    }
+  }
+  .divider {
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.4);
+  }
+  .option-group {
+    .label {
+      color: #999;
+    }
+  }
+  .options-table {
+    background-color: rgba(#fff, 0.1);
+    box-shadow: 0 0 0 0.5px rgba(#000, 0.4);
+    color: #aaa;
+  }
+  .plugin-entry {
+    a {
+      color: #999;
+      &:hover {
+        color: #aaa;
+      }
+    }
+  }
+  .section-about {
+    .app-name {
+      color: #fff;
     }
   }
 }

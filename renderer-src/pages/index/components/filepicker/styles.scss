@@ -109,6 +109,7 @@
 }
 
 .component-drag-wrapper {
+  display: flex;
   position: relative;
   height: calc(680px - 38px);
   overflow: hidden;
@@ -130,5 +131,19 @@
     background-image: none;
     border-radius: 0;
     font-weight: 500;
+  }
+}
+
+body[data-theme='dark'] .component-file-picker {
+  .drag-tip .text {
+    span {
+      color: #aaa;
+    }
+    small {
+      color: #777;
+    }
+  }
+  .file-pick-entry .button-pick-files {
+    box-shadow: none;
   }
 }

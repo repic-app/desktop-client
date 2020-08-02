@@ -74,18 +74,20 @@
   }
 }
 
-.light-style .component-select,
-.light-style.component-select {
-  background-color: #fff;
-  box-shadow: 0 0 0 0.5px rgba(#000, 0.1), 0 1px 1px rgba(#000, 0.15);
-  select {
-    color: #444;
+.system-windows .component-select {
+  border-radius: 0;
+  .icon {
+    border-radius: 0;
   }
 }
 
-.system-windows .component-select{
-  border-radius: 0;
-  .icon{
-    border-radius: 0;
+body[data-theme='dark'] .component-select {
+  background-color: rgba(#fff, 0.1);
+  box-shadow: 0 0 0 0.5px rgba(#000, 0.2), 0 1px 1px rgba(#000, 0.15);
+  select {
+    color: #999;
+  }
+  .icon {
+    box-shadow: 0 0 0 0.5px darken($COLOR_PRIMARY, 40);
   }
 }
