@@ -264,45 +264,55 @@
   }
 }
 
-body[data-theme='dark'] .component-preferences {
-  .tab-header {
-    box-shadow: 0 0.5px 0 0 rgba(#000, 0.5);
-    .tab-button {
-      color: #aaa;
-      background-image: linear-gradient(to bottom, #494a4b, #414243);
-      box-shadow: 0 0 0 0.5px rgba(#000, 0.5);
-      &[data-active='true'] {
-        background-color: $COLOR_PRIMARY;
+body[data-theme='dark'] {
+  &.system-windows .component-preferences {
+    .tab-header {
+      .tab-button {
+        background-color: #414243;
         background-image: none;
-        box-shadow: 0 0 0 0.5px darken(#000, 10);
+      }
+    }
+  }
+  .component-preferences {
+    .tab-header {
+      box-shadow: 0 0.5px 0 0 rgba(#000, 0.5);
+      .tab-button {
+        color: #aaa;
+        background-image: linear-gradient(to bottom, #494a4b, #414243);
+        box-shadow: 0 0 0 0.5px rgba(#000, 0.5);
+        &[data-active='true'] {
+          background-color: $COLOR_PRIMARY;
+          background-image: none;
+          box-shadow: 0 0 0 0.5px darken(#000, 10);
+          color: #fff;
+        }
+      }
+    }
+    .divider {
+      box-shadow: 0 0.5px 0 0 rgba(#000, 0.4);
+    }
+    .option-group {
+      .label {
+        color: #999;
+      }
+    }
+    .options-table {
+      background-color: rgba(#fff, 0.1);
+      box-shadow: 0 0 0 0.5px rgba(#000, 0.4);
+      color: #aaa;
+    }
+    .plugin-entry {
+      a {
+        color: #999;
+        &:hover {
+          color: #aaa;
+        }
+      }
+    }
+    .section-about {
+      .app-name {
         color: #fff;
       }
-    }
-  }
-  .divider {
-    box-shadow: 0 0.5px 0 0 rgba(#000, 0.4);
-  }
-  .option-group {
-    .label {
-      color: #999;
-    }
-  }
-  .options-table {
-    background-color: rgba(#fff, 0.1);
-    box-shadow: 0 0 0 0.5px rgba(#000, 0.4);
-    color: #aaa;
-  }
-  .plugin-entry {
-    a {
-      color: #999;
-      &:hover {
-        color: #aaa;
-      }
-    }
-  }
-  .section-about {
-    .app-name {
-      color: #fff;
     }
   }
 }

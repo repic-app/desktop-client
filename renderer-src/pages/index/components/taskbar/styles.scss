@@ -122,17 +122,24 @@
   }
 }
 
-body[data-theme='dark'] .component-task-bar {
-  .task-bar-inner {
-    background-color: rgba(#000, 0.4);
-    border-radius: 5px;
-    box-shadow: inset 0 0 0 0.5px rgba(#000, 0.6);
-    .meta {
-      .count {
-        color: #aaa;
-      }
-      .analyze {
-        color: #777;
+body[data-theme='dark'] {
+  &.system-windows .component-task-bar {
+    .task-bar-inner {
+      border-radius: 0;
+    }
+  }
+  .component-task-bar {
+    .task-bar-inner {
+      background-color: rgba(#000, 0.4);
+      border-radius: 5px;
+      box-shadow: inset 0 0 0 0.5px rgba(#000, 0.6);
+      .meta {
+        .count {
+          color: #aaa;
+        }
+        .analyze {
+          color: #777;
+        }
       }
     }
   }

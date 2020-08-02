@@ -35,7 +35,9 @@
   .window-buttons,
   .window-state {
     width: 200px;
-    -webkit-app-region: no-drag;
+    button {
+      -webkit-app-region: no-drag;
+    }
   }
   .window-buttons {
     display: flex;
@@ -55,7 +57,7 @@
       align-items: center;
       justify-content: center;
       &:hover::before {
-        background-color: $COLOR_WARNING;
+        background-color: $COLOR_WARNING !important;
       }
       &::before {
         width: 18px;
@@ -69,7 +71,7 @@
       transform: rotate(45deg);
       &:hover::before,
       &:hover::after {
-        background-color: $COLOR_DANGER;
+        background-color: $COLOR_DANGER !important;
       }
       &::before,
       &::after {
@@ -130,10 +132,26 @@
   }
 }
 
-body[data-theme='dark'] .component-compare-title-bar {
-  background-image: linear-gradient(to bottom, #494a4b, #414243);
-  box-shadow: 0 0.5px 0 0 rgba(#000, 0.44), 0 1px 3px rgba(#000, 0.1);
-  .app-title {
-    color: #aaa;
+body[data-theme='dark'] {
+  &.system-windows .component-compare-title-bar {
+    background-color: #414243;
+    background-image: none;
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.4);
+    .window-buttons {
+      .button-minimize,
+      .button-close {
+        &::before,
+        &::after {
+          background-color: #999;
+        }
+      }
+    }
+  }
+  .component-compare-title-bar {
+    background-image: linear-gradient(to bottom, #494a4b, #414243);
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.44), 0 1px 3px rgba(#000, 0.1);
+    .app-title {
+      color: #aaa;
+    }
   }
 }

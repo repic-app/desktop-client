@@ -198,6 +198,17 @@ body.system-windows {
   }
 }
 body[data-theme='dark'] {
+  &.system-windows {
+    .button-default {
+      background-color: #515253;
+      background-image: none;
+      box-shadow: 0 0 0 0.5px rgba(#000, 0.3);
+      &:active {
+        background-color: #616263;
+        background-image: none;
+      }
+    }
+  }
   ::-webkit-scrollbar {
     background-color: rgba(#fff, 0);
   }

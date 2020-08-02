@@ -48,7 +48,7 @@
       align-items: center;
       justify-content: center;
       &:hover::before {
-        background-color: $COLOR_WARNING;
+        background-color: $COLOR_WARNING !important;
       }
       &::before {
         width: 10px;
@@ -62,7 +62,7 @@
       transform: rotate(45deg);
       &:hover::before,
       &:hover::after {
-        background-color: $COLOR_DANGER;
+        background-color: $COLOR_DANGER !important;
       }
       &::before,
       &::after {
@@ -132,9 +132,23 @@
 }
 
 body[data-theme='dark'] {
+  &.system-windows .component-title-bar {
+    background-color: #414243;
+    background-image: none;
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.6);
+    .window-buttons {
+      .button-minimize,
+      .button-close {
+        &::before,
+        &::after {
+          background-color: #999;
+        }
+      }
+    }
+  }
   .component-title-bar {
     background-image: linear-gradient(to bottom, #494a4b, #414243);
-    box-shadow: 0 0.5px 0 0 rgba(#000, 0.44), 0 1px 3px rgba(#000, 0.1);
+    box-shadow: 0 0.5px 0 0 rgba(#000, 0.6), 0 1px 3px rgba(#000, 0.1);
     .app-title {
       color: #aaa;
     }
