@@ -5,6 +5,7 @@ module.exports = {
   directories: {
     output: './dist-apps',
   },
+  afterSign: 'build/sign.js',
   mac: {
     category: 'public.app-category.photography',
     icon: 'assets/icon.icns',

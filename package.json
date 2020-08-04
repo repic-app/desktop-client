@@ -13,9 +13,6 @@
     "pack": "electron-builder --config build/electron-builder.js",
     "lint": "node_modules/eslint/bin/eslint.js ."
   },
-  "build": {
-    "afterSign": "build/sign.js"
-  },
   "dependencies": {
     "@mdi/font": "^3.6.95",
     "compressorjs": "^1.0.5",
