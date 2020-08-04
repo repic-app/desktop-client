@@ -9,13 +9,27 @@ module.exports = {
     category: 'public.app-category.photography',
     icon: 'assets/icon.icns',
     target: 'dmg',
+    // identity: 'app.repic.repicapp',
     hardenedRuntime: true,
     gatekeeperAssess: false,
-    entitlements: './entitlements.mac.plist',
-    entitlementsInherit: './entitlements.mac.plist',
+    entitlements: 'build/entitlements.mac.plist',
+    entitlementsInherit: 'build/entitlements.mac.plist',
   },
   dmg: {
     sign: false,
+    contents: [
+      {
+        x: 410,
+        y: 150,
+        type: 'link',
+        path: '/Applications',
+      },
+      {
+        x: 130,
+        y: 150,
+        type: 'file',
+      },
+    ],
   },
   win: {
     icon: 'assets/icon.icns',
