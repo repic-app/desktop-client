@@ -37,7 +37,8 @@ class Modal extends React.PureComponent {
   }
 
   handleMaskClick = () => {
-    this.props.closeOnBlur &&this.handleClose(this.props.onWillClose && this.props.onWillClose('mask-close'))
+    this.props.closeOnBlur &&
+      this.handleClose(this.props.onWillClose && this.props.onWillClose('mask-close'))
   }
 
   externalRequestClose = () => {
@@ -147,7 +148,7 @@ export const showModal = ({ onClose, ...props }) => {
   const hostNode = document.createElement('div')
   document.body.appendChild(hostNode)
 
-  const handleClose = source => {
+  const handleClose = (source) => {
     const result = onClose ? onClose(source) : true
 
     if (result !== false) {
@@ -161,7 +162,7 @@ export const showModal = ({ onClose, ...props }) => {
   ReactDOM.render(<Modal onClose={handleClose} {...props} active={true} />, hostNode)
 }
 
-export const confirm = props => {
+export const confirm = (props) => {
   return showModal({
     width: 400,
     showClose: false,
@@ -171,7 +172,7 @@ export const confirm = props => {
   })
 }
 
-export const alert = props => {
+export const alert = (props) => {
   return showModal({
     width: 400,
     showClose: false,

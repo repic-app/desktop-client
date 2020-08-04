@@ -15,6 +15,16 @@ const handleClose = () => {
   remote.getCurrentWindow().close()
 }
 
+const openOfficialSite = () => {
+  openLink('https://repic.app')
+}
+
+const officialSiteEntry = (
+  <a onClick={openOfficialSite} className="official-site-entry">
+    repic.app &copy; 2020
+  </a>
+)
+
 export default React.memo(({ preferences, appState, setAppState }) => {
   const modalRef = useRef(null)
   const preferencesRef = useRef(null)
@@ -82,6 +92,7 @@ export default React.memo(({ preferences, appState, setAppState }) => {
         className="preferences-modal"
         active={appState.showPreferences}
         onClose={hidePreferencesModal}
+        footerAddon={officialSiteEntry}
         showConfirm={false}
         cancelText="关闭">
         <Preferences ref={preferencesRef} />

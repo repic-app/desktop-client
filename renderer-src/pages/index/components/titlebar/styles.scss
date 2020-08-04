@@ -131,6 +131,16 @@
   background-color: #fff;
 }
 
+.official-site-entry {
+  color: #666;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 body[data-theme='dark'] {
   &.system-windows .component-title-bar {
     background-color: #414243;
@@ -162,5 +172,12 @@ body[data-theme='dark'] {
   }
   .preferences-modal .modal-content {
     background-color: #38393a;
+  }
+  .official-site-entry {
+    color: #999;
+    &:hover {
+      color: #bbb;
+      text-decoration: none;
+    }
   }
 }

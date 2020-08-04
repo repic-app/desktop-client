@@ -90,4 +90,7 @@ function makeSingleInstance() {
 
 initialize()
 
+// 处理未捕获的错误
+process.on('uncaughtException', (error) => {})
+
 // TODO

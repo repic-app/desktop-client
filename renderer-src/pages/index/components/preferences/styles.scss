@@ -275,15 +275,15 @@ body[data-theme='dark'] {
   }
   .component-preferences {
     .tab-header {
-      box-shadow: 0 0.5px 0 0 rgba(#000, 0.5);
+      box-shadow: 0 0.5px 0 0 rgba(#000, 0.4);
       .tab-button {
         color: #aaa;
         background-image: linear-gradient(to bottom, #494a4b, #414243);
-        box-shadow: 0 0 0 0.5px rgba(#000, 0.5);
+        box-shadow: 0 0 0 0.5px rgba(#000, 0.4), 0 1px 1px rgba(#000, 0.2);
         &[data-active='true'] {
           background-color: $COLOR_PRIMARY;
           background-image: none;
-          box-shadow: 0 0 0 0.5px darken(#000, 10);
+          box-shadow: 0 0 0 0.5px darken(#000, 10), 0 1px 1px rgba(#000, 0.2);
           color: #fff;
         }
       }
@@ -312,6 +312,16 @@ body[data-theme='dark'] {
     .section-about {
       .app-name {
         color: #fff;
+      }
+      .app-description {
+        margin-bottom: 0;
+      }
+      .site-entry {
+        font-size: 12px;
+        color: #ccc;
+        &:hover {
+          color: #fff;
+        }
       }
     }
   }

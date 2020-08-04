@@ -3,16 +3,23 @@ module.exports = {
   asar: true,
   productName: 'Repic App',
   directories: {
-    output: './dist-apps'
+    output: './dist-apps',
   },
   mac: {
     category: 'public.app-category.photography',
     icon: 'assets/icon.icns',
-    target: 'dmg'
+    target: 'dmg',
+    hardenedRuntime: true,
+    gatekeeperAssess: false,
+    entitlements: './entitlements.mac.plist',
+    entitlementsInherit: './entitlements.mac.plist',
+  },
+  dmg: {
+    sign: false,
   },
   win: {
     icon: 'assets/icon.icns',
-    target: ['msi']
+    target: ['msi'],
   },
   files: [
     '**/*',
@@ -27,6 +34,6 @@ module.exports = {
     '!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}',
     '!**/{appveyor.yml,.travis.yml,circle.yml}',
     '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}',
-    '!renderer-src'
-  ]
+    '!renderer-src',
+  ],
 }
