@@ -1,6 +1,6 @@
 {
   "name": "repic-compressor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./index.js",
   "author": "Margox",
   "license": "MIT",
@@ -11,6 +11,7 @@
     "build": "cross-env rm -rf ./renderer && cross-env NODE_ENV=production webpack --config ./build/webpack.production.js --progress --colors",
     "dist": "npm run build && rm -rf ./dist-apps && electron-builder --config build/electron-builder.js",
     "pack": "electron-builder --config build/electron-builder.js",
+    "pack-test": "electron-builder --config build/electron-builder-dev.js",
     "lint": "node_modules/eslint/bin/eslint.js ."
   },
   "dependencies": {
