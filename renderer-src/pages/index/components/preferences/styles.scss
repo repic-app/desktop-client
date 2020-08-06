@@ -213,8 +213,8 @@
       background-position: 50% 50%;
       background-repeat: no-repeat;
       background-size: 156px auto;
-      // border-radius: 5px;
-      // box-shadow: inset 0 0 0 1px rgba(#000, 0.2);
+      border-radius: 30px;
+      box-shadow: inset 0 0 0 1px rgba(#000, 0.1);
     }
 
     .app-name {
@@ -321,6 +321,7 @@ body[data-theme='dark'] {
     .section-about {
       .app-icon {
         background-size: 128px auto;
+        box-shadow: none;
       }
       .app-name {
         color: #fff;
