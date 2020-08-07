@@ -14,7 +14,7 @@ export default React.memo((props) => {
         cx={radius + 1}
         cy={radius + 1}
         r={radius}
-        strokeWidth="2"
+        strokeWidth="1"
         strokeDasharray={dasharray}
       />
     </svg>

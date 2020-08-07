@@ -14,13 +14,15 @@
   circle {
     display: block;
     transition: 0.3s;
+    transition: stroke-dasharray 0.2s;
+    will-change: stroke-dasharray;
   }
   .circle {
     fill: none;
-    stroke: rgba(#fff, 0.1);
+    stroke: rgba(#000, 0.2);
   }
   .played {
     fill: none;
-    stroke: $COLOR_PRIMARY;
+    stroke: rgba(#000, 0.4);
   }
 }

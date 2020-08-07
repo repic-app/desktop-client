@@ -23,7 +23,7 @@ const defaultPageState = {
 const defaultAppState = {
   isSticky: false,
   taskList: [],
-  taskProgress: -1,
+  taskProgress: 0,
   jjma: null,
   taskAllFinished: false,
   showSettingsDropdown: false,

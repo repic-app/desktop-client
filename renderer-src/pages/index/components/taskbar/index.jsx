@@ -36,7 +36,7 @@ export default React.memo((props) => {
   const [restoring, setRestoring] = useState(false)
   const [recompressing, setRecompressing] = useState(false)
 
-  const { taskList, progress, taskAllFinished } = props.appState
+  const { taskList, taskProgress, taskAllFinished } = props.appState
   const taskResult = useMemo(() => analyzeTask(taskList), [taskList])
 
   const handlePickFile = useCallback(() => {
@@ -48,7 +48,7 @@ export default React.memo((props) => {
     props.setAppState(
       {
         taskList: [],
-        taskProgress: -1,
+        taskProgress: 0,
         taskAllFinished: false,
       },
       () => {
@@ -104,7 +104,7 @@ export default React.memo((props) => {
   return (
     <div className="component-task-bar" data-visible={!!taskList.length}>
       <div className="task-bar-inner">
-        <Progress progress={progress} />
+        <Progress progress={taskProgress} />
         <div className="file-pick-entry">
           <button onClick={handlePickFile} className="button-pick-files"></button>
         </div>
