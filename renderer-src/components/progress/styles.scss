@@ -3,7 +3,7 @@
 .component-progress-circle {
   position: absolute;
   top: 9px;
-  left: 7px;
+  left: 8px;
   width: 44px;
   height: 44px;
   display: block;
@@ -23,6 +23,6 @@
   }
   .played {
     fill: none;
-    stroke: rgba(#000, 0.4);
+    stroke: #69e49f; //$COLOR_SUCCESS; //rgba(#000, 0.4);
   }
 }

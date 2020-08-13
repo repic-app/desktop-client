@@ -118,9 +118,9 @@ export default React.memo((props) => {
           )}
           <span className="analyze">
             体积共减少
-            <span className={`text-${optimizeRateTextColor}`}>
+            <b className={`text-${optimizeRateTextColor}`}>
               {((1 - totalOptimizedRate) * 100).toFixed(2)}%
-            </span>
+            </b>
             ({totalOptimizedSize})
           </span>
         </div>

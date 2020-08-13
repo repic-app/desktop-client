@@ -8,13 +8,13 @@ export default React.memo((props) => {
 
   return (
     <svg className="component-progress-circle">
-      <circle className="circle" cx={radius + 1} cy={radius + 1} r={radius} strokeWidth="1" />
+      <circle className="circle" cx={radius + 1} cy={radius + 1} r={radius} strokeWidth="3" />
       <circle
         className="played"
         cx={radius + 1}
         cy={radius + 1}
         r={radius}
-        strokeWidth="1"
+        strokeWidth="3"
         strokeDasharray={dasharray}
       />
     </svg>
