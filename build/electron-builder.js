@@ -51,4 +51,10 @@ module.exports = {
     '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}',
     '!renderer-src',
   ],
+  publish: [
+    {
+      provider: 'generic',
+      url: 'http://repic-cdn.margox.cn/releases',
+    },
+  ],
 }
