@@ -10,7 +10,6 @@ module.exports = {
     category: 'public.app-category.photography',
     icon: 'assets/icon.icns',
     target: 'dmg',
-    // identity: 'app.repic.repicapp',
     hardenedRuntime: true,
     gatekeeperAssess: false,
     entitlements: 'build/entitlements.mac.plist',

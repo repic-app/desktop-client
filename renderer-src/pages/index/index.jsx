@@ -233,6 +233,11 @@ export default class extends React.PureComponent {
     this.checkRegistration()
     this.initializePlugins()
 
+    remote.getCurrentWindow().webContents.on('message', (...argus) => {
+      console.log('received message')
+      console.log(argus)
+    })
+
     events.on('request-update-plugins', () => {
       this.initializePlugins()
     })

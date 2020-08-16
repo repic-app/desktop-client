@@ -4,6 +4,7 @@ import Switch from 'components/switch'
 import Select from 'components/select'
 import Modal from 'components/modal'
 import PluginOptions from '../pluginoptions'
+import Updater from '../updater'
 import APPContext from 'store/index'
 import events from 'helpers/events'
 import { openPluginFolder, openLink } from 'utils/base'
@@ -521,6 +522,7 @@ export default class extends React.PureComponent {
                 </span>
               </h2>
               <h3 className="app-description">一个好用的图片压缩工具</h3>
+              <Updater />
             </div>
           </div>
         </div>

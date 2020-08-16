@@ -117,11 +117,11 @@
     th {
       height: 26px;
       padding: 0 10px;
-      background-color: rgba(#000, 0.1);
+      background-color: #f1f2f3; //rgba(#000, 0.05);
     }
     tr {
       &:nth-child(even) {
-        background-color: rgba(#000, 0.05);
+        background-color: #f1f2f3; //rgba(#000, 0.02);
       }
       td {
         padding: 10px;
@@ -234,10 +234,10 @@
     }
 
     .app-description {
-      margin: 5px 0 50px 0;
+      margin: 5px 0 20px 0;
       padding: 0 50px;
       color: lighten($COLOR_CAPTION, 20);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: normal;
     }
   }
@@ -302,7 +302,7 @@ body[data-theme='dark'] {
       box-shadow: 0 0 0 0.5px rgba(#000, 0.4);
       color: #aaa;
       th {
-        background-color: rgba(#f8f9fa, 0.1);
+        background-color: rgba(#f8f9fa, 0.05);
       }
       tr {
         &:nth-child(even) {
@@ -325,9 +325,6 @@ body[data-theme='dark'] {
       }
       .app-name {
         color: #fff;
-      }
-      .app-description {
-        margin-bottom: 0;
       }
       .site-entry {
         font-size: 12px;
