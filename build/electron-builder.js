@@ -9,11 +9,11 @@ module.exports = {
   mac: {
     category: 'public.app-category.photography',
     icon: 'assets/icon.icns',
-    target: 'dmg',
     hardenedRuntime: true,
     gatekeeperAssess: false,
     entitlements: 'build/entitlements.mac.plist',
     entitlementsInherit: 'build/entitlements.mac.plist',
+    electronUpdaterCompatibility: '>=2.15',
   },
   dmg: {
     sign: false,

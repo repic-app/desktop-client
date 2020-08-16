@@ -2,7 +2,8 @@ const { app, ipcMain, dialog, BrowserWindow } = require('electron')
 const os = require('os')
 const storage = require('./helpers/storage')
 const path = require('path')
-const { autoUpdater } = require('electron-updater')
+const { autoUpdater } = require('electron-differential-updater') //electron-updater
+const log = require('electron-log')
 const packageJSON = require('./package.json')
 
 const isProduction = process.env.NODE_ENV !== 'development'
@@ -14,10 +15,14 @@ const rendererPageBaseURL = !isProduction
 let mainWindow = null
 
 const updateCheckResponseData = {
-  error: { status: -1, msg: '检测更新查询异常' },
+  error: { status: -1, msg: '更新出错，请稍后再试' },
   checking: { status: 0, msg: '正在检查应用程序更新' },
   updating: { status: 1, msg: '检测到新版本，正在下载,请稍后' },
   latest: { status: 2, msg: '您现在使用的版本为最新版本,无需更新!' },
+}
+
+if (isProduction) {
+  Object.assign(console, log.functions)
 }
 
 function initialize() {
@@ -68,6 +73,11 @@ function initialize() {
   function initializeUpdater() {
     autoUpdater.setFeedURL('http://repic-cdn.margox.cn/releases')
 
+    // 更新下载进度事件
+    autoUpdater.on('download-progress', function (data) {
+      sendUpdateMessage(data, 'update-download-progress')
+    })
+
     //更新错误
     autoUpdater.on('error', function (error) {
       sendUpdateMessage(updateCheckResponseData.error)
@@ -103,18 +113,11 @@ function initialize() {
         if (returnValue.response === 0) autoUpdater.quitAndInstall()
       })
     })
-
-    // 更新下载进度事件
-    autoUpdater.on('download-progress', function (data) {
-      sendUpdateMessage(data, 'update-download-progress')
-    })
-
-    //执行自动更新检查
-    autoUpdater.checkForUpdates()
   }
 
   // 通过main进程发送事件给renderer进程，提示更新信息
   function sendUpdateMessage(message, channel = 'update-event') {
+    log.info(message)
     mainWindow.webContents.send(channel, message)
   }
 

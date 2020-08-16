@@ -51,5 +51,4 @@ export const openCompareView = (url, task) => {
     }
     compareViewWindow.focus()
   }
-  console.log(compareViewWindow)
 }

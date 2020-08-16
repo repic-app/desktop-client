@@ -7,7 +7,6 @@ import Preferences from '../preferences'
 import './styles.scss'
 
 const handleMinimize = () => {
-  console.log(remote.getCurrentWindow())
   remote.getCurrentWindow().minimize()
 }
 

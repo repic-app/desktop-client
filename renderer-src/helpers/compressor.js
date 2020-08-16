@@ -4,6 +4,7 @@ import { createThumbnail } from 'utils/image'
 const { getCompressors } = requireRemote('./helpers/plugin')
 const fs = requireRemote('fs')
 const path = requireRemote('path')
+const log = requireRemote('electron-log')
 const cachedCompressors = {}
 
 export const { APP_TEMP_PATH } = requireRemote('./helpers/storage')
@@ -156,6 +157,7 @@ export const compressTask = async (task, preferences, onThumbCreate) => {
       optimizedRate: ((task.originalSize - optimizedSize) / task.originalSize) * 100,
     }
   } catch (error) {
+    log.error(error)
     console.log(error)
     try {
       backupPath && fs.renameSync(backupPath, task.path)

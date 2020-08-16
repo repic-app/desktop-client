@@ -11,8 +11,10 @@ import { openPluginFolder, openLink } from 'utils/base'
 import packageJson from '../../../../../package.json'
 import './styles.scss'
 
-const similarExtensions = ['jpeg']
+const log = requireRemote('electron-log')
 const { fetchPlugins, installPlugin, uninstallPlugin } = requireRemote('./helpers/plugin')
+
+const similarExtensions = ['jpeg']
 
 const mapExtensionsAndCompressors = (compressors) => {
   const supportedExtensions = {}
@@ -187,6 +189,7 @@ export default class extends React.PureComponent {
         events.emit('request-update-plugins')
       })
       .catch((error) => {
+        log.error(error)
         console.log(error)
         this.context.setAppState({
           installingPlugins: this.context.appState.installingPlugins.filter(

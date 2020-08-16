@@ -18,6 +18,8 @@
     "@mdi/font": "^3.6.95",
     "compressorjs": "^1.0.5",
     "decompress": "^4.2.0",
+    "electron-differential-updater": "^4.3.2",
+    "electron-log": "^4.2.4",
     "electron-updater": "^4.3.1",
     "mime-types": "^2.1.24",
     "node-machine-id": "^1.1.12",
