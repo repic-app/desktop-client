@@ -13,10 +13,11 @@
     div {
       height: 8px;
       background-color: $COLOR_PRIMARY;
-      background-image: linear-gradient(to bottom, rgba(#fff, 0.3), rgba(#fff, 0));
+      // background-image: linear-gradient(to bottom, rgba(#000, 0), rgba(#000, 0));
     }
   }
   .tip {
+    margin-top: 5px;
     color: #999;
     font-size: 12px;
   }

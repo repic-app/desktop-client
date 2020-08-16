@@ -41,7 +41,7 @@ export default React.memo(() => {
         <div className="progress">
           <div style={{ width: `${progress.percent}%` }}></div>
         </div>
-        <span className="tip">正在下载更新{`${progress.percent}%`}</span>
+        <span className="tip">正在下载更新</span>
       </div>
     )
   }

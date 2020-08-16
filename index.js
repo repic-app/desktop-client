@@ -110,7 +110,16 @@ function initialize() {
       }
 
       dialog.showMessageBox(dialogOpts).then((returnValue) => {
-        if (returnValue.response === 0) autoUpdater.quitAndInstall()
+        if (returnValue.response === 0) {
+          autoUpdater.quitAndInstall()
+        } else if (returnValue.response === 1) {
+          sendUpdateMessage(
+            {
+              percent: 0,
+            },
+            'update-download-progress'
+          )
+        }
       })
     })
   }
