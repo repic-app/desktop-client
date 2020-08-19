@@ -172,7 +172,10 @@ function makeSingleInstance() {
 
 initialize()
 
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
 // 处理未捕获的错误
-process.on('uncaughtException', (error) => {})
+process.on('uncaughtException', (error) => {
+  console.log(error)
+})
 
 // TODO
