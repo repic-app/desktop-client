@@ -71,7 +71,7 @@ function initialize() {
   }
 
   function initializeUpdater() {
-    autoUpdater.setFeedURL('http://repic-cdn.margox.cn/releases')
+    autoUpdater.setFeedURL('https://repic-1254052530.cos.ap-guangzhou.myqcloud.com/releases')
 
     // 更新下载进度事件
     autoUpdater.on('download-progress', function (data) {
